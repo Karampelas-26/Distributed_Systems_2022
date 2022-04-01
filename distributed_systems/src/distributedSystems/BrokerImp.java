@@ -9,7 +9,7 @@ public class BrokerImp implements Broker{
     private List<Publisher> registeredPublishers;
 
     @Override
-    public Consumer acceptConection(Consumer consumer) {
+    public Consumer acceptConnection(Consumer consumer) {
         return null;
     }
 

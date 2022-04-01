@@ -1,11 +1,8 @@
 package distributedSystems;
 
-import java.util.List;
-
 public interface Broker extends Node {
 
-
-    public Consumer acceptConection(Consumer consumer);
+    public Consumer acceptConnection(Consumer consumer);
 
     public Publisher acceptConnection(Publisher publisher);
 
