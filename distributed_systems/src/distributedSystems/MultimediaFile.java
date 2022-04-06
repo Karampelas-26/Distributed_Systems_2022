@@ -1,20 +1,22 @@
 package distributedSystems;
 
-public class MultimediaFile {
+import java.io.Serializable;
+
+public class MultimediaFile implements Serializable {
 
     private String multimediaFileName, profileName, dateCreated, length, framerate, frameWidth, frameHeight;
     private byte[] multimediaFileChunk;
 
-//    public MultimediaFile(String multimediaFileName, String profileName, String dateCreated, String length, String framerate, String frameWidth, String frameHeight, byte[] multimediaFileChunk) {
-//        this.multimediaFileName = multimediaFileName;
-//        this.profileName = profileName;
-//        this.dateCreated = dateCreated;
-//        this.length = length;
-//        this.framerate = framerate;
-//        this.frameWidth = frameWidth;
-//        this.frameHeight = frameHeight;
-//        this.multimediaFileChunk = multimediaFileChunk;
-//    }
+    public MultimediaFile(String multimediaFileName, String profileName, String dateCreated, String length, String framerate, String frameWidth, String frameHeight, byte[] multimediaFileChunk) {
+        this.multimediaFileName = multimediaFileName;
+        this.profileName = profileName;
+        this.dateCreated = dateCreated;
+        this.length = length;
+        this.framerate = framerate;
+        this.frameWidth = frameWidth;
+        this.frameHeight = frameHeight;
+        this.multimediaFileChunk = multimediaFileChunk;
+    }
 
     public MultimediaFile() {
     }

@@ -17,7 +17,7 @@ public class NodeImp implements Node{
     }
 
     @Override
-    public void init(int something) {
+    public void init(String ip, int port) {
 
     }
 
@@ -25,4 +25,9 @@ public class NodeImp implements Node{
     public void updateNodes() {
 
     }
+
+    public void addbBroker(Broker broker) {
+        brokers.add(broker);
+    }
+
 }

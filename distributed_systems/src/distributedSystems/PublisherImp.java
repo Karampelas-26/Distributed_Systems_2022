@@ -16,6 +16,9 @@ public class PublisherImp implements Publisher{
 
     }
 
+    /*
+
+     */
     @Override
     public Broker hashTopic(String str) {
         return null;
@@ -32,7 +35,7 @@ public class PublisherImp implements Publisher{
     }
 
     @Override
-    public void push(String str, Value value) {
+    public void push(String topic, Value value) {
 
     }
 
@@ -46,7 +49,7 @@ public class PublisherImp implements Publisher{
     }
 
     @Override
-    public void init(int something) {
+    public void init(String ip, int port) {
 
     }
 

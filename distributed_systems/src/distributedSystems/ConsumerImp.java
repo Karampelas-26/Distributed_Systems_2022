@@ -28,7 +28,7 @@ public class ConsumerImp implements Consumer {
     }
 
     @Override
-    public void init(int something) {
+    public void init(String ip, int port) {
 
     }
 

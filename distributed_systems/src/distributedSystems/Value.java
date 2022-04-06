@@ -1,6 +1,9 @@
 package distributedSystems;
 
-public class Value {
+import java.io.Serializable;
+
+public class Value implements Serializable {
+
     private MultimediaFile multimediaFile;
 
     public Value(MultimediaFile multimediaFile) {
@@ -9,4 +12,5 @@ public class Value {
 
     public Value() {
     }
+
 }

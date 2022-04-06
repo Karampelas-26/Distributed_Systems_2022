@@ -6,7 +6,7 @@ public interface Node {
 
     public void disconnect();
 
-    public void init(int something); //change the name of something
+    public void init(String ip, int something); //change the name of something
 
     public void updateNodes();
 
