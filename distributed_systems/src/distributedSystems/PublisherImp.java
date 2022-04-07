@@ -6,6 +6,11 @@ public class PublisherImp implements Publisher{
 
     private ProfileName profileName;
 
+    PublisherImp(){}
+    PublisherImp(ProfileName profileName){
+        this.profileName=profileName;
+    }
+
     @Override
     public ArrayList<Value> generateChunks(MultimediaFile multimediaFile) {
         return null;

@@ -30,11 +30,11 @@ public class ActionsForClients extends Thread {
              *
              */
             int a = in.readInt();
-            int b = in.readInt();
-            System.out.println("Got a and b: "+a+" - " +b);
-            out.writeInt(a + b);
+//            int b = in.readInt();
+            System.out.println("Got a: "+a);
+            out.writeInt(a + a);
             out.flush();
-            System.out.println("Sent: "+(a+b));
+            System.out.println("Sent: "+(a+a));
 
 
         } catch (IOException e) {

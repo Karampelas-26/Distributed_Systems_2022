@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class BrokerImp implements Broker{
-
+    static HashMap<String, Integer> brokerIps= new HashMap<>();
     /* Define the socket that receives requests */
     ServerSocket providerSocket;
 
@@ -18,6 +19,10 @@ public class BrokerImp implements Broker{
     private List<Consumer> registeredUsers;
 
     private List<Publisher> registeredPublishers;
+
+    public void addInfo(String ip, int port){
+        brokerIps.put(ip,port);
+    }
 
     @Override
     public Consumer acceptConnection(Consumer consumer) {
@@ -78,9 +83,11 @@ public class BrokerImp implements Broker{
                 /* Accept the connection */
                 connection = providerSocket.accept();
 
-//                /* Handle the request */
+                /* Handle the request */
 //                Thread t = new ActionsForClients(connection);
 //                t.start();
+
+
 
 
             }
@@ -113,21 +120,21 @@ public class BrokerImp implements Broker{
 
             File file = new File("src/distributedSystems/conf.txt");
             Scanner scanner =  new Scanner(file);
+            String brokerip=null;
+            int brokerport=0;
             while (scanner.hasNextLine()){
                 String data = scanner.nextLine();
                 String[] info = data.split(",");
+                broker.addInfo(info[1],Integer.parseInt(info[2]));
                 if (brokerID.equals(info[0])) {
-                    broker.init(info[1], Integer.parseInt(info[2]));
+                    brokerip=info[1];
+                    brokerport=Integer.parseInt(info[2]);
                 }
             }
-
-
+            broker.init(brokerip, brokerport);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
 }
