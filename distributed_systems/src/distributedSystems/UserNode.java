@@ -53,6 +53,7 @@ public class UserNode extends Thread implements Node{
     public UserNode(String ip, int port) {
         this.ip = ip;
         this.port = port;
+
     }
 
     public String getIp() {
@@ -75,8 +76,11 @@ public class UserNode extends Thread implements Node{
     public void connect() {
         try {
             requestSocket = new Socket(ip, port);
-//            out = new ObjectOutputStream(requestSocket.getOutputStream());
-//            in = new ObjectInputStream(requestSocket.getInputStream());
+            System.out.println("socket");
+            out = new ObjectOutputStream(requestSocket.getOutputStream());
+            System.out.println("out");
+            in = new ObjectInputStream(requestSocket.getInputStream());
+            System.out.println("in");
 
             /* Write the two integers */
 //            out.writeInt(3);
@@ -103,6 +107,9 @@ public class UserNode extends Thread implements Node{
     public void disconnect() {
         try {
             requestSocket.close();
+            out.close();
+            in.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,8 +154,8 @@ public class UserNode extends Thread implements Node{
 
         try {
 
-            out = new ObjectOutputStream(requestSocket.getOutputStream());
-            in = new ObjectInputStream(requestSocket.getInputStream());
+            System.out.println("streams");
+            System.out.println("streams");
 
             /* Write the two message */
             out.writeInt(message);
@@ -159,12 +166,12 @@ public class UserNode extends Thread implements Node{
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                in.close();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                in.close();
+//                out.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
