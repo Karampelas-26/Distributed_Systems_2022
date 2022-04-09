@@ -2,6 +2,7 @@ package distributedSystems;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -24,11 +25,23 @@ public class BrokerImp implements Broker{
         brokerIps.put(ip,port);
     }
 
+
+    //isws otan pame na kanoume connect ston server dld otan anoiksoume to socket
+    //na steiloume prwta ti antikeimeno einai o autos poy theloume na einai o usernode
+    //dld na steiloume publisher wste molis kanei accept o server na diabasei ti einai
+    //kai na kanei acceptConnection kai na kanei diaforetika pragmata gia ton kathena
+
+    /*
+    //edw tha ulopoihsoume ti tha kanei o server otan kanei accept to connection kai einai o consumer
+     */
     @Override
     public Consumer acceptConnection(Consumer consumer) {
         return null;
     }
 
+    /*
+    //edw tha ulopoihsoume ti tha kanei o server otan kanei accept to connection kai einai o publisher
+     */
     @Override
     public Publisher acceptConnection(Publisher publisher) {
         return null;
@@ -77,10 +90,27 @@ public class BrokerImp implements Broker{
         try {
 
             /* Create Server Socket */
-            providerSocket = new ServerSocket(port, 10);
+
+//            InetAddress addr = InetAddress.getByName("127.0.0.1");
+            providerSocket = new ServerSocket(port);
 
             while (true) {
                 /* Accept the connection */
+
+
+                //otan tha kanei accept o server mporoume na to ulopoihsoume se mia
+                //SocketHandler wste na trexoume parallila kathe connection
+
+
+
+
+//                for (;;) {
+//                    SocketHandler socketHander = new SocketHandler(serverSocket.accept());
+//                    socketHander.start();
+//                }
+
+
+
                 connection = providerSocket.accept();
 
                 /* Handle the request */
@@ -137,4 +167,19 @@ public class BrokerImp implements Broker{
             e.printStackTrace();
         }
     }
+}
+
+class SocketHandler extends Thread {
+        private Socket socket;
+
+        public SocketHandler(Socket socket) {
+            this.socket = socket;
+        }
+
+        public void run() {
+
+
+
+
+        }
 }
