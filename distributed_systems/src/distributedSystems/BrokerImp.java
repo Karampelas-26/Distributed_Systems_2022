@@ -114,8 +114,8 @@ public class BrokerImp implements Broker{
                 connection = providerSocket.accept();
 
                 /* Handle the request */
-//                Thread t = new ActionsForClients(connection);
-//                t.start();
+                Thread t = new ActionsForClients(connection);
+                t.start();
 
 
 

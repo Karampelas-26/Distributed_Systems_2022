@@ -29,19 +29,19 @@ public class ActionsForClients extends Thread {
              *
              *
              */
-            Message a = (Message) in.readObject();
+            String a = in.readUTF();
 //            int b = in.readInt();
 
 
 
             System.out.println("Got a: "+a);
-            a.setMessage("peiragmeno mhnuma " + a.getMessage());
-            out.writeObject(a);
+//            ("peiragmeno mhnuma " + a);
+            out.writeUTF("hello from server to: " + a);
             out.flush();
-            System.out.println("Sent: "+(a.getMessage()));
+            System.out.println("Sent: "+a);
 
 
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {

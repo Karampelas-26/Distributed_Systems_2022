@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PublisherImp implements Publisher, Serializable {
 
@@ -22,21 +21,7 @@ public class PublisherImp implements Publisher, Serializable {
     private String ip;
     private int port;
 
-    public ProfileName getProfileName() {
-        return profileName;
-    }
 
-    public void setProfileName(ProfileName profileName) {
-        this.profileName = profileName;
-    }
-
-    public Socket getRequestSocket() {
-        return requestSocket;
-    }
-
-    public void setRequestSocket(Socket requestSocket) {
-        this.requestSocket = requestSocket;
-    }
 
     PublisherImp(){}
     PublisherImp(ProfileName profileName, Socket requestSocket){
@@ -50,22 +35,14 @@ public class PublisherImp implements Publisher, Serializable {
         }
     }
 
-    public void setStreams(){
-        try {
-            this.outp = new ObjectOutputStream(requestSocket.getOutputStream());
-            this.inp = new ObjectInputStream(requestSocket.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
+    public ProfileName getProfileName() {
+        return profileName;
     }
 
-    public void closeStrams(){
-        try {
-            outp.close();
-            inp.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setProfileName(ProfileName profileName) {
+        this.profileName = profileName;
     }
 
     @Override
@@ -92,15 +69,15 @@ public class PublisherImp implements Publisher, Serializable {
 
             System.out.println("mpike edw");
             /* Write the two message */
-            outp.writeObject(new Message(str));
+            outp.writeUTF(str);
             outp.flush();
             System.out.println("kati tha eprepe na steilei logika");
             /* Print the received result from server */
-            System.out.println("Server>" + inp.readInt());
+//            Message m  = (Message) inp.readObject();
+//            System.out.println(inp.readObject().getClass().getName());
+            System.out.println("Server> " + inp.readUTF() );
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-
         }
     }
 
@@ -168,6 +145,13 @@ class Message implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "message='" + message + '\'' +
+                '}';
     }
 }
 

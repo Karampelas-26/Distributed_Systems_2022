@@ -15,8 +15,8 @@ import static java.util.Objects.hash;
 
 public class UserNode extends Thread{
 
-    private Consumer consumer;
-    private Publisher publisher;
+    private ConsumerImp consumer;
+    private PublisherImp publisher;
 
 
     /* Create socket for contacting the server on port 4321*/
@@ -28,14 +28,6 @@ public class UserNode extends Thread{
     private String ip;
     private int port;
 
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
-    }
-
     public UserNode(String ip, int port) {
         this.ip = ip;
         this.port = port;
@@ -43,7 +35,7 @@ public class UserNode extends Thread{
 
     UserNode(){}
 
-    UserNode(Consumer consuner, Publisher publisher){
+    UserNode(ConsumerImp consuner, PublisherImp publisher){
         this.consumer=consuner;
         this.publisher=publisher;
     }
@@ -170,19 +162,16 @@ public class UserNode extends Thread{
 //        }
     }
 
-    public void init(){
-
+    public Socket init() {
 
 
         try {
             requestSocket = new Socket("127.0.0.1", 5000);
-            ProfileName profileName = new ProfileName();
-            profileName.setProfileName("george");
-            publisher = new PublisherImp(profileName, requestSocket);
-            this.setPublisher(publisher);
 
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            return requestSocket;
         }
 
 
@@ -194,9 +183,13 @@ public class UserNode extends Thread{
 //
 //        userNode.init("127.0.0.1", 5000);
 
-        Publisher publisher = null;
+        ProfileName profileName = new ProfileName();
+        profileName.setProfileName("george");
+
         UserNode userNode = new UserNode("192.168.1.101",5001);
-        userNode.init();
+        Socket clientSocket  = userNode.init();
+
+        PublisherImp publisher = new PublisherImp(profileName, clientSocket);
 
         outerloop:
         while (true) {
@@ -206,8 +199,8 @@ public class UserNode extends Thread{
                             "1. Send video\n" +
                             "2. Send image\n" +
                             "3. Send text\n");
-//            int options = scanner.nextInt();
-            int options = 3;
+            int options = scanner.nextInt();
+//            int options = 3;
             switch (options) {
                 case 0:
                     break outerloop;
