@@ -3,15 +3,8 @@ package distributedSystems;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigInteger;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.MessageDigest;
-import java.security.Policy;
-import java.util.Objects;
 import java.util.Scanner;
-
-import static java.util.Objects.hash;
 
 public class UserNode extends Thread{
 
@@ -56,22 +49,6 @@ public class UserNode extends Thread{
         this.port = port;
     }
 
-
-    private static String sha1Hash(String value){
-
-        String sha1 = "";
-
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            digest.reset();
-            digest.update(value.getBytes("utf8"));
-            sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return sha1;
-    }
 
     public void run() {
 

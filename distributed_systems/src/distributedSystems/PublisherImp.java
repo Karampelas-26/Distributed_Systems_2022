@@ -69,13 +69,15 @@ public class PublisherImp implements Publisher, Serializable {
 
             System.out.println("mpike edw");
             /* Write the two message */
-            outp.writeUTF(str);
+
+            Message message =  new Message("hi");
+            outp.writeObject(message);
             outp.flush();
             System.out.println("kati tha eprepe na steilei logika");
             /* Print the received result from server */
 //            Message m  = (Message) inp.readObject();
 //            System.out.println(inp.readObject().getClass().getName());
-            System.out.println("Server> " + inp.readUTF() );
+//            System.out.println("Server> " + inp.readUTF() );
         } catch (IOException e) {
             e.printStackTrace();
         }

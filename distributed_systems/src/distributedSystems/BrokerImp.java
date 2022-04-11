@@ -1,25 +1,57 @@
 package distributedSystems;
 
+import org.javatuples.Triplet;
+
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
+import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.security.MessageDigest;
+import java.util.*;
 
 public class BrokerImp implements Broker{
-    static HashMap<String, Integer> brokerIps= new HashMap<>();
+    private HashMap<String, Integer> brokerIps= new HashMap<>();
     /* Define the socket that receives requests */
-    ServerSocket providerSocket;
+    private ServerSocket providerSocket;
+
+
 
     /* Define the socket that is used to handle the connection */
-    Socket connection = null;
+    private Socket connection = null;
+
+    private String ip;
+    private int port;
+
+    private List<Triplet<Integer, ProfileName, HashSet<String>>> brokersPublisherTopics;
+
+//    private brokersTopics = {broker: topic}
+//
+//    private publisherTopics = {topic: publisher}
+//
+//    private brokersPT = {<broker, publisher, topisdfbc>, <broker1,publisher,topic>}
+
+
 
     private List<Consumer> registeredUsers;
 
     private List<Publisher> registeredPublishers;
+
+    private List<Object[]> infoOfBrokers;
+
+
+    public void addSomeDummyData(int brokerID, ProfileName name, HashSet<String> topics){
+        brokersPublisherTopics.add(new Triplet<Integer, ProfileName, HashSet<String>>(brokerID, name, topics));
+    }
+
+
+    public BrokerImp() {
+    }
+
+    public BrokerImp(String ip, int port) {
+        this.ip = ip;
+        this.port = port;
+    }
 
     public void addInfo(String ip, int port){
         brokerIps.put(ip,port);
@@ -110,11 +142,15 @@ public class BrokerImp implements Broker{
 //                }
 
 
+                //ston connection tou consumer steile pisw ta tuples
+
 
                 connection = providerSocket.accept();
 
                 /* Handle the request */
                 Thread t = new ActionsForClients(connection);
+//                t.checkUser();
+
                 t.start();
 
 
@@ -142,6 +178,16 @@ public class BrokerImp implements Broker{
 
         String brokerID = args[0];
         BrokerImp broker = new BrokerImp();
+        HashSet<String> d = new HashSet<String>();
+        d.add("katanemimena");
+        d.add("magteo");
+        d.add("antonis");
+        broker.addSomeDummyData(1, new ProfileName("goerge"),  d);
+        HashSet<String> dS = new HashSet<String>();
+        d.add("GFSD");
+        d.add("magtASDFeo");
+        d.add("antoASDFnis");
+        broker.addSomeDummyData(2, new ProfileName("ANTONARAS"),  dS);
 
 
         System.out.println("The server running is: " + args[0]);
@@ -167,19 +213,35 @@ public class BrokerImp implements Broker{
             e.printStackTrace();
         }
     }
-}
 
-class SocketHandler extends Thread {
-        private Socket socket;
+    private static String sha1Hash(String value){
 
-        public SocketHandler(Socket socket) {
-            this.socket = socket;
+        String sha1 = "";
+
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(value.getBytes("utf8"));
+            sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
-        public void run() {
-
-
-
-
-        }
+        return sha1;
+    }
 }
+
+//class SocketHandler extends Thread {
+//        private Socket socket;
+//
+//        public SocketHandler(Socket socket) {
+//            this.socket = socket;
+//        }
+//
+//        public void run() {
+//
+//
+//
+//
+//        }
+//}

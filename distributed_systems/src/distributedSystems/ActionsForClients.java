@@ -22,6 +22,8 @@ public class ActionsForClients extends Thread {
         }
     }
 
+//    public boolean check
+
     public void run() {
         try {
             /*
@@ -29,19 +31,21 @@ public class ActionsForClients extends Thread {
              *
              *
              */
-            String a = in.readUTF();
+            Object a = in.readObject();
 //            int b = in.readInt();
+            if ( a instanceof Message) System.out.println("yeeees");
 
 
-
-            System.out.println("Got a: "+a);
-//            ("peiragmeno mhnuma " + a);
-            out.writeUTF("hello from server to: " + a);
-            out.flush();
+//            System.out.println("Got a: "+a);
+////            ("peiragmeno mhnuma " + a);
+//            out.writeUTF("hello from server to: " + a);
+//            out.flush();
             System.out.println("Sent: "+a);
 
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {

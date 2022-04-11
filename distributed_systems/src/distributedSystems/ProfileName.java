@@ -20,6 +20,10 @@ public class ProfileName {
     public ProfileName() {
     }
 
+    public ProfileName(String profileName) {
+        this.profileName = profileName;
+    }
+
     public String getProfileName() {
         return profileName;
     }
