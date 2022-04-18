@@ -1,14 +1,16 @@
 package distributedSystems;
 
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.MessageDigest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class BrokerImp implements Broker{
     private HashMap<String, Integer> brokerIps= new HashMap<>();
@@ -40,9 +42,9 @@ public class BrokerImp implements Broker{
     private List<Object[]> infoOfBrokers;
 
 
-    public void addSomeDummyData(int brokerID, ProfileName name, HashSet<String> topics){
-        brokersPublisherTopics.add(new Triplet<Integer, ProfileName, HashSet<String>>(brokerID, name, topics));
-    }
+//    public void addSomeDummyData(int brokerID, ProfileName name, HashSet<String> topics){
+//        brokersPublisherTopics.add(new Triplet<Integer, ProfileName, HashSet<String>>(brokerID, name, topics));
+//    }
 
 
     public BrokerImp() {
@@ -176,42 +178,65 @@ public class BrokerImp implements Broker{
 
     public static void main(String[] args) {
 
-        String brokerID = args[0];
+        HashMap<String,Integer> borokers = Util.readAllBrokersFromConfToHashMap();
+        HashSet<String> topics = Util.readAllTopicsFromConf();
+
+        int brokerID = Integer.parseInt(args[0]);
         BrokerImp broker = new BrokerImp();
-        HashSet<String> d = new HashSet<String>();
-        d.add("katanemimena");
-        d.add("magteo");
-        d.add("antonis");
-        broker.addSomeDummyData(1, new ProfileName("goerge"),  d);
-        HashSet<String> dS = new HashSet<String>();
-        d.add("GFSD");
-        d.add("magtASDFeo");
-        d.add("antoASDFnis");
-        broker.addSomeDummyData(2, new ProfileName("ANTONARAS"),  dS);
+
+//        comment the block below for null this.brokersPublisherTopics idk why...George
+//        HashSet<String> d = new HashSet<String>();
+//        d.add("katanemimena");
+//        d.add("magteo");
+//        d.add("antonis");
+//        broker.addSomeDummyData(1, new ProfileName("goerge"),  d);
+//        HashSet<String> dS = new HashSet<String>();
+//        d.add("GFSD");
+//        d.add("magtASDFeo");
+//        d.add("antoASDFnis");
+//        broker.addSomeDummyData(2, new ProfileName("ANTONARAS"),  dS);
+
+        String str2 = new String(Util.topicToSHA1Hash("127.0.0.1" + "5000"));
+        for(String t: topics){
+            String str1 = new String(Util.topicToSHA1Hash(t));
+
+            if(str1.compareTo(str2) > 0) {
+                System.out.println("Smaller");
+            }
+        }
+        System.out.println(Util.topicToSHA1Hash("127.0.0.1"));
+        System.out.println(Util.topicToSHA1Hash("5000"));
+        System.out.println(Util.topicToSHA1Hash("127.0.0.1" + "5000"));
 
 
         System.out.println("The server running is: " + args[0]);
+        Pair<String, Integer> brokerInfo = Util.findIPAddressAndPortOfBroker(brokerID);
+        broker.init(brokerInfo.getValue0(), brokerInfo.getValue1());
+//        System.out.println(brokerInfo.getValue(1));
 
-        try {
+//        try {
+//
+//            File file = new File("src/distributedSystems/conf.txt");
+//            Scanner scanner =  new Scanner(file);
+//            String brokerip=null;
+//            int brokerport=0;
+//            while (scanner.hasNextLine()){
+//                String data = scanner.nextLine();
+//                String[] info = data.split(",");
+////                broker.addInfo(info[1],Integer.parseInt(info[2]));
+//                if (brokerID.equals(info[0])) {
+//                    brokerip=info[1];
+//                    brokerport=Integer.parseInt(info[2]);
+//                }
+//            }
+//            broker.init(brokerip, brokerport);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-            File file = new File("src/distributedSystems/conf.txt");
-            Scanner scanner =  new Scanner(file);
-            String brokerip=null;
-            int brokerport=0;
-            while (scanner.hasNextLine()){
-                String data = scanner.nextLine();
-                String[] info = data.split(",");
-                broker.addInfo(info[1],Integer.parseInt(info[2]));
-                if (brokerID.equals(info[0])) {
-                    brokerip=info[1];
-                    brokerport=Integer.parseInt(info[2]);
-                }
-            }
-            broker.init(brokerip, brokerport);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     private static String sha1Hash(String value){
@@ -230,18 +255,3 @@ public class BrokerImp implements Broker{
         return sha1;
     }
 }
-
-//class SocketHandler extends Thread {
-//        private Socket socket;
-//
-//        public SocketHandler(Socket socket) {
-//            this.socket = socket;
-//        }
-//
-//        public void run() {
-//
-//
-//
-//
-//        }
-//}
