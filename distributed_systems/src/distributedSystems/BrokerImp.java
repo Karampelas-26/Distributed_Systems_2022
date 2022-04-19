@@ -35,9 +35,9 @@ public class BrokerImp implements Broker{
 
 
 
-    private List<Consumer> registeredUsers;
+    protected volatile List<String> registeredUsers;
 
-    private List<Publisher> registeredPublishers;
+    private List<String> registeredPublishers;
 
     private List<Object[]> infoOfBrokers;
 
@@ -150,7 +150,7 @@ public class BrokerImp implements Broker{
                 connection = providerSocket.accept();
 
                 /* Handle the request */
-                Thread t = new ActionsForClients(connection);
+                Thread t = new Thread(new ActionsForClients(connection));
 //                t.checkUser();
 
                 t.start();
@@ -176,6 +176,10 @@ public class BrokerImp implements Broker{
 
     }
 
+    public void addRegisterUser(String name){
+        registeredUsers.add(name);
+    }
+
     public static void main(String[] args) {
 
         HashMap<String,Integer> borokers = Util.readAllBrokersFromConfToHashMap();
@@ -196,17 +200,17 @@ public class BrokerImp implements Broker{
 //        d.add("antoASDFnis");
 //        broker.addSomeDummyData(2, new ProfileName("ANTONARAS"),  dS);
 
-        String str2 = new String(Util.topicToSHA1Hash("127.0.0.1" + "5000"));
-        for(String t: topics){
-            String str1 = new String(Util.topicToSHA1Hash(t));
-
-            if(str1.compareTo(str2) > 0) {
-                System.out.println("Smaller");
-            }
-        }
-        System.out.println(Util.topicToSHA1Hash("127.0.0.1"));
-        System.out.println(Util.topicToSHA1Hash("5000"));
-        System.out.println(Util.topicToSHA1Hash("127.0.0.1" + "5000"));
+//        String str2 = new String(Util.topicToSHA1Hash("127.0.0.1" + "5000"));
+//        for(String t: topics){
+//            String str1 = new String(Util.topicToSHA1Hash(t));
+//
+//            if(str1.compareTo(str2) > 0) {
+//                System.out.println("Smaller");
+//            }
+//        }
+//        System.out.println(Util.topicToSHA1Hash("127.0.0.1"));
+//        System.out.println(Util.topicToSHA1Hash("5000"));
+//        System.out.println(Util.topicToSHA1Hash("127.0.0.1" + "5000"));
 
 
         System.out.println("The server running is: " + args[0]);

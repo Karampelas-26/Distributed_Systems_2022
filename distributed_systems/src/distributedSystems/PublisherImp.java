@@ -16,26 +16,22 @@ public class PublisherImp implements Publisher, Serializable {
     Socket requestSocket = null;
 
     /* Create the streams to send and receive data from server */
-    ObjectOutputStream outp = null;
-    ObjectInputStream inp = null;
+    ObjectOutputStream out = null;
+    ObjectInputStream in = null;
     private String ip;
     private int port;
-
-
 
     PublisherImp(){}
     PublisherImp(ProfileName profileName, Socket requestSocket){
         this.profileName=profileName;
         this. requestSocket = requestSocket;
         try {
-            this.outp = new ObjectOutputStream(requestSocket.getOutputStream());
-            this.inp = new ObjectInputStream(requestSocket.getInputStream());
+            this.out = new ObjectOutputStream(requestSocket.getOutputStream());
+            this.in = new ObjectInputStream(requestSocket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 
     public ProfileName getProfileName() {
         return profileName;
@@ -55,9 +51,6 @@ public class PublisherImp implements Publisher, Serializable {
 
     }
 
-    /*
-
-     */
     @Override
     public Broker hashTopic(String str) {
         return null;
@@ -71,8 +64,8 @@ public class PublisherImp implements Publisher, Serializable {
             /* Write the two message */
 
             Message message =  new Message("hi");
-            outp.writeObject(message);
-            outp.flush();
+            out.writeObject(message);
+            out.flush();
             System.out.println("kati tha eprepe na steilei logika");
             /* Print the received result from server */
 //            Message m  = (Message) inp.readObject();
@@ -105,8 +98,7 @@ public class PublisherImp implements Publisher, Serializable {
             System.err.println("You are trying to connect to an unknown host!");
         } catch (IOException ioException) {
             ioException.printStackTrace();
-       }
-
+        }
     }
 
     @Override
@@ -123,8 +115,6 @@ public class PublisherImp implements Publisher, Serializable {
         this.ip = ip;
         this.port = port;
         System.out.println("init");
-//        connect();
-
     }
 
     @Override

@@ -3,7 +3,7 @@ package distributedSystems;
 import java.io.*;
 import java.net.*;
 
-public class ActionsForClients extends Thread {
+public class ActionsForClients extends BrokerImp implements Runnable {
     ObjectInputStream in;
     ObjectOutputStream out;
 
@@ -26,26 +26,23 @@ public class ActionsForClients extends Thread {
 
     public void run() {
         try {
-            /*
-             *
-             *
-             *
-             */
-            Object a = in.readObject();
-//            int b = in.readInt();
-            if ( a instanceof Message) System.out.println("yeeees");
 
-
-//            System.out.println("Got a: "+a);
-////            ("peiragmeno mhnuma " + a);
-//            out.writeUTF("hello from server to: " + a);
-//            out.flush();
-            System.out.println("Sent: "+a);
+            String userType = in.readUTF();
+            if (userType.equals("consumer")){
+                String consumerAction = in.readUTF();
+                if (consumerAction.equals("register")){
+                    registerAConsumer(in.readUTF());
+                    out.writeUTF("Successful user registration!");
+                    out.flush();
+                }
+            }
+            else {
+                out.writeUTF("Server could recognize the client!");
+                out.flush();
+            }
 
 
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -55,5 +52,9 @@ public class ActionsForClients extends Thread {
                 ioException.printStackTrace();
             }
         }
+    }
+
+    private void registerAConsumer(String name){
+        registeredUsers.add(name);
     }
 }

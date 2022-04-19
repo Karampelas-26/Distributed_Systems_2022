@@ -54,67 +54,8 @@ public class UserNode extends Thread{
 
     }
 
-//    @Override
-//    public void connect() {
-//        try {
-//            requestSocket = new Socket(ip, port);
-//
-//
-//        } catch (UnknownHostException unknownHost) {
-//            System.err.println("You are trying to connect to an unknown host!");
-//        } catch (IOException ioException) {
-//            ioException.printStackTrace();
-//       }
-//    }
-//
-//    @Override
-//    public void disconnect() {
-//        try {
-//            requestSocket.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//
-//
-//    @Override
-//    public void init(String ip, int port) {
-//        connect();
-//        outerloop:
-//        while (true) {
-//            Scanner scanner = new Scanner(System.in);
-//            System.out.println(
-//                    "0. To close the application!\n" +
-//                    "1. Send video\n" +
-//                    "2. Send image\n" +
-//                    "3. Send text\n");
-//            int options = scanner.nextInt();
-//            switch (options) {
-//                case 0:
-//                    disconnect();
-//                    break outerloop;
-//                case 1:
-//                    System.out.println("Sending video!");
-//                    break;
-//                case 2:
-//                    System.out.println("Sending image!");
-//                    break;
-//                case 3:
-//                    sendText(5);
-//                    System.out.println("Sending text!");
-//                    break;
-//                default:
-//                    System.out.println("Invalid action, please input a valid number!");
-//                    break;
-//            }
-//        }
-//    }
 
     public void sendText(int message){
-
-
-
 
 //        try {
 //
@@ -156,9 +97,6 @@ public class UserNode extends Thread{
 
     public static void main(String[] args) {
 
-//        UserNode userNode = new UserNode("127.0.0.1", 5000);
-//
-//        userNode.init("127.0.0.1", 5000);
 
         ProfileName profileName = new ProfileName();
         profileName.setProfileName("george");
@@ -167,6 +105,8 @@ public class UserNode extends Thread{
         Socket clientSocket  = userNode.init();
 
         PublisherImp publisher = new PublisherImp(profileName, clientSocket);
+        ConsumerImp consumer = new ConsumerImp(profileName, clientSocket);
+
 
         outerloop:
         while (true) {
@@ -175,7 +115,8 @@ public class UserNode extends Thread{
                     "0. To close the application!\n" +
                             "1. Send video\n" +
                             "2. Send image\n" +
-                            "3. Send text\n");
+                            "3. Send text\n" +
+                            "4. Register consumer in broker!\n");
             int options = scanner.nextInt();
 //            int options = 3;
             switch (options) {
@@ -191,6 +132,9 @@ public class UserNode extends Thread{
 //                    userNode.init();
                     publisher.notifyBrokersNewMessage("hello ");
                     System.out.println("Sending text!");
+                    break;
+                case 4:
+                    consumer.register("george");
                     break;
                 default:
                     System.out.println("Invalid action, please input a valid number!");

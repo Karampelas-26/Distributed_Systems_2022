@@ -91,12 +91,19 @@ public final class Util {
                     continue;
                 }
             }
+            line.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return topics;
     }
 
+
+    /**
+     * based on id it finds the address and the port of a broker
+     * @param brokerID
+     * @return
+     */
     public static Pair<String, Integer> findIPAddressAndPortOfBroker(int brokerID){
 
         Pair<String, Integer> brokerInfo = null;
@@ -122,6 +129,11 @@ public final class Util {
 
     }
 
+    /**
+     * creating hash value of a String with SHA-1
+     * @param value
+     * @return
+     */
     public static String topicToSHA1Hash(String value){
 
         String sha1 = "";

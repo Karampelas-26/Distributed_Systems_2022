@@ -28,7 +28,7 @@ public class Server {
                 connection = providerSocket.accept();
 
                 /* Handle the request */
-                Thread t = new ActionsForClients(connection);
+                Thread t = new Thread(new ActionsForClients(connection));
                 t.start();
 
 
