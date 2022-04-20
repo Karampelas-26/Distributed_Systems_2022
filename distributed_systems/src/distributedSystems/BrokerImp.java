@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +36,7 @@ public class BrokerImp implements Broker{
 
 
 
-    protected volatile List<String> registeredUsers;
+    protected volatile static List<String> registeredUsers;
 
     private List<String> registeredPublishers;
 
@@ -48,11 +49,13 @@ public class BrokerImp implements Broker{
 
 
     public BrokerImp() {
+        registeredUsers= new ArrayList<>();
     }
 
     public BrokerImp(String ip, int port) {
         this.ip = ip;
         this.port = port;
+        registeredUsers= new ArrayList<String>();
     }
 
     public void addInfo(String ip, int port){
@@ -122,7 +125,6 @@ public class BrokerImp implements Broker{
         System.out.println(ip + "==="+ port);
 
         try {
-
             /* Create Server Socket */
 
 //            InetAddress addr = InetAddress.getByName("127.0.0.1");
@@ -131,12 +133,8 @@ public class BrokerImp implements Broker{
             while (true) {
                 /* Accept the connection */
 
-
                 //otan tha kanei accept o server mporoume na to ulopoihsoume se mia
                 //SocketHandler wste na trexoume parallila kathe connection
-
-
-
 
 //                for (;;) {
 //                    SocketHandler socketHander = new SocketHandler(serverSocket.accept());
@@ -146,20 +144,12 @@ public class BrokerImp implements Broker{
 
                 //ston connection tou consumer steile pisw ta tuples
 
-
                 connection = providerSocket.accept();
 
                 /* Handle the request */
                 Thread t = new Thread(new ActionsForClients(connection));
-//                t.checkUser();
-
                 t.start();
-
-
-
-
             }
-
         } catch (IOException ioException) {
             ioException.printStackTrace();
         } finally {
@@ -216,31 +206,6 @@ public class BrokerImp implements Broker{
         System.out.println("The server running is: " + args[0]);
         Pair<String, Integer> brokerInfo = Util.findIPAddressAndPortOfBroker(brokerID);
         broker.init(brokerInfo.getValue0(), brokerInfo.getValue1());
-//        System.out.println(brokerInfo.getValue(1));
-
-//        try {
-//
-//            File file = new File("src/distributedSystems/conf.txt");
-//            Scanner scanner =  new Scanner(file);
-//            String brokerip=null;
-//            int brokerport=0;
-//            while (scanner.hasNextLine()){
-//                String data = scanner.nextLine();
-//                String[] info = data.split(",");
-////                broker.addInfo(info[1],Integer.parseInt(info[2]));
-//                if (brokerID.equals(info[0])) {
-//                    brokerip=info[1];
-//                    brokerport=Integer.parseInt(info[2]);
-//                }
-//            }
-//            broker.init(brokerip, brokerport);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
-
     }
 
     private static String sha1Hash(String value){

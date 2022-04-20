@@ -13,13 +13,13 @@ public class UserNode extends Thread{
 
 
     /* Create socket for contacting the server on port 4321*/
-    Socket requestSocket = null;
+    protected static Socket requestSocket = null;
 
     /* Create the streams to send and receive data from server */
-    ObjectOutputStream out = null;
-    ObjectInputStream in = null;
-    private String ip;
-    private int port;
+    protected static ObjectOutputStream out = null;
+    protected static ObjectInputStream in = null;
+    protected static String ip;
+    protected static int port;
 
     public UserNode(String ip, int port) {
         this.ip = ip;
@@ -54,7 +54,6 @@ public class UserNode extends Thread{
 
     }
 
-
     public void sendText(int message){
 
 //        try {
@@ -82,21 +81,18 @@ public class UserNode extends Thread{
 
     public Socket init() {
 
-
         try {
             requestSocket = new Socket("127.0.0.1", 5000);
-
+            out= new ObjectOutputStream(requestSocket.getOutputStream());
+            in= new ObjectInputStream(requestSocket.getInputStream());
+            System.out.println("output stream"+out);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            return requestSocket;
         }
-
-
+        return requestSocket;
     }
 
     public static void main(String[] args) {
-
 
         ProfileName profileName = new ProfileName();
         profileName.setProfileName("george");
@@ -104,21 +100,19 @@ public class UserNode extends Thread{
         UserNode userNode = new UserNode("192.168.1.101",5001);
         Socket clientSocket  = userNode.init();
 
-        PublisherImp publisher = new PublisherImp(profileName, clientSocket);
-        ConsumerImp consumer = new ConsumerImp(profileName, clientSocket);
-
+        PublisherImp publisher = new PublisherImp(profileName);
+        ConsumerImp consumer = new ConsumerImp(profileName);
 
         outerloop:
         while (true) {
             Scanner scanner = new Scanner(System.in);
             System.out.println(
-                    "0. To close the application!\n" +
+                            "0. To close the application!\n" +
                             "1. Send video\n" +
                             "2. Send image\n" +
                             "3. Send text\n" +
                             "4. Register consumer in broker!\n");
             int options = scanner.nextInt();
-//            int options = 3;
             switch (options) {
                 case 0:
                     break outerloop;
@@ -129,7 +123,6 @@ public class UserNode extends Thread{
                     System.out.println("Sending image!");
                     break;
                 case 3:
-//                    userNode.init();
                     publisher.notifyBrokersNewMessage("hello ");
                     System.out.println("Sending text!");
                     break;

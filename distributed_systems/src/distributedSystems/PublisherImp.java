@@ -8,29 +8,13 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class PublisherImp implements Publisher, Serializable {
+public class PublisherImp extends UserNode implements Publisher, Serializable {
 
     private ProfileName profileName;
 
-    /* Create socket for contacting the server on port 4321*/
-    Socket requestSocket = null;
-
-    /* Create the streams to send and receive data from server */
-    ObjectOutputStream out = null;
-    ObjectInputStream in = null;
-    private String ip;
-    private int port;
-
     PublisherImp(){}
-    PublisherImp(ProfileName profileName, Socket requestSocket){
+    PublisherImp(ProfileName profileName){
         this.profileName=profileName;
-        this. requestSocket = requestSocket;
-        try {
-            this.out = new ObjectOutputStream(requestSocket.getOutputStream());
-            this.in = new ObjectInputStream(requestSocket.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public ProfileName getProfileName() {
@@ -62,7 +46,11 @@ public class PublisherImp implements Publisher, Serializable {
 
             System.out.println("mpike edw");
             /* Write the two message */
+            out.writeUTF("publisher");
+            out.flush();
 
+            out.writeUTF("karampelas");
+            out.flush();
             Message message =  new Message("hi");
             out.writeObject(message);
             out.flush();
@@ -88,33 +76,33 @@ public class PublisherImp implements Publisher, Serializable {
 
     @Override
     public void connect() {
-        System.out.println("trying to connect");
-
-        try {
-            requestSocket = new Socket("localhost", port);
-            System.out.println("succes connection");
-
-        } catch (UnknownHostException unknownHost) {
-            System.err.println("You are trying to connect to an unknown host!");
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+//        System.out.println("trying to connect");
+//
+//        try {
+//            requestSocket = new Socket("localhost", port);
+//            System.out.println("succes connection");
+//
+//        } catch (UnknownHostException unknownHost) {
+//            System.err.println("You are trying to connect to an unknown host!");
+//        } catch (IOException ioException) {
+//            ioException.printStackTrace();
+//        }
     }
 
     @Override
     public void disconnect() {
-        try {
-            requestSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            requestSocket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     public void init(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
-        System.out.println("init");
+//        this.ip = ip;
+//        this.port = port;
+//        System.out.println("init");
     }
 
     @Override
