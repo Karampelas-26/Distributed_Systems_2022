@@ -7,14 +7,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 
 public final class Util {
 
     private static final String PATH = "src/distributedSystems/conf.txt";
+    private static final String FOLDER_PATH = "src/distributedSystems/";
     /**
      * Reading from the file conf.txt information about brokers
      * @return An Arraylist with Triplets<BrokerID, IP Address, Port>
@@ -148,5 +146,36 @@ public final class Util {
         }
 
         return sha1;
+    }
+
+    public static Queue<Message> readConversationOfTopic(String fileName){
+
+        Queue<Message> messages = new LinkedList<>();
+
+        try {
+            File file = new File(FOLDER_PATH + fileName + ".txt");
+            Scanner line = new Scanner(file);
+            while (line.hasNextLine()){
+                String message = line.nextLine();
+                String profileName = "", messageSend = "";
+                if(message.charAt(0) == '#'){
+                    int index = message.indexOf(":");
+                    profileName = message.substring(1, index);
+                    messageSend = message.substring(index+2, message.length());
+                }
+
+                System.out.println(profileName + "-send:" + messageSend);
+
+                ProfileName name = new ProfileName(profileName);
+                messages.add(new Message(messageSend, name));
+            }
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return messages;
     }
 }

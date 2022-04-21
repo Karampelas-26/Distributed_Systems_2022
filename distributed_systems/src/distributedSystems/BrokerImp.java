@@ -8,10 +8,7 @@ import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class BrokerImp implements Broker{
     private HashMap<String, Integer> brokerIps= new HashMap<>();
@@ -177,6 +174,12 @@ public class BrokerImp implements Broker{
 
         int brokerID = Integer.parseInt(args[0]);
         BrokerImp broker = new BrokerImp();
+
+        Queue<Message> conversation =  Util.readConversationOfTopic("asfaleia");
+        int size = conversation.size();
+        for(int i = 0; i < size; i++){
+            System.out.println(conversation.remove());
+        }
 
 //        comment the block below for null this.brokersPublisherTopics idk why...George
 //        HashSet<String> d = new HashSet<String>();

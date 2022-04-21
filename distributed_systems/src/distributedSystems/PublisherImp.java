@@ -113,10 +113,24 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
 
 class Message implements Serializable {
 
-    String message;
+    private String message;
+    private ProfileName name;
 
     public Message(String message) {
         this.message = message;
+    }
+
+    public Message(String message, ProfileName name) {
+        this.message = message;
+        this.name = name;
+    }
+
+    public ProfileName getName() {
+        return name;
+    }
+
+    public void setName(ProfileName name) {
+        this.name = name;
     }
 
     public String getMessage() {
@@ -131,6 +145,7 @@ class Message implements Serializable {
     public String toString() {
         return "Message{" +
                 "message='" + message + '\'' +
+                ", name=" + name +
                 '}';
     }
 }
