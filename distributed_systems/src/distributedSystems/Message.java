@@ -2,7 +2,7 @@ package distributedSystems;
 
 import java.io.Serializable;
 
-class Message implements Serializable {
+public class Message implements Serializable {
 
     String message;
     ProfileName name;

@@ -3,6 +3,8 @@ package distributedSystems;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ActionsForClients extends BrokerImp implements Runnable {
     ObjectInputStream in;
@@ -36,6 +38,17 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                             Message m = (Message) in.readObject();
                             System.out.println(m.toString());
                         } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else if (publisherAction.equals("chunkedFile")){
+                        try{
+                            int chunks = in.readInt();
+                            List<Value> fileInChunks = new ArrayList<>();
+                            for(int i = 0; i < chunks; i++){
+//                                fileInChunks.add()
+                            }
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }

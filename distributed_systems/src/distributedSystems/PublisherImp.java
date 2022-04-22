@@ -3,6 +3,7 @@ package distributedSystems;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PublisherImp extends UserNode implements Publisher, Serializable {
 
@@ -22,7 +23,9 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
     }
 
     @Override
-    public ArrayList<Value> generateChunks(MultimediaFile multimediaFile) {
+    public ArrayList<MultimediaFile> generateChunks(String file) {
+
+
         return null;
     }
 

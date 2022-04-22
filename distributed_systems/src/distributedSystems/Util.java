@@ -221,7 +221,7 @@ public final class Util {
 
     public static byte[] loadFile(String path){
         try{
-            File file = new File(path);
+            File file = new File(FOLDER_PATH + path);
             FileInputStream fis = new FileInputStream(file);
             byte[] fileData = new byte[(int)file.length()];
             fis.read(fileData);

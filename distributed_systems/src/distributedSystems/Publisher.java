@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface Publisher extends Node {
 
-    public ArrayList<Value> generateChunks(MultimediaFile multimediaFile);
+    public ArrayList<MultimediaFile> generateChunks(String file);
 
     public void getBrokerList();
 

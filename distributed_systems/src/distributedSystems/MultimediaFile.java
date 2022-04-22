@@ -1,6 +1,8 @@
 package distributedSystems;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.Date;
 
 public class MultimediaFile implements Serializable {
 
@@ -15,6 +17,22 @@ public class MultimediaFile implements Serializable {
         this.framerate = framerate;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
+        this.multimediaFileChunk = multimediaFileChunk;
+    }
+
+    public MultimediaFile(String multimediaFileName, String profileName){
+        this.multimediaFileName = multimediaFileName;
+        this.profileName = profileName;
+        this.dateCreated = new Date().toString();
+        this.length = Long.toString(new File(multimediaFileName).length());
+        this.multimediaFileChunk = Util.loadFile(multimediaFileName);
+    }
+
+    public MultimediaFile(String multimediaFileName, String profileName, byte[]multimediaFileChunk){
+        this.multimediaFileName = multimediaFileName;
+        this.profileName = profileName;
+        this.dateCreated = new Date().toString();
+        this.length = Long.toString(new File(multimediaFileName).length());
         this.multimediaFileChunk = multimediaFileChunk;
     }
 
