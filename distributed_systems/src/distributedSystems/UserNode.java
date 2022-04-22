@@ -118,6 +118,7 @@ public class UserNode extends Thread{
                     break outerloop;
                 case 1:
                     System.out.println("Sending video!");
+                    publisher.push("asfaleia", "example.mp4");
                     break;
                 case 2:
                     System.out.println("Sending image!");

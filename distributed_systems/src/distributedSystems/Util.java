@@ -238,7 +238,7 @@ public final class Util {
      * Splits a file's data into smaller parts
      * @param chunkSize the chunk size in bytes
      */
-    public static List<byte[]> chunkifyFile(byte[] data, int chunkSize){
+    public static List<byte[]> splitFileToChunks(byte[] data, int chunkSize){
         List<byte[]> result = new ArrayList<>();
         int chunks = data.length / chunkSize;
 

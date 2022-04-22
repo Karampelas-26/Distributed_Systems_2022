@@ -20,6 +20,8 @@ public class BrokerImp implements Broker{
     private int port;
     private List<Triplet<Integer, ProfileName, HashSet<String>>> brokersPublisherTopics;
     protected volatile static List<String> registeredUsers;
+    protected volatile static HashMap<String, Queue<Message>> conversations;
+
     private List<String> registeredPublishers;
     private List<Object[]> infoOfBrokers;
     private HashMap<String,String> topicsOfBrokers;
@@ -27,6 +29,7 @@ public class BrokerImp implements Broker{
     public BrokerImp() {
         registeredUsers= new ArrayList<>();
         topicsOfBrokers= new HashMap<>();
+        conversations = new HashMap<>();
     }
 
     public BrokerImp(String ip, int port) {
@@ -34,6 +37,7 @@ public class BrokerImp implements Broker{
         this.port = port;
         registeredUsers= new ArrayList<>();
         topicsOfBrokers= new HashMap<>();
+        conversations = new HashMap<>();
     }
 
     public void addInfo(String ip, int port){

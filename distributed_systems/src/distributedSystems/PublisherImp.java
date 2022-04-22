@@ -3,7 +3,7 @@ package distributedSystems;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public class PublisherImp extends UserNode implements Publisher, Serializable {
 
@@ -23,10 +23,19 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
     }
 
     @Override
-    public ArrayList<MultimediaFile> generateChunks(String file) {
+    public ArrayList<MultimediaFile> generateChunks(String nameOfFile) {
 
+        byte[] file = Util.loadFile(nameOfFile);
+        List<byte[]> listOfChunks = Util.splitFileToChunks(file, 1024*16);
+        int numOfChunks = listOfChunks.size();
+        ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
 
-        return null;
+        for (int i = 0; i < numOfChunks; i++){
+            byte[] tempArr = listOfChunks.get(i);
+            MultimediaFile tempFile = new MultimediaFile(nameOfFile, getProfileName().getProfileName(), tempArr.length, tempArr);
+            listOfMultimediaFiles.add(tempFile);
+        }
+        return listOfMultimediaFiles;
     }
 
     @Override
@@ -50,7 +59,7 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
 
             out.writeUTF("karampelas");
             out.flush();
-            Message message =  new Message("hi");
+            Message message = new Message("hi");
             out.writeObject(message);
             out.flush();
             System.out.println("kati tha eprepe na steilei logika");
@@ -69,8 +78,26 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
     }
 
     @Override
-    public void push(String topic, Value value) {
+    public void push(String topic, String nameOfFile) {
+        ArrayList<MultimediaFile> chunks = this.generateChunks(nameOfFile);
+        int numOfChunks = chunks.size();
+        try {
+            out.writeUTF("publisher");
+            out.flush();
+            out.writeUTF("multimediaFile");
+            out.flush();
+            out.writeUTF(topic);
+            out.flush();
+            out.writeInt(numOfChunks);
+            out.flush();
 
+            for (int i = 0; i < numOfChunks; i++) {
+                out.writeObject(chunks.get(i));
+                out.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

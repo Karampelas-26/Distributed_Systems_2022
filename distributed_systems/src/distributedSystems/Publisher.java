@@ -14,7 +14,7 @@ public interface Publisher extends Node {
 
     public void notifyFailure(Broker broker);
 
-    public void push(String str, Value value);
+    public void push(String str, String nameOfFile);
 
 
 }
