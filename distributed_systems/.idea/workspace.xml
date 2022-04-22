@@ -2,30 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Java_EE_6_Java_EE_6.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/distributed_systems.iml" beforeDir="false" afterPath="$PROJECT_DIR$/distributed_systems.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/PublisherImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/PublisherImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ergasia katanemimena.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../ergasia katanemimena.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Util.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -44,7 +39,7 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
-  <component name="RunManager" selected="Application.UserNode">
+  <component name="RunManager" selected="Application.BrokerImp">
     <configuration name="BrokerImp" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
       <module name="distributed_systems" />
@@ -74,8 +69,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserNode" />
         <item itemvalue="Application.BrokerImp" />
+        <item itemvalue="Application.UserNode" />
       </list>
     </recent_temporary>
   </component>
@@ -89,5 +84,16 @@
       <updated>1650419662731</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

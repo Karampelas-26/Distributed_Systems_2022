@@ -6,5 +6,4 @@ public class Info {
 
     HashMap<String, Integer> listOfBrokers;
 
-
 }

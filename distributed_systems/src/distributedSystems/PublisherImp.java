@@ -1,11 +1,7 @@
 package distributedSystems;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class PublisherImp extends UserNode implements Publisher, Serializable {
@@ -110,28 +106,3 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
 
     }
 }
-
-class Message implements Serializable {
-
-    String message;
-
-    public Message(String message) {
-        this.message = message;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "message='" + message + '\'' +
-                '}';
-    }
-}
-
