@@ -23,12 +23,33 @@ public class Message implements Serializable {
         this.name=name;
     }
 
+    public Message(ProfileName name, List<MultimediaFile> files) {
+        this.name = name;
+        this.files = files;
+    }
+
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public ProfileName getName() {
+        return name;
+    }
+
+    public void setName(ProfileName name) {
+        this.name = name;
+    }
+
+    public List<MultimediaFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MultimediaFile> files) {
+        this.files = files;
     }
 
     @Override

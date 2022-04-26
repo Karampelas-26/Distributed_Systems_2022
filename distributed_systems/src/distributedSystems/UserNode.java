@@ -111,7 +111,8 @@ public class UserNode extends Thread{
                             "1. Send video\n" +
                             "2. Send image\n" +
                             "3. Send text\n" +
-                            "4. Register consumer in broker!\n");
+                            "4. Register consumer in broker!\n" +
+                            "5. Read conversation Asfaleia!\n");
             int options = scanner.nextInt();
             switch (options) {
                 case 0:
@@ -129,6 +130,9 @@ public class UserNode extends Thread{
                     break;
                 case 4:
                     consumer.register("george");
+                    break;
+                case 5:
+                    consumer.showConversationData("asfaleia");
                     break;
                 default:
                     System.out.println("Invalid action, please input a valid number!");

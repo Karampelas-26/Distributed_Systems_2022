@@ -14,32 +14,7 @@ public final class Util {
 
     private static final String PATH = "src/distributedSystems/conf.txt";
     private static final String FOLDER_PATH = "src/distributedSystems/";
-    /**
-     * Reading from the file conf.txt information about brokers
-     * @return An Arraylist with Triplets<BrokerID, IP Address, Port>
-     */
-    public static ArrayList<Triplet<Integer, String, Integer>> readAllBrokersFromConfToArrayListOfTtriplets() {
 
-        ArrayList<Triplet<Integer, String, Integer>> brokers = new ArrayList<>();
-        File file = new File(PATH);
-        Scanner line = null;
-        try {
-            line = new Scanner(file);
-            if (!line.nextLine().equals("Brokers")) return null;//check for possible error in file
-            while (line.hasNextLine()){
-                String data = line.nextLine();
-                if (data.equals("Topics")) break; //break the while and stop reading file
-                String info[] = data.split(",");
-                Triplet<Integer, String, Integer> brokerInforamtion = new Triplet<Integer, String, Integer>(Integer.parseInt(info[0]), info[1], Integer.parseInt(info[2]));
-                brokers.add(brokerInforamtion);
-            }
-            line.close();//close the file stream
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return brokers;
-
-    }
 
     /**
      * Reading from the file conf.txt information about brokers
@@ -206,15 +181,29 @@ public final class Util {
                     int index = message.indexOf(":");
                     profileName = message.substring(1, index);
                     messageSend = message.substring(index+2, message.length());
+                    ProfileName name = new ProfileName(profileName);
                     if(messageSend.charAt(0)=='$'){
                         String multimediaFile= messageSend.substring(1);
+                        List<byte[]> listOfChunks = splitFileToChunks(loadFile(multimediaFile), 1024*16);
+                        int numOfChunks = listOfChunks.size();
+                        ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
+                        for (int i = 0; i < numOfChunks; i++){
+                            byte[] tempArr = listOfChunks.get(i);
+                            MultimediaFile tempFile = new MultimediaFile(multimediaFile, profileName, tempArr.length, tempArr);
+                            listOfMultimediaFiles.add(tempFile);
+                        }
+                        messages.add(new Message(name, listOfMultimediaFiles));
                     }
+                    else {
+
+                        messages.add(new Message(messageSend, name));
+                    }
+
                 }
 
-                System.out.println(profileName + "-send:" + messageSend);
+//                System.out.println(profileName + "-send:" + messageSend);
 
-                ProfileName name = new ProfileName(profileName);
-                messages.add(new Message(messageSend, name));
+
             }
             line.close();
         } catch (FileNotFoundException e) {

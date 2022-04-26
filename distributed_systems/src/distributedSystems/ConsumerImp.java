@@ -1,8 +1,7 @@
 package distributedSystems;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Queue;
+import java.util.*;
 
 public class ConsumerImp extends UserNode implements Consumer {
 
@@ -44,8 +43,42 @@ public class ConsumerImp extends UserNode implements Consumer {
     }
 
     @Override
-    public void showConversationData(String str, Value value) {
+    public void showConversationData(String str) {
+        try {
+            out.writeUTF("consumer");
+            out.flush();
 
+            out.writeUTF("showConversation");
+            out.flush();
+
+            out.writeUTF(str);
+            out.flush();
+
+            int queueSize = in.readInt();
+            Queue<Message> conversation = new LinkedList<>();
+
+            for(int i = 0; i < queueSize; i++){
+                String typeOfMessage = in.readUTF();
+                if(typeOfMessage.equals("s")){
+                    Message message = (Message) in.readObject();
+                    conversation.add(message);
+                }
+                else{
+                    int numOfChunks = in.readInt();
+                    ProfileName name  = (ProfileName) in.readObject();
+                    List<MultimediaFile> chunks = new ArrayList<>();
+                    for(int j = 0; j < numOfChunks; j++){
+                        MultimediaFile multimediaFile = (MultimediaFile) in.readObject();
+                        chunks.add(multimediaFile);
+                    }
+                    conversation.add(new Message(name, chunks));
+                }
+            }
+
+            System.out.println(conversation);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
