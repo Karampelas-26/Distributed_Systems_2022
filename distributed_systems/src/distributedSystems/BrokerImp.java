@@ -11,7 +11,7 @@ import java.util.*;
 
 public class BrokerImp implements Broker{
 
-    private HashMap<String, Integer> brokerIps= new HashMap<>();
+    private HashMap<String, Integer> brokerIps= new HashMap<>(); //list with all brokers
     /* Define the socket that receives requests */
     private ServerSocket providerSocket;
     /* Define the socket that is used to handle the connection */
@@ -196,5 +196,13 @@ public class BrokerImp implements Broker{
 
     public void setBrokerIps(HashMap<String, Integer> brokerIps) {
         this.brokerIps = brokerIps;
+    }
+
+    public List<String> getRegisteredPublishers() {
+        return registeredPublishers;
+    }
+
+    public void setRegisteredPublishers(List<String> registeredPublishers) {
+        this.registeredPublishers = registeredPublishers;
     }
 }

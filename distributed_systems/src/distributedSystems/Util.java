@@ -206,6 +206,9 @@ public final class Util {
                     int index = message.indexOf(":");
                     profileName = message.substring(1, index);
                     messageSend = message.substring(index+2, message.length());
+                    if(messageSend.charAt(0)=='$'){
+                        String multimediaFile= messageSend.substring(1);
+                    }
                 }
 
                 System.out.println(profileName + "-send:" + messageSend);
@@ -213,6 +216,7 @@ public final class Util {
                 ProfileName name = new ProfileName(profileName);
                 messages.add(new Message(messageSend, name));
             }
+            line.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

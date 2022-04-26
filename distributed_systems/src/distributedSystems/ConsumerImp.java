@@ -1,21 +1,21 @@
 package distributedSystems;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Queue;
 
 public class ConsumerImp extends UserNode implements Consumer {
 
     private ProfileName profileName;
+    private HashMap<String, Queue<Message>> conversation;
 
     public ConsumerImp() {
-
+        this.conversation= new HashMap<>();
     }
 
     public ConsumerImp(ProfileName profileName) {
         this.profileName = profileName;
+        this.conversation= new HashMap<>();
     }
 
     @Override
@@ -82,5 +82,21 @@ public class ConsumerImp extends UserNode implements Consumer {
     @Override
     public void updateNodes() {
 
+    }
+
+    public ProfileName getProfileName() {
+        return profileName;
+    }
+
+    public void setProfileName(ProfileName profileName) {
+        this.profileName = profileName;
+    }
+
+    public HashMap<String, Queue<Message>> getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(HashMap<String, Queue<Message>> conversation) {
+        this.conversation = conversation;
     }
 }
