@@ -1,11 +1,12 @@
 Brokers
 1,127.0.0.1,5000
-2,192.168.1.101,5001
-3,192.168.1.102,5002
+2,127.0.0.2,5001
+3,127.0.0.3,5002
 Topics
 katanemimena
 asfaleia
 stoixeiaDikaiou
 antonisGeorge
-205-305
+foititikiEstiaAthinwn
 webDevelopment
+fea

@@ -31,12 +31,6 @@ public class BrokerImp implements Broker{
         topicsOfBrokers= new HashMap<>();
         conversations = new HashMap<>();
     }
-//an iparxei meta tis 26/4/2022 delete me
-    public BrokerImp(HashMap<String, Queue<Message>> con) {
-        registeredUsers= new ArrayList<>();
-        topicsOfBrokers= new HashMap<>();
-        conversations = con;
-    }
 
     public BrokerImp(String ip, int port) {
         this.ip = ip;
@@ -50,22 +44,11 @@ public class BrokerImp implements Broker{
         brokerIps.put(ip,port);
     }
 
-    //isws otan pame na kanoume connect ston server dld otan anoiksoume to socket
-    //na steiloume prwta ti antikeimeno einai o autos poy theloume na einai o usernode
-    //dld na steiloume publisher wste molis kanei accept o server na diabasei ti einai
-    //kai na kanei acceptConnection kai na kanei diaforetika pragmata gia ton kathena
-
-    /*
-    //edw tha ulopoihsoume ti tha kanei o server otan kanei accept to connection kai einai o consumer
-     */
     @Override
     public Consumer acceptConnection(Consumer consumer) {
         return null;
     }
 
-    /*
-    //edw tha ulopoihsoume ti tha kanei o server otan kanei accept to connection kai einai o publisher
-     */
     @Override
     public Publisher acceptConnection(Publisher publisher) {
         return null;
@@ -113,22 +96,10 @@ public class BrokerImp implements Broker{
 
         try {
             /* Create Server Socket */
-
-//            InetAddress addr = InetAddress.getByName("127.0.0.1");
             providerSocket = new ServerSocket(port);
 
             while (true) {
                 /* Accept the connection */
-
-                //otan tha kanei accept o server mporoume na to ulopoihsoume se mia
-                //SocketHandler wste na trexoume parallila kathe connection
-
-//                for (;;) {
-//                    SocketHandler socketHander = new SocketHandler(serverSocket.accept());
-//                    socketHander.start();
-//                }
-
-                //ston connection tou consumer steile pisw ta tuples
 
                 connection = providerSocket.accept();
 
@@ -230,9 +201,10 @@ public class BrokerImp implements Broker{
         int brokerID = Integer.parseInt(args[0]);
         BrokerImp broker = new BrokerImp();
         broker.setConversations(dummyHashMap);
-        System.out.println(broker.getConversations());
+//        System.out.println(broker.getConversations());
         broker.setBrokerIps(brokers);
         broker.setTopicsOfBrokers(Util.readAllBrokerTopicsFromConf());
+        System.out.println(broker.getTopicsOfBrokers());
 
 
 

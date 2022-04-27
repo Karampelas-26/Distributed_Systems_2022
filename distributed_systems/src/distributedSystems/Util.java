@@ -1,7 +1,7 @@
 package distributedSystems;
 
 import org.javatuples.Pair;
-import org.javatuples.Triplet;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,6 +39,10 @@ public final class Util {
             e.printStackTrace();
         }
         return brokers;
+    }
+
+    private static String[] sortBroker(HashMap<String, Integer> brokers){
+
     }
 
     /**
@@ -157,11 +161,18 @@ public final class Util {
      */
     public static String saveToProperBroker(String topicName,HashMap<String, Integer> brokers){
         String hashedStr= topicToSHA1Hash(topicName);
+        System.out.println(topicName+ "|====|"+hashedStr);
         String strToReturn="";
         for(Map.Entry<String,Integer> broker: brokers.entrySet()){
             String hashedBroker= topicToSHA1Hash(broker.getKey()+ broker.getValue());
+            System.out.println(broker.getKey()+ "========"+ hashedBroker);
+            System.out.println(hashedStr.compareTo(hashedBroker));
             if(hashedStr.compareTo(hashedBroker)<0){
                 strToReturn=broker.getKey();
+                System.out.println(strToReturn);
+                break;
+            }else {
+                strToReturn = broker.getKey();
             }
         }
         return strToReturn;
