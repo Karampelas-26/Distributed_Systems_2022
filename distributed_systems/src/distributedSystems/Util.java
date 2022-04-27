@@ -41,10 +41,6 @@ public final class Util {
         return brokers;
     }
 
-    private static String[] sortBroker(HashMap<String, Integer> brokers){
-
-    }
-
     /**
      * reading all topics from the configuration file
      * @return HashSet
@@ -163,18 +159,35 @@ public final class Util {
         String hashedStr= topicToSHA1Hash(topicName);
         System.out.println(topicName+ "|====|"+hashedStr);
         String strToReturn="";
-        for(Map.Entry<String,Integer> broker: brokers.entrySet()){
-            String hashedBroker= topicToSHA1Hash(broker.getKey()+ broker.getValue());
-            System.out.println(broker.getKey()+ "========"+ hashedBroker);
+
+        //sortarisma gia sugkrisi
+        HashMap<String, String> newHashMap= new HashMap<>();
+        String[] tempArray= new String[brokers.size()];
+        int i=0;
+        for(Map.Entry<String,Integer> entry : brokers.entrySet()){
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            String hashed= topicToSHA1Hash(key+value);
+            tempArray[i]=hashed;
+            newHashMap.put(hashed,key);
+            i++;
+        }
+        Arrays.sort(tempArray);
+
+        //sugkrisi
+        for(String hashedBroker:tempArray){
+            System.out.println(newHashMap.get(hashedBroker)+ "========"+ hashedBroker);
             System.out.println(hashedStr.compareTo(hashedBroker));
             if(hashedStr.compareTo(hashedBroker)<0){
-                strToReturn=broker.getKey();
+                strToReturn=newHashMap.get(hashedBroker);
                 System.out.println(strToReturn);
                 break;
-            }else {
-                strToReturn = broker.getKey();
+            }
+            else{
+                strToReturn=newHashMap.get(tempArray[0]); //deafult broker
             }
         }
+
         return strToReturn;
     }
 
@@ -206,15 +219,9 @@ public final class Util {
                         messages.add(new Message(name, listOfMultimediaFiles));
                     }
                     else {
-
                         messages.add(new Message(messageSend, name));
                     }
-
                 }
-
-//                System.out.println(profileName + "-send:" + messageSend);
-
-
             }
             line.close();
         } catch (FileNotFoundException e) {
@@ -264,10 +271,8 @@ public final class Util {
             for(int i = 0; i < remaining; ++i){
                 current[i] = data[offset + i];
             }
-
             result.add(current);
         }
-
         return result;
     }
 }

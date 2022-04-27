@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/broker/conf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/conf.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Util.java" afterDir="false" />
     </list>
@@ -51,7 +50,7 @@
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserNode">
+  <component name="RunManager" selected="Application.BrokerImp">
     <configuration name="BrokerImp" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
       <module name="distributed_systems" />

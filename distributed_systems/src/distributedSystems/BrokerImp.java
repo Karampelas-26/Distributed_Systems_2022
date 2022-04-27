@@ -206,9 +206,6 @@ public class BrokerImp implements Broker{
         broker.setTopicsOfBrokers(Util.readAllBrokerTopicsFromConf());
         System.out.println(broker.getTopicsOfBrokers());
 
-
-
-
         System.out.println("The server running is: " + args[0]);
         Pair<String, Integer> brokerInfo = Util.findIPAddressAndPortOfBroker(brokerID);
         broker.init(brokerInfo.getValue0(), brokerInfo.getValue1());
