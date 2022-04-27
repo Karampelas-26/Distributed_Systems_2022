@@ -7,11 +7,12 @@ import java.util.*;
 public class ActionsForClients extends BrokerImp implements Runnable {
     ObjectInputStream in;
     ObjectOutputStream out;
+    BrokerImp broker;
 
 
-
-    public ActionsForClients(HashMap<String, Queue<Message>> con,Socket connection) {
-        super(con);
+    public ActionsForClients(BrokerImp broker,Socket connection) {
+//        super(con);
+        this.broker = broker;
         try {
             System.out.println("Got a connection...Opening streams....");
             out = new ObjectOutputStream(connection.getOutputStream());
@@ -37,10 +38,10 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                         System.out.println("in conversation");
                         String topic = in.readUTF();
                         if(topic.equals("asfaleia")){ //check if consumer has access on topic and if topic exists
-                            System.out.println(registeredUsers);
-                            System.out.println(super.getConversations());
+                            System.out.println(broker.getRegisteredUsers());
+                            System.out.println(broker.getConversations());
                             System.out.println("inasfaleia");
-                            Queue<Message> conversation = new LinkedList<>(conversations.get(topic));
+                            Queue<Message> conversation = new LinkedList<>(broker.getConversations().get(topic));
                             int sizeOfQueue = conversation.size();
                             out.writeInt(sizeOfQueue);
                             out.flush();
@@ -111,16 +112,16 @@ public class ActionsForClients extends BrokerImp implements Runnable {
     }
 
     private void registerAConsumer(String name){
-        registeredUsers.add(name);
+        broker.increaseRegisteredUser(name);
     }
 
+    //thelei diorthwsi me to conversations allagi se broker.setConversations kai to name einai null
     private void addMessageInConversation(String topic, Message message){
         Queue<Message> q = new LinkedList<>();
         q.add(new Message("hi"));
         q.add(new Message("hello"));
         conversations.put("asfaleia",q);
         System.out.println(conversations.get(topic));
-
         conversations.get(topic).add(message);
         System.out.println(conversations.get(topic));
     }

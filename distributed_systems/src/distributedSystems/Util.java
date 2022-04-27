@@ -12,8 +12,8 @@ import java.util.*;
 
 public final class Util {
 
-    private static final String PATH = "src/distributedSystems/conf.txt";
-    private static final String FOLDER_PATH = "src/distributedSystems/";
+    private static final String PATH = "data/broker/conf.txt";
+    private static final String FOLDER_PATH = "data/broker/";
 
 
     /**

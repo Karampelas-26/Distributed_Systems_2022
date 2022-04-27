@@ -19,7 +19,7 @@ public class BrokerImp implements Broker{
     private String ip;
     private int port;
     private List<Triplet<Integer, ProfileName, HashSet<String>>> brokersPublisherTopics;
-    protected volatile static List<String> registeredUsers;
+    protected volatile List<String> registeredUsers;
     protected volatile HashMap<String, Queue<Message>> conversations;
 
     private List<String> registeredPublishers;
@@ -133,7 +133,7 @@ public class BrokerImp implements Broker{
                 connection = providerSocket.accept();
 
                 /* Handle the request */
-                Thread t = new Thread(new ActionsForClients(this.conversations, connection));
+                Thread t = new Thread(new ActionsForClients(this, connection));
                 t.start();
             }
         } catch (IOException ioException) {
@@ -204,12 +204,16 @@ public class BrokerImp implements Broker{
         this.conversations = conversations;
     }
 
-    public static List<String> getRegisteredUsers() {
+    public List<String> getRegisteredUsers() {
         return registeredUsers;
     }
 
-    public static void setRegisteredUsers(List<String> registeredUsers) {
-        BrokerImp.registeredUsers = registeredUsers;
+    public void setRegisteredUsers(List<String> registeredUsers) {
+        this.registeredUsers = registeredUsers;
+    }
+
+    public void increaseRegisteredUser(String name){
+        this.registeredUsers.add(name);
     }
 
     public static void main(String[] args) {

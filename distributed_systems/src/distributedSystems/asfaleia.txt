@@ -1,6 +1,0 @@
-#george: hello
-#antonis: hello george
-#george: how are you?
-#antonis: i m fine, you?
-#george: i am pretty well, should we start?
-#antonis: $example.mp4

@@ -1,5 +1,7 @@
 package distributedSystems;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -71,7 +73,11 @@ public class ConsumerImp extends UserNode implements Consumer {
                         MultimediaFile multimediaFile = (MultimediaFile) in.readObject();
                         chunks.add(multimediaFile);
                     }
-                    conversation.add(new Message(name, chunks));
+                    List<MultimediaFile> list = new ArrayList<>();
+                    MultimediaFile finalFile = mergeMultimediaFiles(chunks);
+                    createFile(finalFile);
+                    list.add(finalFile);
+                    conversation.add(new Message(name, list));
                 }
             }
 
@@ -80,6 +86,32 @@ public class ConsumerImp extends UserNode implements Consumer {
             e.printStackTrace();
         }
     }
+
+    private void createFile(MultimediaFile fileToCreate){
+
+        try (FileOutputStream fos = new FileOutputStream("data/consumer/"+fileToCreate.getMultimediaFileName())) {
+            fos.write(fileToCreate.getMultimediaFileChunk());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private MultimediaFile mergeMultimediaFiles(List<MultimediaFile> chunks){
+        int lenghtList = chunks.size();
+        byte[] fileBytes = new byte[1024*16*lenghtList];
+        for(int i = 0; i < lenghtList; i++){
+            MultimediaFile multimediaFile = chunks.get(i);
+            byte[] temp = multimediaFile.getMultimediaFileChunk();
+            for(int j = 0; j < temp.length; j++){
+                fileBytes[j + i*1024*16] = temp[j];
+            }
+        }
+        MultimediaFile finalFile = new MultimediaFile();
+        finalFile.setMultimediaFileName(chunks.get(0).getMultimediaFileName());
+        finalFile.setMultimediaFileChunk(fileBytes);
+        return finalFile;
+    }
+
 
     @Override
     public void connect() {

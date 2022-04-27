@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/asfaleia.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/asfaleia.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/conf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/conf.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/example.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/example.mp4" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +50,11 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\broker" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.UserNode">
     <configuration name="BrokerImp" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
@@ -101,6 +105,7 @@
       <option name="presentableId" value="Default" />
       <updated>1650419662731</updated>
       <workItem from="1650556954322" duration="948000" />
+      <workItem from="1651061737040" duration="3838000" />
     </task>
     <servers />
   </component>
