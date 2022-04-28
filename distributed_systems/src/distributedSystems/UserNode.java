@@ -1,16 +1,19 @@
 package distributedSystems;
 
+import org.javatuples.Pair;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class UserNode extends Thread{
 
     private ConsumerImp consumer;
     private PublisherImp publisher;
-
 
     /* Create socket for contacting the server on port 4321*/
     protected static Socket requestSocket = null;
@@ -21,9 +24,12 @@ public class UserNode extends Thread{
     protected static String ip;
     protected static int port;
 
+    private HashMap<String, Pair<String, Integer>> topicWithBrokers;
+
     public UserNode(String ip, int port) {
         this.ip = ip;
         this.port = port;
+        this.topicWithBrokers = new HashMap<>();
     }
 
     UserNode(){}
@@ -49,43 +55,35 @@ public class UserNode extends Thread{
         this.port = port;
     }
 
-
-    public void run() {
-
+    public HashMap<String, Pair<String, Integer>> getTopicWithBrokers() {
+        return topicWithBrokers;
     }
 
-    public void sendText(int message){
+    public void setTopicWithBrokers(HashMap<String, Pair<String, Integer>> topicWithBrokers) {
+        this.topicWithBrokers = topicWithBrokers;
+    }
 
-//        try {
-//
-//            out = new ObjectOutputStream(requestSocket.getOutputStream());
-//            in = new ObjectInputStream(requestSocket.getInputStream());
-//
-//            /* Write the two message */
-//            out.writeInt(message);
-//            out.flush();
-//
-//            /* Print the received result from server */
-//            System.out.println("Server>" + in.readInt());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                in.close();
-//                out.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+    public void communicateWithBroker(String name){
+        try{
+            out.writeUTF("userNode");
+            out.flush();
+            out.writeUTF(name);
+            out.flush();
+            HashMap<String, Pair<String, Integer>> pairHashMap = (HashMap<String, Pair<String, Integer>>) in.readObject();
+            this.topicWithBrokers = pairHashMap;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Socket init() {
 
         try {
-            requestSocket = new Socket("127.0.0.1", 5000);
+            requestSocket = new Socket(this.getIp(),this.getPort());
             out= new ObjectOutputStream(requestSocket.getOutputStream());
             in= new ObjectInputStream(requestSocket.getInputStream());
-            System.out.println("output stream"+out);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,11 +92,21 @@ public class UserNode extends Thread{
 
     public static void main(String[] args) {
 
-        ProfileName profileName = new ProfileName();
-        profileName.setProfileName("george");
+        int input = Integer.parseInt(args[0]);
+        String[] initData = Util.initUserNode(input);
+        String name = initData[1];
+        ArrayList<String> topics = new ArrayList<>();
+        for(int i = 2; i < initData.length; i++){
+            topics.add(initData[i]);
+        }
+        ProfileName profileName = new ProfileName(name, topics);
+//        profileName.setProfileName("george");
 
-        UserNode userNode = new UserNode("192.168.1.101",5001);
+        System.out.println(profileName);
+        UserNode userNode = new UserNode("127.0.0.2",5001);
         Socket clientSocket  = userNode.init();
+        userNode.communicateWithBroker(name);
+        System.out.println(userNode.getTopicWithBrokers());
 
         PublisherImp publisher = new PublisherImp(profileName);
         ConsumerImp consumer = new ConsumerImp(profileName);
@@ -106,13 +114,20 @@ public class UserNode extends Thread{
         outerloop:
         while (true) {
             Scanner scanner = new Scanner(System.in);
+//            topics.forEach(number->System.out.println(number));
+            System.out.println("Choose topic");
+            for(int i = 0; i<topics.size(); i++){
+                System.out.println(i+". "+topics.get(i));
+            }
+
+            int selectedTopic = scanner.nextInt();
             System.out.println(
-                            "0. To close the application!\n" +
-                            "1. Send video\n" +
-                            "2. Send image\n" +
-                            "3. Send text\n" +
-                            "4. Register consumer in broker!\n" +
-                            "5. Read conversation Asfaleia!\n");
+                            "\t0. To close the application!\n" +
+                            "\t1. Send video\n" +
+                            "\t2. Send image\n" +
+                            "\t3. Send text\n" +
+                            "\t4. Register consumer in broker!\n" +
+                            "\t5. Read conversation!\n");
             int options = scanner.nextInt();
             switch (options) {
                 case 0:

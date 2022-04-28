@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="">
+    <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="trying to hash topic for brokers">
+      <change afterPath="$PROJECT_DIR$/data/usernode/antonis/antonisGeorge.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/usernode/antonis/foititikiEstiaAthinwn.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/usernode/george/antonisGeorge.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/usernode/george/foititikiEstiaAthinwn.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/usernode/george/stoixeiaDikaiou.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/usernode/george/webDevelopment.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/usernode/marios/stoixeiaDikaiou.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/usernode/marios/webDevelopment.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/usernode/userConf.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/broker/asfaleia.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/usernode/antonis/asfaleia.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/broker/conf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/conf.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Util.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +44,9 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="282faFuxiqjxyKgaF64JXvfwQtz" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -40,21 +56,26 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/data/usernode/marios" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\usernode\marios" />
+      <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\usernode\antonis" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\usernode\antonis" />
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.BrokerImp">
+  <component name="RunManager" selected="Application.UserNode">
     <configuration name="BrokerImp" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
       <module name="distributed_systems" />
-      <option name="PROGRAM_PARAMETERS" value="1" />
+      <option name="PROGRAM_PARAMETERS" value="2" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="distributedSystems.*" />
@@ -65,9 +86,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserNode" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="UserNode" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.UserNode" />
       <module name="distributed_systems" />
+      <option name="PROGRAM_PARAMETERS" value="2" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="distributedSystems.*" />
@@ -78,10 +100,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.BrokerImp" />
-      <item itemvalue="Application.UserNode" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.BrokerImp" />
@@ -100,6 +118,7 @@
       <updated>1650419662731</updated>
       <workItem from="1650556954322" duration="948000" />
       <workItem from="1651061737040" duration="6891000" />
+      <workItem from="1651157018731" duration="5221000" />
     </task>
     <servers />
   </component>

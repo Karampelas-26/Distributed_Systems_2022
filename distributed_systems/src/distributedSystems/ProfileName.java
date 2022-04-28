@@ -7,12 +7,10 @@ import java.util.HashMap;
 public class ProfileName implements Serializable {
 
     private String profileName;
-    private HashMap<String, ArrayList<Value>> userVideoFilesMap;
-    private HashMap<String, Integer> subscribedConversations;
+    private ArrayList<String> subscribedConversations;
 
-    public ProfileName(String profileName, HashMap<String, ArrayList<Value>> userVideoFilesMap, HashMap<String, Integer> subscribedConversations) {
+    public ProfileName(String profileName, ArrayList<String> subscribedConversations) {
         this.profileName = profileName;
-        this.userVideoFilesMap = userVideoFilesMap;
         this.subscribedConversations = subscribedConversations;
     }
 
@@ -31,19 +29,11 @@ public class ProfileName implements Serializable {
         this.profileName = profileName;
     }
 
-    public HashMap<String, ArrayList<Value>> getUserVideoFilesMap() {
-        return userVideoFilesMap;
-    }
-
-    public void setUserVideoFilesMap(HashMap<String, ArrayList<Value>> userVideoFilesMap) {
-        this.userVideoFilesMap = userVideoFilesMap;
-    }
-
-    public HashMap<String, Integer> getSubscribedConversations() {
+    public ArrayList<String> getSubscribedConversations() {
         return subscribedConversations;
     }
 
-    public void setSubscribedConversations(HashMap<String, Integer> subscribedConversations) {
+    public void setSubscribedConversations(ArrayList<String> subscribedConversations) {
         this.subscribedConversations = subscribedConversations;
     }
 
@@ -51,6 +41,7 @@ public class ProfileName implements Serializable {
     public String toString() {
         return "ProfileName{" +
                 "profileName='" + profileName + '\'' +
+                ", subscribedConversations=" + subscribedConversations +
                 '}';
     }
 }

@@ -18,18 +18,26 @@ public class BrokerImp implements Broker{
     private Socket connection = null;
     private String ip;
     private int port;
-    private List<Triplet<Integer, ProfileName, HashSet<String>>> brokersPublisherTopics;
     protected volatile List<String> registeredUsers;
     protected volatile HashMap<String, Queue<Message>> conversations;
 
     private List<String> registeredPublishers;
-    private List<Object[]> infoOfBrokers;
-    private HashMap<String,String> topicsOfBrokers;
+    private HashMap<String,String> topicsOfBrokers; //topic and brokers
+    private HashMap<String, ArrayList<String>> usersAtTopic; //user and his topics
 
     public BrokerImp() {
         registeredUsers= new ArrayList<>();
         topicsOfBrokers= new HashMap<>();
         conversations = new HashMap<>();
+        usersAtTopic = new HashMap<>();
+    }
+
+    public BrokerImp(HashMap<String, String> topicsOfBrokers, HashMap<String, Integer> brokerIps, HashMap<String, ArrayList<String>> usersAtTopic) {
+        registeredUsers= new ArrayList<>();
+        this.topicsOfBrokers= topicsOfBrokers;
+        this.conversations = new HashMap<>();
+        this.brokerIps = brokerIps;
+        this.usersAtTopic = usersAtTopic;
     }
 
     public BrokerImp(String ip, int port) {
@@ -38,6 +46,7 @@ public class BrokerImp implements Broker{
         registeredUsers= new ArrayList<>();
         topicsOfBrokers= new HashMap<>();
         conversations = new HashMap<>();
+        usersAtTopic = new HashMap<>();
     }
 
     public void addInfo(String ip, int port){
@@ -187,24 +196,24 @@ public class BrokerImp implements Broker{
         this.registeredUsers.add(name);
     }
 
+    public HashMap<String, ArrayList<String>> getUsersAtTopic() {
+        return usersAtTopic;
+    }
+
+    public void setUsersAtTopic(HashMap<String, ArrayList<String>> usersAtTopic) {
+        this.usersAtTopic = usersAtTopic;
+    }
+
     public static void main(String[] args) {
 
-        HashMap<String,Integer> brokers = Util.readAllBrokersFromConfToHashMap();
-
-        HashSet<String> topics = Util.readAllTopicsFromConf();
-
-        Queue<Message> conversationAsfaleia = Util.readConversationOfTopic("asfaleia"); //mono gia asflaeia.txt DOKIMI
-//        System.out.println(conversationAsfaleia);
-        HashMap<String, Queue<Message>> dummyHashMap = new HashMap<>();
-        dummyHashMap.put("asfaleia", conversationAsfaleia);
+//        Queue<Message> conversationAsfaleia = Util.readConversationOfTopic("asfaleia"); //mono gia asflaeia.txt DOKIMI
+//      System.out.println(conversationAsfaleia);
+//        HashMap<String, Queue<Message>> dummyHashMap = new HashMap<>();
+//        dummyHashMap.put("asfaleia", conversationAsfaleia);
 
         int brokerID = Integer.parseInt(args[0]);
-        BrokerImp broker = new BrokerImp();
-        broker.setConversations(dummyHashMap);
-//        System.out.println(broker.getConversations());
-        broker.setBrokerIps(brokers);
-        broker.setTopicsOfBrokers(Util.readAllBrokerTopicsFromConf());
-        System.out.println(broker.getTopicsOfBrokers());
+        BrokerImp broker = new BrokerImp(Util.readAllBrokerTopicsFromConf(), Util.readAllBrokersFromConfToHashMap(), Util.getUsersAtTopic());
+//        broker.setConversations(dummyHashMap);
 
         System.out.println("The server running is: " + args[0]);
         Pair<String, Integer> brokerInfo = Util.findIPAddressAndPortOfBroker(brokerID);

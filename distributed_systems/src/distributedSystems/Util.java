@@ -14,6 +14,7 @@ public final class Util {
 
     private static final String PATH = "data/broker/conf.txt";
     private static final String FOLDER_PATH = "data/broker/";
+    private static final String USERNODE_CONF_PATH = "data/usernode/userConf.txt";
 
 
     /**
@@ -106,9 +107,7 @@ public final class Util {
      * @return
      */
     public static String topicToSHA1Hash(String value){
-
         String sha1 = "";
-
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             digest.reset();
@@ -157,7 +156,6 @@ public final class Util {
      */
     public static String saveToProperBroker(String topicName,HashMap<String, Integer> brokers){
         String hashedStr= topicToSHA1Hash(topicName);
-        System.out.println(topicName+ "|====|"+hashedStr);
         String strToReturn="";
 
         //sortarisma gia sugkrisi
@@ -176,18 +174,14 @@ public final class Util {
 
         //sugkrisi
         for(String hashedBroker:tempArray){
-            System.out.println(newHashMap.get(hashedBroker)+ "========"+ hashedBroker);
-            System.out.println(hashedStr.compareTo(hashedBroker));
             if(hashedStr.compareTo(hashedBroker)<0){
                 strToReturn=newHashMap.get(hashedBroker);
-                System.out.println(strToReturn);
                 break;
             }
             else{
                 strToReturn=newHashMap.get(tempArray[0]); //deafult broker
             }
         }
-
         return strToReturn;
     }
 
@@ -274,5 +268,46 @@ public final class Util {
             result.add(current);
         }
         return result;
+    }
+
+    public static String[] initUserNode(int user){
+
+        try {
+            File file = new File(USERNODE_CONF_PATH);
+            Scanner line = new Scanner(file);
+            while (line.hasNextLine()) {
+                String data = line.nextLine();
+                int charZero = Integer.parseInt(String.valueOf(data.charAt(0)));
+                if(charZero == user){
+                    String[] strArr = data.split(",");
+                    return strArr;
+                }
+            }
+            line.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static HashMap<String, ArrayList<String>> getUsersAtTopic(){
+        HashMap<String, ArrayList<String>> userAtTopic = new HashMap<>();
+        try{
+            File file = new File(USERNODE_CONF_PATH);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String data = scanner.nextLine();
+                String[] arrStr = data.split(",");
+                ArrayList<String> arrayList = new ArrayList<>();
+                for(int i = 2; i < arrStr.length; i++){
+                    arrayList.add(arrStr[i]);
+                }
+                userAtTopic.put(arrStr[1], arrayList);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return userAtTopic;
     }
 }
