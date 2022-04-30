@@ -15,6 +15,7 @@ public final class Util {
     private static final String PATH = "data/broker/conf.txt";
     private static final String FOLDER_PATH = "data/broker/";
     private static final String USERNODE_CONF_PATH = "data/usernode/userConf.txt";
+    private static final String DATA_USERNODE_PATH = "data/usernode/";
 
 
     /**
@@ -185,12 +186,12 @@ public final class Util {
         return strToReturn;
     }
 
-    public static Queue<Message> readConversationOfTopic(String fileName){
+    public static Queue<Message> readConversationOfTopic(String fileName, String path){
 
         Queue<Message> messages = new LinkedList<>();
 
         try {
-            File file = new File(FOLDER_PATH + fileName + ".txt");
+            File file = new File(path + fileName + ".txt");
             Scanner line = new Scanner(file);
             while (line.hasNextLine()){
                 String message = line.nextLine();

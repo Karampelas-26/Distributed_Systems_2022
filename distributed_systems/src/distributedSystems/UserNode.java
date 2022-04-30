@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class UserNode extends Thread{
 
@@ -25,18 +23,34 @@ public class UserNode extends Thread{
     protected static int port;
 
     private HashMap<String, Pair<String, Integer>> topicWithBrokers;
+    private HashMap<String, Queue<Message>> conversation;
+
 
     public UserNode(String ip, int port) {
         this.ip = ip;
         this.port = port;
         this.topicWithBrokers = new HashMap<>();
+        this.conversation = new HashMap<>();
     }
 
-    UserNode(){}
+    UserNode(){
+        this.topicWithBrokers = new HashMap<>();
+        this.conversation = new HashMap<>();
+    }
 
     UserNode(ConsumerImp consuner, PublisherImp publisher){
         this.consumer=consuner;
         this.publisher=publisher;
+        this.topicWithBrokers = new HashMap<>();
+        this.conversation = new HashMap<>();
+    }
+
+    public HashMap<String, Queue<Message>> getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(HashMap<String, Queue<Message>> conversation) {
+        this.conversation = conversation;
     }
 
     public String getIp() {
@@ -96,8 +110,12 @@ public class UserNode extends Thread{
         String[] initData = Util.initUserNode(input);
         String name = initData[1];
         ArrayList<String> topics = new ArrayList<>();
+        HashMap<String, Queue<Message>> initConversations = new HashMap<>();
+        String pathToUserNode = "data/usernode/"+name+"/";
+        Queue<Message> tempQueue = new LinkedList<>();
         for(int i = 2; i < initData.length; i++){
             topics.add(initData[i]);
+            initConversations.put(initData[i], Util.readConversationOfTopic(initData[i], pathToUserNode));
         }
         ProfileName profileName = new ProfileName(name, topics);
 //        profileName.setProfileName("george");
@@ -106,6 +124,8 @@ public class UserNode extends Thread{
         UserNode userNode = new UserNode("127.0.0.2",5001);
         Socket clientSocket  = userNode.init();
         userNode.communicateWithBroker(name);
+        userNode.setConversation(initConversations);
+        System.out.println(initConversations);
         System.out.println(userNode.getTopicWithBrokers());
 
         PublisherImp publisher = new PublisherImp(profileName);

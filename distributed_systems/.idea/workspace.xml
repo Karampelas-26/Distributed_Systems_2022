@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="trying to hash topic for brokers">
-      <change afterPath="$PROJECT_DIR$/data/usernode/antonis/antonisGeorge.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/usernode/antonis/foititikiEstiaAthinwn.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/usernode/george/antonisGeorge.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/usernode/george/foititikiEstiaAthinwn.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/usernode/george/stoixeiaDikaiou.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/usernode/george/webDevelopment.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/usernode/marios/stoixeiaDikaiou.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/usernode/marios/webDevelopment.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/usernode/userConf.txt" afterDir="false" />
+    <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="first communication user with broker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/broker/asfaleia.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/usernode/antonis/asfaleia.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/broker/conf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/conf.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Util.java" afterDir="false" />
     </list>
@@ -102,8 +89,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.BrokerImp" />
         <item itemvalue="Application.UserNode" />
+        <item itemvalue="Application.BrokerImp" />
         <item itemvalue="Application.UserNode" />
       </list>
     </recent_temporary>
@@ -118,8 +105,18 @@
       <updated>1650419662731</updated>
       <workItem from="1650556954322" duration="948000" />
       <workItem from="1651061737040" duration="6891000" />
-      <workItem from="1651157018731" duration="5221000" />
+      <workItem from="1651157018731" duration="5319000" />
+      <workItem from="1651269258817" duration="2576000" />
+      <workItem from="1651324573455" duration="1648000" />
     </task>
+    <task id="LOCAL-00001" summary="first communication user with broker">
+      <created>1651162277986</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1651162277986</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,5 +133,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first communication user with broker" />
+    <option name="LAST_COMMIT_MESSAGE" value="first communication user with broker" />
   </component>
 </project>
