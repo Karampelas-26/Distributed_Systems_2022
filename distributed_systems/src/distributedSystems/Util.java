@@ -203,7 +203,8 @@ public final class Util {
                     ProfileName name = new ProfileName(profileName);
                     if(messageSend.charAt(0)=='$'){
                         String multimediaFile= messageSend.substring(1);
-                        List<byte[]> listOfChunks = splitFileToChunks(loadFile(multimediaFile), 1024*16);
+                        System.out.println(path+multimediaFile);
+                        List<byte[]> listOfChunks = splitFileToChunks(loadFile(path + multimediaFile), 1024*16);
                         int numOfChunks = listOfChunks.size();
                         ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
                         for (int i = 0; i < numOfChunks; i++){
@@ -227,7 +228,7 @@ public final class Util {
 
     public static byte[] loadFile(String path){
         try{
-            File file = new File(FOLDER_PATH + path);
+            File file = new File(path);
             FileInputStream fis = new FileInputStream(file);
             byte[] fileData = new byte[(int)file.length()];
             fis.read(fileData);

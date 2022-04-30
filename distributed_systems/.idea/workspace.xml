@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="first communication user with broker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Util.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,16 +48,19 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\usernode\marios" />
-      <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\usernode\antonis" />
+      <recent name="C:\Users\anton\Desktop\ergasia katanemimena\Distributed_Systems_2022\distributed_systems\data\usernode\marios" />
+      <recent name="C:\Users\anton\Desktop\ergasia katanemimena\Distributed_Systems_2022\distributed_systems\data\usernode\george" />
+      <recent name="C:\Users\anton\Desktop\ergasia katanemimena\Distributed_Systems_2022\distributed_systems\data\usernode\antonis" />
+      <recent name="C:\Users\anton\Desktop\ergasia katanemimena\Distributed_Systems_2022\distributed_systems\data\broker\conversations" />
+      <recent name="C:\Users\anton\Desktop\ergasia katanemimena\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\usernode\antonis" />
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserNode">
-    <configuration name="BrokerImp" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.UserNodeAntonis">
+    <configuration name="BrokerImp" type="Application" factoryName="Application" singleton="false" temporary="true">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
       <module name="distributed_systems" />
       <option name="PROGRAM_PARAMETERS" value="2" />
@@ -73,10 +74,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserNode" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+    <configuration name="UserNodeAntonis" type="Application" factoryName="Application" singleton="false" temporary="true">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.UserNode" />
       <module name="distributed_systems" />
-      <option name="PROGRAM_PARAMETERS" value="2" />
+      <option name="PROGRAM_PARAMETERS" value="1" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="distributedSystems.*" />
@@ -89,9 +90,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserNode" />
+        <item itemvalue="Application.UserNodeAntonis" />
         <item itemvalue="Application.BrokerImp" />
-        <item itemvalue="Application.UserNode" />
+        <item itemvalue="Application.UserNodeAntonis" />
       </list>
     </recent_temporary>
   </component>

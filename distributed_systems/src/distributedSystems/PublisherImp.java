@@ -8,10 +8,12 @@ import java.util.List;
 public class PublisherImp extends UserNode implements Publisher, Serializable {
 
     private ProfileName profileName;
+    private UserNode userNode;
 
     PublisherImp(){}
-    PublisherImp(ProfileName profileName){
+    PublisherImp(UserNode userNode, ProfileName profileName){
         this.profileName=profileName;
+        this.userNode = userNode;
     }
 
     public ProfileName getProfileName() {
@@ -26,13 +28,15 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
     public ArrayList<MultimediaFile> generateChunks(String nameOfFile) {
 
         byte[] file = Util.loadFile(nameOfFile);
+        String[] onlyFileName = nameOfFile.split("\\\\");
+        String fileName = onlyFileName[onlyFileName.length-1];
         List<byte[]> listOfChunks = Util.splitFileToChunks(file, 1024*16);
         int numOfChunks = listOfChunks.size();
         ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
 
         for (int i = 0; i < numOfChunks; i++){
             byte[] tempArr = listOfChunks.get(i);
-            MultimediaFile tempFile = new MultimediaFile(nameOfFile, getProfileName().getProfileName(), tempArr.length, tempArr);
+            MultimediaFile tempFile = new MultimediaFile(fileName, getProfileName().getProfileName(), tempArr.length, tempArr);
             listOfMultimediaFiles.add(tempFile);
         }
         return listOfMultimediaFiles;

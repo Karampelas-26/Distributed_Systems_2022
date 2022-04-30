@@ -1,0 +1,5 @@
+#george: what teacher said in lectures?
+#marios: i don't know mate
+#george: did you sleep again?
+#marios: i never wake up
+#george: the lecture is too early i slept too

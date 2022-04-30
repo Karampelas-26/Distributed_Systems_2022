@@ -10,23 +10,36 @@ public class Message implements Serializable {
     private String message;
     private ProfileName name;
     private List<MultimediaFile> files;
+    private Date date;
 
     public Message(String message) {
         this.message = message;
+        this.date= new Date();
     }
 
     public Message(List<MultimediaFile> files){
         this.files = files;
+        this.date= new Date();
     }
 
     public Message(String message, ProfileName name){
         this.message=message;
         this.name=name;
+        this.date= new Date();
     }
 
     public Message(ProfileName name, List<MultimediaFile> files) {
         this.name = name;
         this.files = files;
+        this.date= new Date();
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getMessage() {
@@ -59,6 +72,7 @@ public class Message implements Serializable {
                 "message='" + message + '\'' +
                 ", name=" + name +
                 ", files=" + files +
+                ", date=" + date +
                 '}';
     }
 }

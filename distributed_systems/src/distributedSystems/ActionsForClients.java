@@ -34,49 +34,59 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                 out.flush();
             }
             else if(consumerAction.equals("showConversation")){
-                System.out.println("in conversation");
                 String topic = in.readUTF();
-                if(topic.equals("asfaleia")){ //check if consumer has access on topic and if topic exists
-                    System.out.println(broker.getRegisteredUsers());
-                    System.out.println(broker.getConversations());
-                    System.out.println("inasfaleia");
-                    Queue<Message> conversation = new LinkedList<>(broker.getConversations().get(topic));
-                    int sizeOfQueue = conversation.size();
-                    out.writeInt(sizeOfQueue);
-                    out.flush();
-                    for(int i = 0; i < sizeOfQueue; i++){
-                        Message message = conversation.poll();
-                        if(message.getMessage() == null){
-                            out.writeUTF("f");
-                            out.flush();
-                            List<MultimediaFile> files = message.getFiles();
-                            int sizeOfFiles = files.size();
-                            out.writeInt(sizeOfFiles);
-                            out.flush();
-                            out.writeObject(message.getName());
-                            out.flush();
-                            for(int j = 0; j < sizeOfFiles; j++){
-                                out.writeObject(files.get(j));
-                                out.flush();
-                            }
-                        }
-                        else {
-                            out.writeUTF("s");
-                            out.flush();
-                            out.writeObject(message);
-                            out.flush();
+                String stateOfConversation=in.readUTF();
+                Queue<Message> conversation;
+                if(stateOfConversation.equals("all")){
+                    conversation = new LinkedList<>(broker.getConversations().get(topic));
+                }
+                else{
+                    Date lastMessageDate = (Date) in.readObject();
+                    LinkedList<Message> tempList = new LinkedList<>(broker.getConversations().get(topic));
+                    conversation = new LinkedList<>();
+                    for (int i = 0; i < tempList.size(); i++) {
+                        Message tempMessage = tempList.get(i);
+                        if(tempMessage.getDate().compareTo(lastMessageDate) > 0){
+                            conversation.add(tempMessage);
                         }
                     }
                 }
+                System.out.println(broker.getRegisteredUsers());
+                System.out.println(broker.getConversations());
+                int sizeOfQueue = conversation.size();
+                out.writeInt(sizeOfQueue);
+                out.flush();
+                for(int i = 0; i < sizeOfQueue; i++){
+                    Message message = conversation.poll();
+                    if(message.getMessage() == null){
+                        out.writeUTF("f");
+                        out.flush();
+                        List<MultimediaFile> files = message.getFiles();
+                        int sizeOfFiles = files.size();
+                        out.writeInt(sizeOfFiles);
+                        out.flush();
+                        out.writeObject(message.getName());
+                        out.flush();
+                        for(int j = 0; j < sizeOfFiles; j++){
+                            out.writeObject(files.get(j));
+                            out.flush();
+                        }
+                    }
+                    else {
+                        out.writeUTF("s");
+                        out.flush();
+                        out.writeObject(message);
+                        out.flush();
+                    }
+                }
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     private void publisher(){
         try {
-            System.out.println("in publisher");
             String publisherAction = in.readUTF();
             if (publisherAction.equals("karampelas")) {
                 try {
@@ -99,7 +109,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
 
                     }
                     System.out.println(fileInChunks);
-                    addMessageInConversation(topic, new Message(fileInChunks));
+                    broker.addMessageOnConversation(topic, new Message(fileInChunks));
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -161,16 +171,5 @@ public class ActionsForClients extends BrokerImp implements Runnable {
 
     private void registerAConsumer(String name){
         broker.increaseRegisteredUser(name);
-    }
-
-    //thelei diorthwsi me to conversations allagi se broker.setConversations kai to name einai null
-    private void addMessageInConversation(String topic, Message message){
-        Queue<Message> q = new LinkedList<>();
-        q.add(new Message("hi"));
-        q.add(new Message("hello"));
-        conversations.put("asfaleia",q);
-        System.out.println(conversations.get(topic));
-        conversations.get(topic).add(message);
-        System.out.println(conversations.get(topic));
     }
 }

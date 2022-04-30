@@ -184,6 +184,10 @@ public class BrokerImp implements Broker{
         this.conversations = conversations;
     }
 
+    public void addMessageOnConversation(String topic, Message message){
+        this.conversations.get(topic).add(message);
+    }
+
     public List<String> getRegisteredUsers() {
         return registeredUsers;
     }
@@ -206,17 +210,23 @@ public class BrokerImp implements Broker{
 
     public static void main(String[] args) {
 
-//        Queue<Message> conversationAsfaleia = Util.readConversationOfTopic("asfaleia"); //mono gia asflaeia.txt DOKIMI
-//      System.out.println(conversationAsfaleia);
-//        HashMap<String, Queue<Message>> dummyHashMap = new HashMap<>();
-//        dummyHashMap.put("asfaleia", conversationAsfaleia);
-
         int brokerID = Integer.parseInt(args[0]);
         BrokerImp broker = new BrokerImp(Util.readAllBrokerTopicsFromConf(), Util.readAllBrokersFromConfToHashMap(), Util.getUsersAtTopic());
-//        broker.setConversations(dummyHashMap);
 
         System.out.println("The server running is: " + args[0]);
         Pair<String, Integer> brokerInfo = Util.findIPAddressAndPortOfBroker(brokerID);
+
+        //temp vars for init conversations
+        HashMap<String, Queue<Message>> conversation = new HashMap<>();
+        String pathOfConversations = "data/broker/conversations/";
+
+        for(Map.Entry<String, String> topic: broker.getTopicsOfBrokers().entrySet()){
+            if(topic.getValue().equals(brokerInfo.getValue0())){
+                conversation.put(topic.getKey(), Util.readConversationOfTopic(topic.getKey(), pathOfConversations));
+            }
+        }
+        //init conversations and broker
+        broker.setConversations(conversation);
         broker.init(brokerInfo.getValue0(), brokerInfo.getValue1());
     }
 }

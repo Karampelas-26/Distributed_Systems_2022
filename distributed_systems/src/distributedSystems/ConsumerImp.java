@@ -8,14 +8,16 @@ import java.util.*;
 public class ConsumerImp extends UserNode implements Consumer {
 
     private ProfileName profileName;
+    private UserNode userNode;
     private HashMap<String, Queue<Message>> conversation;
 
     public ConsumerImp() {
         this.conversation= new HashMap<>();
     }
 
-    public ConsumerImp(ProfileName profileName) {
+    public ConsumerImp(UserNode userNode, ProfileName profileName) {
         this.profileName = profileName;
+        this.userNode = userNode;
         this.conversation= new HashMap<>();
     }
 
@@ -45,7 +47,7 @@ public class ConsumerImp extends UserNode implements Consumer {
     }
 
     @Override
-    public void showConversationData(String str) {
+    public void showConversationData(String topic) {
         try {
             out.writeUTF("consumer");
             out.flush();
@@ -53,12 +55,26 @@ public class ConsumerImp extends UserNode implements Consumer {
             out.writeUTF("showConversation");
             out.flush();
 
-            out.writeUTF(str);
+            out.writeUTF(topic);
             out.flush();
 
-            int queueSize = in.readInt();
-            Queue<Message> conversation = new LinkedList<>();
+            Queue<Message> conversation = userNode.getConversation().get(topic);
+            System.out.println(conversation);
+            //elegxos gia an tha parei oli tin sunomilia i oxi
+            if(conversation.isEmpty()){
+                out.writeUTF("all");
+                out.flush();
+            }
+            else{
+                out.writeUTF("last");
+                out.flush();
+                out.writeObject(userNode.getLastDate(topic));
+                out.flush();
+            }
 
+            int queueSize = in.readInt(); //posa minumata tha labei
+
+            //lipsi minumatwn
             for(int i = 0; i < queueSize; i++){
                 String typeOfMessage = in.readUTF();
                 if(typeOfMessage.equals("s")){
@@ -80,7 +96,6 @@ public class ConsumerImp extends UserNode implements Consumer {
                     conversation.add(new Message(name, list));
                 }
             }
-
             System.out.println(conversation);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -89,7 +104,7 @@ public class ConsumerImp extends UserNode implements Consumer {
 
     private void createFile(MultimediaFile fileToCreate){
 
-        try (FileOutputStream fos = new FileOutputStream("data/consumer/"+fileToCreate.getMultimediaFileName())) {
+        try (FileOutputStream fos = new FileOutputStream("data/usernode/"+this.profileName.getProfileName()+"/"+fileToCreate.getMultimediaFileName())) {
             fos.write(fileToCreate.getMultimediaFileChunk());
         } catch (IOException e) {
             e.printStackTrace();
