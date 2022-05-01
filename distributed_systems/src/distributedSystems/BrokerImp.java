@@ -1,12 +1,11 @@
 package distributedSystems;
 
 import org.javatuples.Pair;
-import org.javatuples.Triplet;
 import java.io.IOException;
-import java.math.BigInteger;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.MessageDigest;
 import java.util.*;
 
 public class BrokerImp implements Broker{
@@ -18,7 +17,6 @@ public class BrokerImp implements Broker{
     private Socket connection = null;
     private String ip;
     private int port;
-    protected volatile List<String> registeredUsers;
     protected volatile HashMap<String, Queue<Message>> conversations;
 
     private List<String> registeredPublishers;
@@ -26,27 +24,18 @@ public class BrokerImp implements Broker{
     private HashMap<String, ArrayList<String>> usersAtTopic; //user and his topics
 
     public BrokerImp() {
-        registeredUsers= new ArrayList<>();
         topicsOfBrokers= new HashMap<>();
         conversations = new HashMap<>();
         usersAtTopic = new HashMap<>();
     }
 
-    public BrokerImp(HashMap<String, String> topicsOfBrokers, HashMap<String, Integer> brokerIps, HashMap<String, ArrayList<String>> usersAtTopic) {
-        registeredUsers= new ArrayList<>();
+    public BrokerImp(String ip, int port, HashMap<String, String> topicsOfBrokers, HashMap<String, Integer> brokerIps, HashMap<String, ArrayList<String>> usersAtTopic) {
+        this.ip=ip;
+        this.port=port;
         this.topicsOfBrokers= topicsOfBrokers;
         this.conversations = new HashMap<>();
         this.brokerIps = brokerIps;
         this.usersAtTopic = usersAtTopic;
-    }
-
-    public BrokerImp(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
-        registeredUsers= new ArrayList<>();
-        topicsOfBrokers= new HashMap<>();
-        conversations = new HashMap<>();
-        usersAtTopic = new HashMap<>();
     }
 
     public void addInfo(String ip, int port){
@@ -76,6 +65,37 @@ public class BrokerImp implements Broker{
     @Override
     public void notifyBrokersOnChanges() {
 
+    }
+
+    public void notifyBrokersOnRegister(String topic, String name) {
+        Socket socket;
+        ObjectOutputStream out;
+        ObjectInputStream in;
+        try {
+            for (Map.Entry<String, Integer> broker : brokerIps.entrySet()) {
+                String ip = broker.getKey();
+                int port = broker.getValue();
+
+                if(!(ip.equals(this.getIp()) && port==this.getPort())) {
+
+                    socket = new Socket(ip, port);
+                    out = new ObjectOutputStream(socket.getOutputStream());
+                    in = new ObjectInputStream(socket.getInputStream());
+
+                    out.writeUTF("broker");
+                    out.flush();
+
+                    out.writeUTF(topic);
+                    out.flush();
+
+                    out.writeUTF(name);
+                    out.flush();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -132,9 +152,6 @@ public class BrokerImp implements Broker{
 
     }
 
-    public void addRegisterUser(String name){
-        registeredUsers.add(name);
-    }
 
     public String getIp() {
         return ip;
@@ -184,20 +201,9 @@ public class BrokerImp implements Broker{
         this.conversations = conversations;
     }
 
+    //gia na prosthesoume minuma
     public void addMessageOnConversation(String topic, Message message){
         this.conversations.get(topic).add(message);
-    }
-
-    public List<String> getRegisteredUsers() {
-        return registeredUsers;
-    }
-
-    public void setRegisteredUsers(List<String> registeredUsers) {
-        this.registeredUsers = registeredUsers;
-    }
-
-    public void increaseRegisteredUser(String name){
-        this.registeredUsers.add(name);
     }
 
     public HashMap<String, ArrayList<String>> getUsersAtTopic() {
@@ -211,10 +217,10 @@ public class BrokerImp implements Broker{
     public static void main(String[] args) {
 
         int brokerID = Integer.parseInt(args[0]);
-        BrokerImp broker = new BrokerImp(Util.readAllBrokerTopicsFromConf(), Util.readAllBrokersFromConfToHashMap(), Util.getUsersAtTopic());
+        Pair<String, Integer> brokerInfo = Util.findIPAddressAndPortOfBroker(brokerID);
+        BrokerImp broker = new BrokerImp(brokerInfo.getValue0(), brokerInfo.getValue1(),Util.readAllBrokerTopicsFromConf(), Util.readAllBrokersFromConfToHashMap(), Util.getUsersAtTopic());
 
         System.out.println("The server running is: " + args[0]);
-        Pair<String, Integer> brokerInfo = Util.findIPAddressAndPortOfBroker(brokerID);
 
         //temp vars for init conversations
         HashMap<String, Queue<Message>> conversation = new HashMap<>();

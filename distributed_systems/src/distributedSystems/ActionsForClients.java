@@ -29,9 +29,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
         try {
             String consumerAction = in.readUTF();
             if (consumerAction.equals("register")) {
-                registerAConsumer(in.readUTF());
-                out.writeUTF("Successful user registration!");
-                out.flush();
+
             }
             else if(consumerAction.equals("showConversation")){
                 String topic = in.readUTF();
@@ -51,8 +49,6 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                         }
                     }
                 }
-                System.out.println(broker.getRegisteredUsers());
-                System.out.println(broker.getConversations());
                 int sizeOfQueue = conversation.size();
                 out.writeInt(sizeOfQueue);
                 out.flush();
@@ -88,9 +84,11 @@ public class ActionsForClients extends BrokerImp implements Runnable {
     private void publisher(){
         try {
             String publisherAction = in.readUTF();
-            if (publisherAction.equals("karampelas")) {
+            if (publisherAction.equals("sendMessage")) {
                 try {
+                    String topic = in.readUTF();
                     Message m = (Message) in.readObject();
+                    broker.addMessageOnConversation(topic,m);
                     System.out.println(m.toString());
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -98,21 +96,15 @@ public class ActionsForClients extends BrokerImp implements Runnable {
             }
             else if (publisherAction.equals("multimediaFile")){
                 try{
-                    System.out.println("in multimediaFile");
                     String topic = in.readUTF();
                     int chunks = in.readInt();
                     List<MultimediaFile> fileInChunks = new ArrayList<>();
                     for(int i = 0; i < chunks; i++){
                         MultimediaFile multimediaFile = (MultimediaFile) in.readObject();
                         fileInChunks.add(multimediaFile);
-                        System.out.println(i + "____"+ multimediaFile.getMultimediaFileChunk());
-
                     }
-                    System.out.println(fileInChunks);
                     broker.addMessageOnConversation(topic, new Message(fileInChunks));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
@@ -123,23 +115,45 @@ public class ActionsForClients extends BrokerImp implements Runnable {
 
     private void userNode(){
         try {
-            String name = in.readUTF();
+            String action = in.readUTF();
+            if(action.equals("firstCommunication")){
+                String name = in.readUTF();
+                //this will return
+                HashMap<String, Pair<String, Integer>> topicForUserNode = new HashMap<>();
 
-            //this will return
-            HashMap<String, Pair<String, Integer>> topicForUserNode = new HashMap<>();
+                HashMap<String, String> topicOfBrokers = broker.getTopicsOfBrokers();
+                HashMap<String, Integer> brokerIps = broker.getBrokerIps();
+                ArrayList<String> topics = broker.getUsersAtTopic().get(name);
 
-            //we need them to work
-            HashMap<String, String> topicOfBrokers = broker.getTopicsOfBrokers();
-            HashMap<String, Integer> brokerIps = broker.getBrokerIps();
-            ArrayList<String> topics = broker.getUsersAtTopic().get(name);
-            for(int i = 0; i < topics.size(); i++){
-                String ip = topicOfBrokers.get(topics.get(i));
-                int port = brokerIps.get(ip);
-                Pair<String, Integer> broker = new Pair<>(ip, port);
-                topicForUserNode.put(topics.get(i), broker);
+                for(int i = 0; i < topics.size(); i++){
+                    String ip = topicOfBrokers.get(topics.get(i));
+                    int port = brokerIps.get(ip);
+                    Pair<String, Integer> broker = new Pair<>(ip, port);
+                    topicForUserNode.put(topics.get(i), broker);
+                }
+                out.writeObject(topicForUserNode);
+                out.flush();
             }
-            out.writeObject(topicForUserNode);
-            out.flush();
+            else{
+                String topic = in.readUTF();
+                String name = in.readUTF();
+
+                HashMap<String, ArrayList<String>> users = broker.getUsersAtTopic();
+
+                if(broker.getTopicsOfBrokers().containsKey(topic)){
+                    users.get(name).add(topic);
+                    broker.setUsersAtTopic(users);
+
+                    broker.notifyBrokersOnRegister(topic,name);
+                    out.writeUTF("success");
+                    out.flush();
+                }
+                else {
+                    out.writeUTF("fail");
+                    out.flush();
+                }
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -159,17 +173,18 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                 else if (userType.equals("userNode")) {
                     userNode();
                 }
-                else{
-                    out.writeUTF("Server could not recognize the client!");
-                    out.flush();
+                else if(userType.equals("broker")){
+                    String topic = in.readUTF();
+                    String name = in.readUTF();
+
+                    HashMap<String, ArrayList<String>> users = broker.getUsersAtTopic();
+                    users.get(name).add(topic);
+                    broker.setUsersAtTopic(users);
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void registerAConsumer(String name){
-        broker.increaseRegisteredUser(name);
     }
 }

@@ -59,7 +59,6 @@ public class ConsumerImp extends UserNode implements Consumer {
             out.flush();
 
             Queue<Message> conversation = userNode.getConversation().get(topic);
-            System.out.println(conversation);
             //elegxos gia an tha parei oli tin sunomilia i oxi
             if(conversation.isEmpty()){
                 out.writeUTF("all");
@@ -68,6 +67,7 @@ public class ConsumerImp extends UserNode implements Consumer {
             else{
                 out.writeUTF("last");
                 out.flush();
+                System.out.println(conversation);
                 out.writeObject(userNode.getLastDate(topic));
                 out.flush();
             }
@@ -96,7 +96,6 @@ public class ConsumerImp extends UserNode implements Consumer {
                     conversation.add(new Message(name, list));
                 }
             }
-            System.out.println(conversation);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserNode extends Thread{
@@ -16,8 +18,8 @@ public class UserNode extends Thread{
     /* Create the streams to send and receive data from server */
     protected static ObjectOutputStream out = null;
     protected static ObjectInputStream in = null;
-    protected static String ip;
-    protected static int port;
+    protected String ip;
+    protected int port;
 
     private HashMap<String, Pair<String, Integer>> topicWithBrokers;
     private HashMap<String, Queue<Message>> conversation;
@@ -69,24 +71,22 @@ public class UserNode extends Thread{
     }
 
     public Date getLastDate(String topic){
-        System.out.println(this.conversation.get(topic));
-        System.out.println(this.conversation.get(topic).peek().getDate());
-        Date date= this.conversation.get(topic).peek().getDate();
-        System.out.println(this.conversation.get(topic));
-        return date;
+        return this.conversation.get(topic).peek().getDate();
     }
 
     public void communicateWithBroker(String name){
         try{
             out.writeUTF("userNode");
             out.flush();
+
+            out.writeUTF("firstCommunication");
+            out.flush();
+
             out.writeUTF(name);
             out.flush();
-            HashMap<String, Pair<String, Integer>> pairHashMap = (HashMap<String, Pair<String, Integer>>) in.readObject();
-            this.topicWithBrokers = pairHashMap;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+
+            this.topicWithBrokers = (HashMap<String, Pair<String, Integer>>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -131,6 +131,38 @@ public class UserNode extends Thread{
         }
     }
 
+    public boolean registerUserAtTopic(String topic, String profileName){
+        boolean status = false;
+        try {
+            out.writeUTF("userNode");
+            out.flush();
+
+            out.writeUTF("register");
+            out.flush();
+
+            out.writeUTF(topic);
+            out.flush();
+
+            out.writeUTF(profileName);
+            out.flush();
+
+            String response = in.readUTF();
+            if(response.equals("success")){
+                System.out.println("Successfully registered at " + topic + "!");
+                conversation.put(topic, new LinkedList<>());
+                status = true;
+            }
+            else {
+                System.out.println("Failed registration at topic: " + topic + ", the topic does not exist!");
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
     public static void main(String[] args) {
 
         int input = Integer.parseInt(args[0]);
@@ -145,12 +177,11 @@ public class UserNode extends Thread{
         }
         ProfileName profileName = new ProfileName(name, topics);
 
-        System.out.println(profileName);
         UserNode userNode = new UserNode("127.0.0.2",5001);
         Socket clientSocket  = userNode.init();
         userNode.communicateWithBroker(name);
         userNode.setConversation(initConversations);
-        System.out.println(userNode.getTopicWithBrokers());
+        System.out.println("You have connected as "+ profileName.getProfileName());
 
         PublisherImp publisher = new PublisherImp(userNode, profileName);
         ConsumerImp consumer = new ConsumerImp(userNode, profileName);
@@ -158,52 +189,79 @@ public class UserNode extends Thread{
         outerloop:
         while (true) {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Choose topic");
+            System.out.println("Choose topic: ");
             String[] strTopics= new String[topics.size()];
             for(int i = 0; i<topics.size(); i++){
                 System.out.println(i+". "+topics.get(i));
                 strTopics[i]= topics.get(i);
             }
+            System.out.println(strTopics.length+". Register at topic!\n");
 
             int selectedTopic = scanner.nextInt();
-            String displayTopic = strTopics[selectedTopic];
-            userNode.getLastDate(displayTopic);
-            userNode.checkBroker(displayTopic);
-            System.out.println(
-                            "\t0. To close the application!\n" +
-                            "\t1. Send video\n" +
-                            "\t2. Send image\n" +
-                            "\t3. Send text\n" +
-                            "\t4. Register consumer in broker!\n" +
-                            "\t5. Read conversation!\n");
-            int options = scanner.nextInt();
             scanner.nextLine();
-            switch (options) {
-                case 0:
-                    break outerloop;
-                case 1:
-                    System.out.println("Please enter the path from the video: ");
-                    String videoPath = scanner.nextLine();
-                    publisher.push(displayTopic, videoPath);
-                    break;
-                case 2:
-                    System.out.println("Please enter the path from the image: ");
-                    String imagePath = scanner.nextLine();
-                    publisher.push(displayTopic, imagePath);
-                    break;
-                case 3:
-                    System.out.println("Enter your message: ");
-                    publisher.notifyBrokersNewMessage("Enter your message: ");
-                    break;
-                case 4:
-                    consumer.register("george");
-                    break;
-                case 5:
-                    consumer.showConversationData(displayTopic);
-                    break;
-                default:
-                    System.out.println("Invalid action, please input a valid number!");
-                    break;
+            if(selectedTopic==strTopics.length){
+                System.out.println("Enter the topic you want to register: ");
+                String topicToRegister = scanner.nextLine();
+                boolean response = userNode.registerUserAtTopic(topicToRegister,profileName.getProfileName());
+                if(response) {
+                    topics.add(topicToRegister);
+                    userNode.communicateWithBroker(name);
+                }
+            }
+            else{
+                String displayTopic = strTopics[selectedTopic];
+//                userNode.getLastDate(displayTopic);
+                userNode.checkBroker(displayTopic);
+                System.out.println(
+                                "\t0. To close the application!\n" +
+                                "\t1. Send video!\n" +
+                                "\t2. Send image!\n" +
+                                "\t3. Send text!\n" +
+                                "\t4. Read conversation!\n");
+                int options = scanner.nextInt();
+                scanner.nextLine();
+                switch (options) {
+                    case 0:
+                        break outerloop;
+                    case 1:
+                        System.out.println("Please enter the path from the video: ");
+                        String videoPath = scanner.nextLine();
+                        publisher.push(displayTopic, videoPath);
+                        break;
+                    case 2:
+                        System.out.println("Please enter the path from the image: ");
+                        String imagePath = scanner.nextLine();
+                        publisher.push(displayTopic, imagePath);
+                        break;
+                    case 3:
+                        System.out.println("Enter your message: ");
+                        String message= scanner.nextLine();
+                        publisher.sendMessage(displayTopic,message);
+                        break;
+                    case 4:
+                        consumer.showConversationData(displayTopic);
+                        LinkedList<Message> conversation = (LinkedList<Message>) userNode.getConversation().get(displayTopic);
+                        SimpleDateFormat myFormatObj = new SimpleDateFormat("EEE, HH:mm");
+                        for(int i = 0; i < conversation.size(); i++){
+                            Message tempMessage = conversation.get(i);
+                            String strMessage = tempMessage.getMessage();
+                            if(tempMessage.getMessage() == null){
+                                strMessage = tempMessage.getFiles().get(0).getMultimediaFileName();
+                            }
+
+                            String date = myFormatObj.format(tempMessage.getDate());
+                            System.out.println("Name: " + tempMessage.getName().getProfileName() + "\n" +
+                                    "Message: " + strMessage + "\n" +
+                                    "Date: " + date + "\n" +
+                                    "-------------------------------------------------------------------------------------------------------------------------------------------------------------"                            );
+                        }
+
+
+                        break;
+                    default:
+                        System.out.println("Invalid action, please input a valid number!");
+                        break;
+                }
             }
         }
     }

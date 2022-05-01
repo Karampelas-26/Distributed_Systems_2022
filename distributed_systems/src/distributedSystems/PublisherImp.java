@@ -54,23 +54,25 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
 
     @Override
     public void notifyBrokersNewMessage(String str) {
-        try {
 
-            System.out.println("mpike edw");
-            /* Write the two message */
+    }
+
+    public void sendMessage(String topic, String message){
+        try {
             out.writeUTF("publisher");
             out.flush();
 
-            out.writeUTF("karampelas");
+            out.writeUTF("sendMessage");
             out.flush();
-            Message message = new Message("hi");
-            out.writeObject(message);
+
+            Message messageToSend = new Message(message, this.profileName);
+
+            out.writeUTF(topic);
             out.flush();
-            System.out.println("kati tha eprepe na steilei logika");
-            /* Print the received result from server */
-//            Message m  = (Message) inp.readObject();
-//            System.out.println(inp.readObject().getClass().getName());
-//            System.out.println("Server> " + inp.readUTF() );
+
+            out.writeObject(messageToSend);
+            out.flush();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

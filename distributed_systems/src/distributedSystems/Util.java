@@ -203,7 +203,6 @@ public final class Util {
                     ProfileName name = new ProfileName(profileName);
                     if(messageSend.charAt(0)=='$'){
                         String multimediaFile= messageSend.substring(1);
-                        System.out.println(path+multimediaFile);
                         List<byte[]> listOfChunks = splitFileToChunks(loadFile(path + multimediaFile), 1024*16);
                         int numOfChunks = listOfChunks.size();
                         ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
