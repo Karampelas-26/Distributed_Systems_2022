@@ -12,6 +12,9 @@ public class Message implements Serializable {
     private List<MultimediaFile> files;
     private Date date;
 
+    public Message() {
+    }
+
     public Message(List<MultimediaFile> files){
         this.files = files;
         this.date= new Date();

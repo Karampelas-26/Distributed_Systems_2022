@@ -241,7 +241,7 @@ public class UserNode extends Thread{
                     case 4:
                         consumer.showConversationData(displayTopic);
                         LinkedList<Message> conversation = (LinkedList<Message>) userNode.getConversation().get(displayTopic);
-                        SimpleDateFormat myFormatObj = new SimpleDateFormat("EEE, HH:mm");
+                        SimpleDateFormat myFormatObj = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         for(int i = 0; i < conversation.size(); i++){
                             Message tempMessage = conversation.get(i);
                             String strMessage = tempMessage.getMessage();

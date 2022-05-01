@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public final class Util {
@@ -195,12 +197,25 @@ public final class Util {
             Scanner line = new Scanner(file);
             while (line.hasNextLine()){
                 String message = line.nextLine();
-                String profileName = "", messageSend = "";
+                String profileName = "", messageSend = "", dateSend = "";
                 if(message.charAt(0) == '#'){
-                    int index = message.indexOf(":");
-                    profileName = message.substring(1, index);
-                    messageSend = message.substring(index+2, message.length());
+                    String[] dataStr = message.split("#");
+
+//                    for(String str: dataStr) System.out.println(str);
+                    profileName = dataStr[1];
+//                    System.out.println(profileName);
+                    messageSend = dataStr[2];
+//                    System.out.println(messageSend);
+                    dateSend = dataStr[3];
+//                    System.out.println(dateSend);
+//                    System.out.println("===================================");
                     ProfileName name = new ProfileName(profileName);
+                    Message tempMessage = new Message();
+                    Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dateSend);
+                    tempMessage.setDate(date);
+                    System.out.println(date);
+                    tempMessage.setName(name);
+
                     if(messageSend.charAt(0)=='$'){
                         String multimediaFile= messageSend.substring(1);
                         List<byte[]> listOfChunks = splitFileToChunks(loadFile(path + multimediaFile), 1024*16);
@@ -211,15 +226,17 @@ public final class Util {
                             MultimediaFile tempFile = new MultimediaFile(multimediaFile, profileName, tempArr.length, tempArr);
                             listOfMultimediaFiles.add(tempFile);
                         }
-                        messages.add(new Message(name, listOfMultimediaFiles));
+                        tempMessage.setFiles(listOfMultimediaFiles);
+                        messages.add(tempMessage);
                     }
                     else {
-                        messages.add(new Message(messageSend, name));
+                        tempMessage.setMessage(messageSend);
+                        messages.add(tempMessage);
                     }
                 }
             }
             line.close();
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | ParseException e) {
             e.printStackTrace();
         }
         return messages;
