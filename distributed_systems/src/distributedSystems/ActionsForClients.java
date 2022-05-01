@@ -28,10 +28,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
     private void consumer(){
         try {
             String consumerAction = in.readUTF();
-            if (consumerAction.equals("register")) {
-
-            }
-            else if(consumerAction.equals("showConversation")){
+            if(consumerAction.equals("showConversation")){
                 String topic = in.readUTF();
                 String stateOfConversation=in.readUTF();
                 Queue<Message> conversation;

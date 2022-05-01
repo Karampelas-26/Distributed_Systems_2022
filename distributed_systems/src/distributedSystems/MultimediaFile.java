@@ -30,6 +30,14 @@ public class MultimediaFile implements Serializable {
         this.multimediaFileChunk = Util.loadFile(multimediaFileName);
     }
 
+    public MultimediaFile(String multimediaFileName, String profileName, Date date, long lenght, byte[]multimediaFileChunk){
+        this.multimediaFileName = multimediaFileName;
+        this.profileName = profileName;
+        this.dateCreated = date;
+        this.length = lenght;
+        this.multimediaFileChunk = multimediaFileChunk;
+    }
+
     public MultimediaFile(String multimediaFileName, String profileName, long lenght, byte[]multimediaFileChunk){
         this.multimediaFileName = multimediaFileName;
         this.profileName = profileName;

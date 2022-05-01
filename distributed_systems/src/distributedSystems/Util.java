@@ -201,14 +201,9 @@ public final class Util {
                 if(message.charAt(0) == '#'){
                     String[] dataStr = message.split("#");
 
-//                    for(String str: dataStr) System.out.println(str);
                     profileName = dataStr[1];
-//                    System.out.println(profileName);
                     messageSend = dataStr[2];
-//                    System.out.println(messageSend);
                     dateSend = dataStr[3];
-//                    System.out.println(dateSend);
-//                    System.out.println("===================================");
                     ProfileName name = new ProfileName(profileName);
                     Message tempMessage = new Message();
                     Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dateSend);
@@ -224,6 +219,8 @@ public final class Util {
                         for (int i = 0; i < numOfChunks; i++){
                             byte[] tempArr = listOfChunks.get(i);
                             MultimediaFile tempFile = new MultimediaFile(multimediaFile, profileName, tempArr.length, tempArr);
+                            tempFile.setDateCreated(date);
+                            System.out.println("in multimediaFile: "+date);
                             listOfMultimediaFiles.add(tempFile);
                         }
                         tempMessage.setFiles(listOfMultimediaFiles);

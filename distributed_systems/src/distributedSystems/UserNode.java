@@ -181,6 +181,7 @@ public class UserNode extends Thread{
         Socket clientSocket  = userNode.init();
         userNode.communicateWithBroker(name);
         userNode.setConversation(initConversations);
+        System.out.println(userNode.getConversation().get("asfaleia"));
         System.out.println("You have connected as "+ profileName.getProfileName());
 
         PublisherImp publisher = new PublisherImp(userNode, profileName);
@@ -241,6 +242,8 @@ public class UserNode extends Thread{
                     case 4:
                         consumer.showConversationData(displayTopic);
                         LinkedList<Message> conversation = (LinkedList<Message>) userNode.getConversation().get(displayTopic);
+                        System.out.println(conversation);
+                        System.out.println(userNode.getConversation().get("asfaleia"));
                         SimpleDateFormat myFormatObj = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         for(int i = 0; i < conversation.size(); i++){
                             Message tempMessage = conversation.get(i);
@@ -248,8 +251,9 @@ public class UserNode extends Thread{
                             if(tempMessage.getMessage() == null){
                                 strMessage = tempMessage.getFiles().get(0).getMultimediaFileName();
                             }
-
+                            System.out.println(tempMessage.getDate());
                             String date = myFormatObj.format(tempMessage.getDate());
+//                            System.out.println(tempMessage);
                             System.out.println("Name: " + tempMessage.getName().getProfileName() + "\n" +
                                     "Message: " + strMessage + "\n" +
                                     "Date: " + date + "\n" +
