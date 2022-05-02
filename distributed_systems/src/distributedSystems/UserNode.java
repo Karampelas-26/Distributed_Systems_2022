@@ -1,59 +1,55 @@
 package distributedSystems;
 
+import org.javatuples.Pair;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigInteger;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.MessageDigest;
-import java.util.Objects;
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
-import static java.util.Objects.hash;
+public class UserNode extends Thread{
 
-public class UserNode extends Thread implements Node{
-
-    Consumer consumer;
-    Publisher publisher;
-    UserNode(){}
-    UserNode(Consumer cons, Publisher pub){
-        this.consumer=cons;
-        this.publisher=pub;
-    }
-
-    private static String sha1Hash(String value){
-
-        String sha1 = "";
-
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            digest.reset();
-            digest.update(value.getBytes("utf8"));
-            sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return sha1;
-    }
-
-    public void run() {
-
-    }
     /* Create socket for contacting the server on port 4321*/
-    Socket requestSocket = null;
+    protected static Socket requestSocket = null;
 
     /* Create the streams to send and receive data from server */
-    ObjectOutputStream out = null;
-    ObjectInputStream in = null;
-    private String ip;
-    private int port;
+    protected static ObjectOutputStream out = null;
+    protected static ObjectInputStream in = null;
+    protected String ip;
+    protected int port;
+
+    private HashMap<String, Pair<String, Integer>> topicWithBrokers;
+    private HashMap<String, Queue<Message>> conversation;
+
 
     public UserNode(String ip, int port) {
         this.ip = ip;
         this.port = port;
+        this.topicWithBrokers = new HashMap<>();
+        this.conversation = new HashMap<>();
+    }
 
+    UserNode(){
+        this.topicWithBrokers = new HashMap<>();
+        this.conversation = new HashMap<>();
+    }
+
+    public HashMap<String, Queue<Message>> getConversation() {
+        return conversation;
+    }
+
+<<<<<<< HEAD
+    public UserNode(String ip, int port) {
+        this.ip = ip;
+        this.port = port;
+
+=======
+    public void setConversation(HashMap<String, Queue<Message>> conversation) {
+        this.conversation = conversation;
+>>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
     }
 
     public String getIp() {
@@ -68,10 +64,12 @@ public class UserNode extends Thread implements Node{
         return port;
     }
 
+
     public void setPort(int port) {
         this.port = port;
     }
 
+<<<<<<< HEAD
     @Override
     public void connect() {
         try {
@@ -110,61 +108,117 @@ public class UserNode extends Thread implements Node{
             out.close();
             in.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+=======
+    public HashMap<String, Pair<String, Integer>> getTopicWithBrokers() {
+        return topicWithBrokers;
     }
 
-
-
-    @Override
-    public void init(String ip, int port) {
-        connect();
-        outerloop:
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println(
-                    "0. To close the application!\n" +
-                    "1. Send video\n" +
-                    "2. Send image\n" +
-                    "3. Send text\n");
-            int options = scanner.nextInt();
-            switch (options) {
-                case 0:
-                    disconnect();
-                    break outerloop;
-                case 1:
-                    System.out.println("Sending video!");
-                    break;
-                case 2:
-                    System.out.println("Sending image!");
-                    break;
-                case 3:
-                    sendText(5);
-                    System.out.println("Sending text!");
-                    break;
-                default:
-                    System.out.println("Invalid action, please input a valid number!");
-                    break;
-            }
-        }
+    public void setTopicWithBrokers(HashMap<String, Pair<String, Integer>> topicWithBrokers) {
+        this.topicWithBrokers = topicWithBrokers;
     }
 
-    public void sendText(int message){
+    public Date getLastDate(String topic){
+        LinkedList<Message> ll = new LinkedList<>(this.conversation.get(topic));
+        return ll.getLast().getDate();
+    }
 
-        try {
-
-            System.out.println("streams");
-            System.out.println("streams");
-
-            /* Write the two message */
-            out.writeInt(message);
+    public void communicateWithBroker(String name){
+        try{
+            out.writeUTF("userNode");
             out.flush();
 
-            /* Print the received result from server */
-            System.out.println("Server>" + in.readInt());
+            out.writeUTF("firstCommunication");
+            out.flush();
+
+            out.writeUTF(name);
+            out.flush();
+
+            this.topicWithBrokers = (HashMap<String, Pair<String, Integer>>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Socket init() {
+
+        try {
+            requestSocket = new Socket(this.getIp(),this.getPort());
+            out= new ObjectOutputStream(requestSocket.getOutputStream());
+            in= new ObjectInputStream(requestSocket.getInputStream());
+>>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return requestSocket;
+
+    }
+
+    public void redirect(String ip, int port){
+        //close previous socket
+        closeWithServer();
+        this.setIp(ip);
+        this.setPort(port);
+        init();
+    }
+
+    /**
+     * method to check if topic is at the broker we are currently connected
+     * @param topic
+     */
+    public void checkBroker(String topic){
+        String ip=topicWithBrokers.get(topic).getValue0();
+        int port= topicWithBrokers.get(topic).getValue1();
+        if(!(ip.equals(this.getIp()) && port==this.getPort())){
+            redirect(ip,port);
+        }
+    }
+
+    public void closeWithServer(){
+        try {
+            out.writeUTF("close");
+            out.flush();
+            requestSocket.close();
+            out.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean registerUserAtTopic(String topic, String profileName){
+        boolean status = false;
+        try {
+            out.writeUTF("userNode");
+            out.flush();
+
+            out.writeUTF("register");
+            out.flush();
+
+<<<<<<< HEAD
+            System.out.println("streams");
+            System.out.println("streams");
+=======
+            out.writeUTF(topic);
+            out.flush();
+>>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
+
+            out.writeUTF(profileName);
+            out.flush();
+
+            String response = in.readUTF();
+            if(response.equals("success")){
+                System.out.println("Successfully registered at " + topic + "!");
+                conversation.put(topic, new LinkedList<>());
+                status = true;
+            }
+            else {
+                System.out.println("Failed registration at topic: " + topic + ", the topic does not exist!");
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+<<<<<<< HEAD
         } finally {
 //            try {
 //                in.close();
@@ -172,66 +226,111 @@ public class UserNode extends Thread implements Node{
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
+=======
+>>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
         }
+        return status;
     }
-
-    @Override
-    public void updateNodes() {
-
-    }
-
 
     public static void main(String[] args) {
-//        System.out.println(Math.abs(Objects.hash("192.168.1.100_5000")) % 300);
-//        System.out.println(Math.abs(Objects.hash("192.168.1.101_5001")) % 300);
-//        System.out.println(Math.abs(Objects.hash("192.168.1.102_5002")) % 300);
-//        System.out.println(Math.abs(Objects.hash("katanemimena_systimata")) % 300);
-//        System.out.println(Math.abs(Objects.hash("karampelas")) % 300);
-//        System.out.println(Math.abs(Objects.hash("magklaras")) % 300);
-//        System.out.println(Math.abs(Objects.hash("trolinos")) % 300);
-//        System.out.println(Math.abs(Objects.hash("xristoulakis")) % 300);
-//        System.out.println(Math.abs(Objects.hash("sifis-antonis")) % 300);
-//        System.out.println(Math.abs(Objects.hash("sifis")) % 300);
-//        System.out.println(Math.abs(Objects.hash("magteo")) % 300);
-////        System.out.println(Objects.hashCode("192.168.1.103_5003") % 1000);
-////        System.out.println(Objects.hashCode("192.168.1.104_5004") % 1000);
-////        System.out.println(Objects.hashCode("192.168.1.105_5005") % 1000);
-////        System.out.println(Objects.hashCode("192.168.1.106_5006") % 1000);
-//
-//        System.out.println(Math.abs((hash("antonis-george") + hash("192.168.1.100_5000")) %1000 ) +"====="+ Math.abs(hash("192.168.1.100_5000") % 1000));
-//        System.out.println(Math.abs((hash("katanemimena_systimata") + hash("192.168.1.100_5000")) %1000 ) +"====="+ Math.abs(hash("192.168.1.101_5001") % 1000));
-//        System.out.println(Math.abs((hash("antonis") + hash("192.168.1.100_5000")) %1000 ) +"====="+ Math.abs(hash("192.168.1.102_5002") % 1000));
-//
-//
-//
-//        System.out.println(Math.abs(hash(sha1Hash("antonnis"))) % 1000);
-//        System.out.println(Math.abs(hash(sha1Hash("192.168.1.100_5000"))) % 1000);
-//        System.out.println(Math.abs(hash(sha1Hash("192.168.1.101_5001"))) % 1000);
-//        System.out.println(Math.abs(hash(sha1Hash("192.168.1.102_5002"))) % 1000);
-//
-//        String b1h = sha1Hash("192.168.1.100_5000");
-//        String b2h = sha1Hash("192.168.1.101_5001");
-//        String b3h = sha1Hash("192.168.1.102_5002");
-//        String an = sha1Hash("katanemimsasdfe");
-//
-//        System.out.println(b1h + "       " + an);
-//
-//        if (an.compareTo(b1h) < -1){
-//            System.out.println(1);
-//        }else if (an.compareTo(b3h) < -1){
-//            System.out.println(3);
-//        }else if (an.compareTo(b2h) < -1){
-//            System.out.println(2);
-//        }
-//        else {
-//            System.out.println(an.compareTo(b1h));
-//            System.out.println(an.compareTo(b2h));
-//            System.out.println(an.compareTo(b3h));
-//        }
 
+        int input = Integer.parseInt(args[0]);
+        String[] initData = Util.initUserNode(input);
+        String name = initData[1];
+        ArrayList<String> topics = new ArrayList<>();
+        HashMap<String, Queue<Message>> initConversations = new HashMap<>();
+        String pathToUserNode = "data/usernode/"+name+"/";
+        for(int i = 2; i < initData.length; i++){
+            topics.add(initData[i]);
+            initConversations.put(initData[i], Util.readConversationOfTopic(initData[i], pathToUserNode));
+        }
+        ProfileName profileName = new ProfileName(name, topics);
 
-        UserNode userNode = new UserNode("127.0.0.1", 5000);
+        UserNode userNode = new UserNode("127.0.0.2",5001);
+        Socket clientSocket  = userNode.init();
+        userNode.communicateWithBroker(name);
+        userNode.setConversation(initConversations);
+        System.out.println("You have connected as: "+ profileName.getProfileName());
 
-        userNode.init("127.0.0.1", 5000);
+        PublisherImp publisher = new PublisherImp(userNode, profileName);
+        ConsumerImp consumer = new ConsumerImp(userNode, profileName);
+
+        outerloop:
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Choose topic: ");
+            String[] strTopics= new String[topics.size()];
+            for(int i = 0; i<topics.size(); i++){
+                System.out.println(i+". "+topics.get(i));
+                strTopics[i]= topics.get(i);
+            }
+            System.out.println(strTopics.length+". Register at topic!\n");
+
+            int selectedTopic = scanner.nextInt();
+            scanner.nextLine();
+            if(selectedTopic==strTopics.length){
+                System.out.println("Enter the topic you want to register: ");
+                String topicToRegister = scanner.nextLine();
+                boolean response = userNode.registerUserAtTopic(topicToRegister,profileName.getProfileName());
+                if(response) {
+                    topics.add(topicToRegister);
+                    userNode.communicateWithBroker(name);
+                }
+            }
+            else{
+                String displayTopic = strTopics[selectedTopic];
+                userNode.checkBroker(displayTopic);
+                System.out.println(
+                                "\t0. To close the application!\n" +
+                                "\t1. Send video!\n" +
+                                "\t2. Send image!\n" +
+                                "\t3. Send text!\n" +
+                                "\t4. Read conversation!\n");
+                int options = scanner.nextInt();
+                scanner.nextLine();
+                switch (options) {
+                    case 0:
+                        userNode.closeWithServer();
+                        System.out.println(0);
+                        break outerloop;
+                    case 1:
+                        System.out.println("Please enter the path from the video: ");
+                        String videoPath = scanner.nextLine();
+                        publisher.push(displayTopic, videoPath);
+                        break;
+                    case 2:
+                        System.out.println("Please enter the path from the image: ");
+                        String imagePath = scanner.nextLine();
+                        publisher.push(displayTopic, imagePath);
+                        break;
+                    case 3:
+                        System.out.println("Enter your message: ");
+                        String message= scanner.nextLine();
+                        publisher.sendMessage(displayTopic,message);
+                        break;
+                    case 4:
+                        consumer.showConversationData(displayTopic);
+                        LinkedList<Message> conversation = (LinkedList<Message>) userNode.getConversation().get(displayTopic);
+                        SimpleDateFormat myFormatObj = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        for(int i = 0; i < conversation.size(); i++){
+                            Message tempMessage = conversation.get(i);
+                            String strMessage = tempMessage.getMessage();
+                            if(tempMessage.getMessage() == null){
+                                strMessage = tempMessage.getFiles().get(0).getMultimediaFileName();
+                            }
+                            System.out.println(tempMessage.getName().getProfileName());
+                            String date = myFormatObj.format(tempMessage.getDate());
+                            System.out.println("Name: " + tempMessage.getName().getProfileName() + "\n" +
+                                    "Message: " + strMessage + "\n" +
+                                    "Date: " + date + "\n" +
+                                    "-------------------------------------------------------------------------------------------------------------------------------------------------------------"                            );
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid action, please input a valid number!");
+                        break;
+                }
+            }
+        }
     }
 }

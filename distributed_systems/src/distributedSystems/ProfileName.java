@@ -1,23 +1,24 @@
 package distributedSystems;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ProfileName {
+public class ProfileName implements Serializable {
 
     private String profileName;
+//    private ArrayList<String> subscribedConversations;
 
-    private HashMap<String, ArrayList<Value>> userVideoFilesMap;
-
-    private HashMap<String, Integer> subscribedConversations;
-
-    public ProfileName(String profileName, HashMap<String, ArrayList<Value>> userVideoFilesMap, HashMap<String, Integer> subscribedConversations) {
+    public ProfileName(String profileName, ArrayList<String> subscribedConversations) {
         this.profileName = profileName;
-        this.userVideoFilesMap = userVideoFilesMap;
-        this.subscribedConversations = subscribedConversations;
+//        this.subscribedConversations = subscribedConversations;
     }
 
     public ProfileName() {
+    }
+
+    public ProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
     public String getProfileName() {
@@ -28,19 +29,19 @@ public class ProfileName {
         this.profileName = profileName;
     }
 
-    public HashMap<String, ArrayList<Value>> getUserVideoFilesMap() {
-        return userVideoFilesMap;
-    }
+//    public ArrayList<String> getSubscribedConversations() {
+//        return subscribedConversations;
+//    }
+//
+//    public void setSubscribedConversations(ArrayList<String> subscribedConversations) {
+//        this.subscribedConversations = subscribedConversations;
+//    }
 
-    public void setUserVideoFilesMap(HashMap<String, ArrayList<Value>> userVideoFilesMap) {
-        this.userVideoFilesMap = userVideoFilesMap;
-    }
-
-    public HashMap<String, Integer> getSubscribedConversations() {
-        return subscribedConversations;
-    }
-
-    public void setSubscribedConversations(HashMap<String, Integer> subscribedConversations) {
-        this.subscribedConversations = subscribedConversations;
+    @Override
+    public String toString() {
+        return "ProfileName{" +
+                "profileName='" + profileName + '\'' +
+//                ", subscribedConversations=" + subscribedConversations +
+                '}';
     }
 }
