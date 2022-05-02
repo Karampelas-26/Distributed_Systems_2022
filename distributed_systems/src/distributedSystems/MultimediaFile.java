@@ -1,13 +1,17 @@
 package distributedSystems;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.Date;
 
 public class MultimediaFile implements Serializable {
 
-    private String multimediaFileName, profileName, dateCreated, length, framerate, frameWidth, frameHeight;
+    private String multimediaFileName, profileName, framerate, frameWidth, frameHeight;
+    private long length;
+    private Date dateCreated;
     private byte[] multimediaFileChunk;
 
-    public MultimediaFile(String multimediaFileName, String profileName, String dateCreated, String length, String framerate, String frameWidth, String frameHeight, byte[] multimediaFileChunk) {
+    public MultimediaFile(String multimediaFileName, String profileName, Date dateCreated, long length, String framerate, String frameWidth, String frameHeight, byte[] multimediaFileChunk) {
         this.multimediaFileName = multimediaFileName;
         this.profileName = profileName;
         this.dateCreated = dateCreated;
@@ -15,6 +19,30 @@ public class MultimediaFile implements Serializable {
         this.framerate = framerate;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
+        this.multimediaFileChunk = multimediaFileChunk;
+    }
+
+    public MultimediaFile(String multimediaFileName, String profileName, long length){
+        this.multimediaFileName = multimediaFileName;
+        this.profileName = profileName;
+        this.dateCreated = new Date();
+        this.length = length;
+        this.multimediaFileChunk = Util.loadFile(multimediaFileName);
+    }
+
+    public MultimediaFile(String multimediaFileName, String profileName, Date date, long lenght, byte[]multimediaFileChunk){
+        this.multimediaFileName = multimediaFileName;
+        this.profileName = profileName;
+        this.dateCreated = date;
+        this.length = lenght;
+        this.multimediaFileChunk = multimediaFileChunk;
+    }
+
+    public MultimediaFile(String multimediaFileName, String profileName, long lenght, byte[]multimediaFileChunk){
+        this.multimediaFileName = multimediaFileName;
+        this.profileName = profileName;
+        this.dateCreated = new Date();
+        this.length = lenght;
         this.multimediaFileChunk = multimediaFileChunk;
     }
 
@@ -37,19 +65,19 @@ public class MultimediaFile implements Serializable {
         this.profileName = profileName;
     }
 
-    public String getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(String dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public String getLength() {
+    public long getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(long length) {
         this.length = length;
     }
 

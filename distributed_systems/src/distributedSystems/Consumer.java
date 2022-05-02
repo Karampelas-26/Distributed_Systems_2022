@@ -6,5 +6,5 @@ public interface Consumer extends Node {
 
     public void register(String str);
 
-    public void showConversationData(String str, Value value);
+    public void showConversationData(String str);
 }
