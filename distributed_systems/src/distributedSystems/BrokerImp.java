@@ -38,35 +38,7 @@ public class BrokerImp implements Broker{
         this.usersAtTopic = usersAtTopic;
     }
 
-    public void addInfo(String ip, int port){
-        brokerIps.put(ip,port);
-    }
-
     @Override
-    public Consumer acceptConnection(Consumer consumer) {
-        return null;
-    }
-
-    @Override
-    public Publisher acceptConnection(Publisher publisher) {
-        return null;
-    }
-
-    @Override
-    public void calculateKeys() {
-
-    }
-
-    @Override
-    public void filterConsumers(String str) {
-
-    }
-
-    @Override
-    public void notifyBrokersOnChanges() {
-
-    }
-
     public void notifyBrokersOnRegister(String topic, String name) {
         Socket socket;
         ObjectOutputStream out;
@@ -97,27 +69,6 @@ public class BrokerImp implements Broker{
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void notifyPublisher(String str) {
-
-    }
-
-    @Override
-    public void pull(String str) {
-
-    }
-
-    @Override
-    public void connect() {
-
-    }
-
-    @Override
-    public void disconnect() {
-
-    }
-
     @Override
     public void init(String ip, int port) {
 
@@ -146,12 +97,6 @@ public class BrokerImp implements Broker{
             }
         }
     }
-
-    @Override
-    public void updateNodes() {
-
-    }
-
 
     public String getIp() {
         return ip;

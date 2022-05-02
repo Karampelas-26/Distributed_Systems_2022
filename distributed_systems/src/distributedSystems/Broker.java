@@ -1,19 +1,8 @@
 package distributedSystems;
 
-public interface Broker extends Node {
+public interface Broker {
 
-    public Consumer acceptConnection(Consumer consumer);
+    void notifyBrokersOnRegister(String topic, String name);
 
-    public Publisher acceptConnection(Publisher publisher);
-
-    public void calculateKeys();
-
-    public void filterConsumers(String str);
-
-    public void notifyBrokersOnChanges();
-
-    public void notifyPublisher(String str);
-
-    public void pull(String str);
-
+    void init(String ip, int port);
 }

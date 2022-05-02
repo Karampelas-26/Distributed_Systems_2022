@@ -43,20 +43,6 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
     }
 
     @Override
-    public void getBrokerList() {
-
-    }
-
-    @Override
-    public Broker hashTopic(String str) {
-        return null;
-    }
-
-    @Override
-    public void notifyBrokersNewMessage(String str) {
-
-    }
-
     public void sendMessage(String topic, String message){
         try {
             out.writeUTF("publisher");
@@ -76,11 +62,6 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void notifyFailure(Broker broker) {
-
     }
 
     @Override
@@ -112,23 +93,4 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
         }
     }
 
-    @Override
-    public void connect() {
-
-    }
-
-    @Override
-    public void disconnect() {
-
-    }
-
-    @Override
-    public void init(String ip, int port) {
-
-    }
-
-    @Override
-    public void updateNodes() {
-
-    }
 }

@@ -2,19 +2,12 @@ package distributedSystems;
 
 import java.util.ArrayList;
 
-public interface Publisher extends Node {
+public interface Publisher {
 
     public ArrayList<MultimediaFile> generateChunks(String file);
 
-    public void getBrokerList();
-
-    public Broker hashTopic(String str);
-
-    public void notifyBrokersNewMessage(String str);
-
-    public void notifyFailure(Broker broker);
+    void sendMessage(String topic, String message);
 
     public void push(String str, String nameOfFile);
-
 
 }

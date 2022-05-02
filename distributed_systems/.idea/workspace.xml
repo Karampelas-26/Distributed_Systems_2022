@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="first communication user with broker">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ergasia katanemimena.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/ergasia katanemimena/distributedSystems/conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Broker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Node.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Publisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/PublisherImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/PublisherImp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +65,7 @@
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserGeorge">
+  <component name="RunManager" selected="Application.UserNodeAntonis">
     <configuration name="Broker2" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
       <module name="distributed_systems" />
@@ -132,8 +136,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.BrokerImp1" />
         <item itemvalue="Application.UserNodeAntonis" />
+        <item itemvalue="Application.BrokerImp1" />
         <item itemvalue="Application.UserNodeAntonis" />
       </list>
     </recent_temporary>
@@ -155,6 +159,7 @@
       <workItem from="1651501713587" duration="572000" />
       <workItem from="1651502813300" duration="42000" />
       <workItem from="1651502875127" duration="75000" />
+      <workItem from="1651507349742" duration="412000" />
     </task>
     <task id="LOCAL-00001" summary="first communication user with broker">
       <created>1651162277986</created>

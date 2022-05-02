@@ -22,31 +22,6 @@ public class ConsumerImp extends UserNode implements Consumer {
     }
 
     @Override
-    public void disconnect(String str) {
-
-    }
-
-    @Override
-    public void register(String str) {
-        try {
-            System.out.println(out);
-            System.out.println("Trying to register in broker: " + ip + " " + port+ " with profile name: "+profileName);
-            out.writeUTF("consumer");
-            out.flush();
-
-            out.writeUTF("register");
-            out.flush();
-
-            out.writeUTF(str);
-            out.flush();
-            System.out.println(in.readUTF());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void showConversationData(String topic) {
         try {
             out.writeUTF("consumer");
@@ -123,27 +98,6 @@ public class ConsumerImp extends UserNode implements Consumer {
         finalFile.setMultimediaFileName(chunks.get(0).getMultimediaFileName());
         finalFile.setMultimediaFileChunk(fileBytes);
         return finalFile;
-    }
-
-
-    @Override
-    public void connect() {
-
-    }
-
-    @Override
-    public void disconnect() {
-
-    }
-
-    @Override
-    public void init(String ip, int port) {
-
-    }
-
-    @Override
-    public void updateNodes() {
-
     }
 
     public ProfileName getProfileName() {
