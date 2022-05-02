@@ -114,33 +114,17 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
 
     @Override
     public void connect() {
-//        System.out.println("trying to connect");
-//
-//        try {
-//            requestSocket = new Socket("localhost", port);
-//            System.out.println("succes connection");
-//
-//        } catch (UnknownHostException unknownHost) {
-//            System.err.println("You are trying to connect to an unknown host!");
-//        } catch (IOException ioException) {
-//            ioException.printStackTrace();
-//        }
+
     }
 
     @Override
     public void disconnect() {
-//        try {
-//            requestSocket.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
     }
 
     @Override
     public void init(String ip, int port) {
-//        this.ip = ip;
-//        this.port = port;
-//        System.out.println("init");
+
     }
 
     @Override

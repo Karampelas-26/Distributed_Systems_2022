@@ -133,17 +133,8 @@ public class BrokerImp implements Broker{
                 connection = providerSocket.accept();
 
                 /* Handle the request */
-<<<<<<< HEAD
-                Thread t = new ActionsForClients(connection);
-                t.start();
-
-
-
-
-=======
                 Thread t = new Thread(new ActionsForClients(this, connection));
                 t.start();
->>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();

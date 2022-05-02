@@ -41,15 +41,8 @@ public class UserNode extends Thread{
         return conversation;
     }
 
-<<<<<<< HEAD
-    public UserNode(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
-
-=======
     public void setConversation(HashMap<String, Queue<Message>> conversation) {
         this.conversation = conversation;
->>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
     }
 
     public String getIp() {
@@ -69,46 +62,6 @@ public class UserNode extends Thread{
         this.port = port;
     }
 
-<<<<<<< HEAD
-    @Override
-    public void connect() {
-        try {
-            requestSocket = new Socket(ip, port);
-            System.out.println("socket");
-            out = new ObjectOutputStream(requestSocket.getOutputStream());
-            System.out.println("out");
-            in = new ObjectInputStream(requestSocket.getInputStream());
-            System.out.println("in");
-
-            /* Write the two integers */
-//            out.writeInt(3);
-//            out.flush();
-
-//            /* Print the received result from server */
-//            System.out.println("Server>" + in.readInt());
-
-        } catch (UnknownHostException unknownHost) {
-            System.err.println("You are trying to connect to an unknown host!");
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-//        } finally {
-//            try {
-////                in.close(); out.close();
-////                requestSocket.close();
-//            } catch (IOException ioException) {
-//                ioException.printStackTrace();
-//            }
-       }
-    }
-
-    @Override
-    public void disconnect() {
-        try {
-            requestSocket.close();
-            out.close();
-            in.close();
-
-=======
     public HashMap<String, Pair<String, Integer>> getTopicWithBrokers() {
         return topicWithBrokers;
     }
@@ -145,7 +98,6 @@ public class UserNode extends Thread{
             requestSocket = new Socket(this.getIp(),this.getPort());
             out= new ObjectOutputStream(requestSocket.getOutputStream());
             in= new ObjectInputStream(requestSocket.getInputStream());
->>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -194,13 +146,8 @@ public class UserNode extends Thread{
             out.writeUTF("register");
             out.flush();
 
-<<<<<<< HEAD
-            System.out.println("streams");
-            System.out.println("streams");
-=======
             out.writeUTF(topic);
             out.flush();
->>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
 
             out.writeUTF(profileName);
             out.flush();
@@ -218,16 +165,6 @@ public class UserNode extends Thread{
 
         } catch (IOException e) {
             e.printStackTrace();
-<<<<<<< HEAD
-        } finally {
-//            try {
-//                in.close();
-//                out.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-=======
->>>>>>> 855a6e203059a869ed954ab31f7f6e707b0150aa
         }
         return status;
     }

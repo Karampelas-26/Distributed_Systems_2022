@@ -66,7 +66,7 @@
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserNodeAntonis">
+  <component name="RunManager" selected="Application.Broker3">
     <configuration name="Broker2" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
       <module name="distributed_systems" />
@@ -137,8 +137,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserNodeAntonis" />
         <item itemvalue="Application.BrokerImp1" />
+        <item itemvalue="Application.UserNodeAntonis" />
         <item itemvalue="Application.UserNodeAntonis" />
       </list>
     </recent_temporary>
