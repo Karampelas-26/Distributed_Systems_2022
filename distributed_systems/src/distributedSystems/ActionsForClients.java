@@ -1,8 +1,6 @@
 package distributedSystems;
 
 import org.javatuples.Pair;
-
-import javax.swing.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -24,7 +22,6 @@ public class ActionsForClients extends BrokerImp implements Runnable {
         }
     }
 
-
     private void consumer(){
         try {
             String consumerAction = in.readUTF();
@@ -45,6 +42,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                             conversation.add(tempMessage);
                         }
                     }
+                    System.out.println("User asked to read conversation: " + topic +" and he has unread messages: " + conversation.size());
                 }
                 int sizeOfQueue = conversation.size();
                 out.writeInt(sizeOfQueue);
@@ -86,7 +84,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                     String topic = in.readUTF();
                     Message m = (Message) in.readObject();
                     broker.addMessageOnConversation(topic,m);
-                    System.out.println(m.toString());
+                    System.out.println("User send a message in topic: " + topic + "!");
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -94,16 +92,18 @@ public class ActionsForClients extends BrokerImp implements Runnable {
             else if (publisherAction.equals("multimediaFile")){
                 try{
                     String topic = in.readUTF();
+                    ProfileName profileName = (ProfileName) in.readObject();
                     int chunks = in.readInt();
                     List<MultimediaFile> fileInChunks = new ArrayList<>();
                     for(int i = 0; i < chunks; i++){
                         MultimediaFile multimediaFile = (MultimediaFile) in.readObject();
                         fileInChunks.add(multimediaFile);
                     }
-                    broker.addMessageOnConversation(topic, new Message(fileInChunks));
+                    broker.addMessageOnConversation(topic, new Message(profileName, fileInChunks));
+                    System.out.println("User send a video/image in topic: " + topic + "!");
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
-                }
+                }  
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,6 +115,8 @@ public class ActionsForClients extends BrokerImp implements Runnable {
             String action = in.readUTF();
             if(action.equals("firstCommunication")){
                 String name = in.readUTF();
+                System.out.println("User " + name + " communicate with broker!");
+
                 //this will return
                 HashMap<String, Pair<String, Integer>> topicForUserNode = new HashMap<>();
 
@@ -131,7 +133,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                 out.writeObject(topicForUserNode);
                 out.flush();
             }
-            else{
+            else if(action.equals("register")){
                 String topic = in.readUTF();
                 String name = in.readUTF();
 
@@ -144,10 +146,12 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                     broker.notifyBrokersOnRegister(topic,name);
                     out.writeUTF("success");
                     out.flush();
+                    System.out.println("User " + name + " register successfully in topic " + topic + "!");
                 }
                 else {
                     out.writeUTF("fail");
                     out.flush();
+                    System.out.println("User " + name + " failed to register in topic " + topic + "!");
                 }
 
             }
@@ -161,7 +165,6 @@ public class ActionsForClients extends BrokerImp implements Runnable {
         while(true) {
             try {
                 String userType = in.readUTF();
-                System.out.println(userType);
                 if (userType.equals("consumer")) {
                     consumer();
                 } else if (userType.equals("publisher")) {
@@ -179,8 +182,14 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                     broker.setUsersAtTopic(users);
 
                 }
+                else if(userType.equals("close")){
+                    System.out.println("Closing connection");
+                    break;
+                }
             } catch (IOException e) {
+//                System.exit(1);
                 e.printStackTrace();
+                continue;
             }
         }
     }

@@ -90,10 +90,16 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
         try {
             out.writeUTF("publisher");
             out.flush();
+
             out.writeUTF("multimediaFile");
             out.flush();
+
             out.writeUTF(topic);
             out.flush();
+
+            out.writeObject(getProfileName());
+            out.flush();
+
             out.writeInt(numOfChunks);
             out.flush();
 

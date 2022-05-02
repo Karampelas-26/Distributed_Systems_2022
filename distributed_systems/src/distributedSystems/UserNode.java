@@ -71,7 +71,8 @@ public class UserNode extends Thread{
     }
 
     public Date getLastDate(String topic){
-        return this.conversation.get(topic).peek().getDate();
+        LinkedList<Message> ll = new LinkedList<>(this.conversation.get(topic));
+        return ll.getLast().getDate();
     }
 
     public void communicateWithBroker(String name){
@@ -106,16 +107,10 @@ public class UserNode extends Thread{
 
     public void redirect(String ip, int port){
         //close previous socket
-        try{
-            requestSocket.close();
-            out.close();
-            in.close();
-            this.setIp(ip);
-            this.setPort(port);
-            init();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        closeWithServer();
+        this.setIp(ip);
+        this.setPort(port);
+        init();
     }
 
     /**
@@ -126,8 +121,19 @@ public class UserNode extends Thread{
         String ip=topicWithBrokers.get(topic).getValue0();
         int port= topicWithBrokers.get(topic).getValue1();
         if(!(ip.equals(this.getIp()) && port==this.getPort())){
-            System.out.println(ip+" "+ port+" "+ topic);
             redirect(ip,port);
+        }
+    }
+
+    public void closeWithServer(){
+        try {
+            out.writeUTF("close");
+            out.flush();
+            requestSocket.close();
+            out.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -181,8 +187,7 @@ public class UserNode extends Thread{
         Socket clientSocket  = userNode.init();
         userNode.communicateWithBroker(name);
         userNode.setConversation(initConversations);
-        System.out.println(userNode.getConversation().get("asfaleia"));
-        System.out.println("You have connected as "+ profileName.getProfileName());
+        System.out.println("You have connected as: "+ profileName.getProfileName());
 
         PublisherImp publisher = new PublisherImp(userNode, profileName);
         ConsumerImp consumer = new ConsumerImp(userNode, profileName);
@@ -211,7 +216,6 @@ public class UserNode extends Thread{
             }
             else{
                 String displayTopic = strTopics[selectedTopic];
-//                userNode.getLastDate(displayTopic);
                 userNode.checkBroker(displayTopic);
                 System.out.println(
                                 "\t0. To close the application!\n" +
@@ -223,6 +227,8 @@ public class UserNode extends Thread{
                 scanner.nextLine();
                 switch (options) {
                     case 0:
+                        userNode.closeWithServer();
+                        System.out.println(0);
                         break outerloop;
                     case 1:
                         System.out.println("Please enter the path from the video: ");
@@ -242,8 +248,6 @@ public class UserNode extends Thread{
                     case 4:
                         consumer.showConversationData(displayTopic);
                         LinkedList<Message> conversation = (LinkedList<Message>) userNode.getConversation().get(displayTopic);
-                        System.out.println(conversation);
-                        System.out.println(userNode.getConversation().get("asfaleia"));
                         SimpleDateFormat myFormatObj = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         for(int i = 0; i < conversation.size(); i++){
                             Message tempMessage = conversation.get(i);
@@ -251,16 +255,13 @@ public class UserNode extends Thread{
                             if(tempMessage.getMessage() == null){
                                 strMessage = tempMessage.getFiles().get(0).getMultimediaFileName();
                             }
-                            System.out.println(tempMessage.getDate());
+                            System.out.println(tempMessage.getName().getProfileName());
                             String date = myFormatObj.format(tempMessage.getDate());
-//                            System.out.println(tempMessage);
                             System.out.println("Name: " + tempMessage.getName().getProfileName() + "\n" +
                                     "Message: " + strMessage + "\n" +
                                     "Date: " + date + "\n" +
                                     "-------------------------------------------------------------------------------------------------------------------------------------------------------------"                            );
                         }
-
-
                         break;
                     default:
                         System.out.println("Invalid action, please input a valid number!");

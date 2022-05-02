@@ -208,7 +208,7 @@ public final class Util {
                     Message tempMessage = new Message();
                     Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dateSend);
                     tempMessage.setDate(date);
-                    System.out.println(date);
+//                    System.out.println(date);
                     tempMessage.setName(name);
 
                     if(messageSend.charAt(0)=='$'){
@@ -220,7 +220,7 @@ public final class Util {
                             byte[] tempArr = listOfChunks.get(i);
                             MultimediaFile tempFile = new MultimediaFile(multimediaFile, profileName, tempArr.length, tempArr);
                             tempFile.setDateCreated(date);
-                            System.out.println("in multimediaFile: "+date);
+//                            System.out.println("in multimediaFile: "+date);
                             listOfMultimediaFiles.add(tempFile);
                         }
                         tempMessage.setFiles(listOfMultimediaFiles);
