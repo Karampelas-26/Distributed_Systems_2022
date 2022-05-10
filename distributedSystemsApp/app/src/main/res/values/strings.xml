@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Distributed Systems App</string>
+    <string name="name">Name</string>
+    <string name="log_in">Log In Credentials</string>
+</resources>

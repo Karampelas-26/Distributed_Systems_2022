@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="first communication user with broker">
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Broker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Node.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/Publisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/PublisherImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/PublisherImp.java" afterDir="false" />
+    <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="clean code from extra methods that don't use">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distributed_systems.iml" beforeDir="false" afterPath="$PROJECT_DIR$/distributed_systems.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +14,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="HTTP Request" />
+        <option value="Activity" />
       </list>
     </option>
   </component>
@@ -159,7 +156,9 @@
       <workItem from="1651501713587" duration="572000" />
       <workItem from="1651502813300" duration="42000" />
       <workItem from="1651502875127" duration="75000" />
-      <workItem from="1651507349742" duration="412000" />
+      <workItem from="1651507349742" duration="556000" />
+      <workItem from="1651678533000" duration="1628000" />
+      <workItem from="1652207283657" duration="864000" />
     </task>
     <task id="LOCAL-00001" summary="first communication user with broker">
       <created>1651162277986</created>
@@ -168,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651162277986</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="clean code from extra methods that don't use">
+      <created>1651507886833</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1651507886833</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,6 +194,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first communication user with broker" />
-    <option name="LAST_COMMIT_MESSAGE" value="first communication user with broker" />
+    <MESSAGE value="clean code from extra methods that don't use" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean code from extra methods that don't use" />
   </component>
 </project>
