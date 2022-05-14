@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="clean code from extra methods that don't use">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distributed_systems.iml" beforeDir="false" afterPath="$PROJECT_DIR$/distributed_systems.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +61,7 @@
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserNodeAntonis">
+  <component name="RunManager" selected="Application.BrokerImp1">
     <configuration name="Broker2" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
       <module name="distributed_systems" />
@@ -133,8 +132,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserNodeAntonis" />
         <item itemvalue="Application.BrokerImp1" />
+        <item itemvalue="Application.UserNodeAntonis" />
         <item itemvalue="Application.UserNodeAntonis" />
       </list>
     </recent_temporary>
