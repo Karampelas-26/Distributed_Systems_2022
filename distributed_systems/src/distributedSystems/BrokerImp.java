@@ -4,6 +4,8 @@ import org.javatuples.Pair;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -74,9 +76,12 @@ public class BrokerImp implements Broker{
 
         System.out.println(ip + "==="+ port);
 
+
         try {
+
+            InetAddress addr = InetAddress.getByName(ip);
             /* Create Server Socket */
-            providerSocket = new ServerSocket(port);
+            providerSocket = new ServerSocket(port, 10, addr);
 
             while (true) {
                 /* Accept the connection */
