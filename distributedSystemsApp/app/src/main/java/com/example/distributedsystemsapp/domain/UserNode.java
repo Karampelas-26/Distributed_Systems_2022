@@ -94,6 +94,7 @@ public class UserNode extends Thread implements Serializable {
     public Socket init() {
 
         try {
+            System.err.println("init the USERNODE");
             requestSocket = new Socket(this.getIp(),this.getPort());
             out= new ObjectOutputStream(requestSocket.getOutputStream());
             in= new ObjectInputStream(requestSocket.getInputStream());

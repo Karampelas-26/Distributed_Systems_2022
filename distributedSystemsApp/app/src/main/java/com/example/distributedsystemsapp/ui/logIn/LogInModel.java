@@ -6,6 +6,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -64,6 +65,12 @@ public class LogInModel extends AppCompatActivity implements LogInView{
 
         presenter = new LogInPresenter(this);
 
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         buttonLogIn = (Button) findViewById(R.id.logInBttn);
         buttonLogIn.setOnClickListener(new View.OnClickListener() {
 
@@ -72,7 +79,7 @@ public class LogInModel extends AppCompatActivity implements LogInView{
                 String name= presenter.onLogIn();
                 if(!name.equals(" ")){
                     setConversations(initConversations(name));
-                    usernode = new UserNode("127.0.0.1",5000);
+                    usernode = new UserNode("10.1.22.83",5000);
                     usernode.setConversation(conversations);
                     usernode.init();
                     usernode.communicateWithBroker(name);
@@ -130,14 +137,23 @@ public class LogInModel extends AppCompatActivity implements LogInView{
                 String[] dataFromLine = line.split(",");
                 if(dataFromLine[1].equals(name)){
                     //gia kathe topic
-                    for(String topic: dataFromLine){
+                    for(int j = 2; j < dataFromLine.length; j++){
+                        String topic = dataFromLine[j];
                         BufferedReader reader = new BufferedReader(
                                 new InputStreamReader(getAssets().open("data/usernode/"+name+"/"+topic+".txt")));
                         String tempLine;
                         //diabazoume sunomilia
                         while( (tempLine = reader.readLine())!= null){
-                            String[] messages = line.split("#");
-                            String profileName=messages[0],message=messages[1], date=messages[2];
+                            String[] messages = tempLine.split("#");
+//                            System.err.println(tempLine);
+//                            System.err.println(messages[1]);
+//                            System.err.println(messages[2]);
+//                            System.err.println(messages[3]);
+//                            System.err.println(messages.length);
+                            String profileName=messages[1],message=messages[2], date=messages[3];
+//                            System.err.println("ProfileName: "+profileName);
+//                            System.err.println("Message: "+message);
+//                            System.err.println("Date: "+date);
                             ProfileName userName = new ProfileName(profileName);
                             Message tempMessage = new Message();
                             Date dateSend = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
@@ -146,6 +162,8 @@ public class LogInModel extends AppCompatActivity implements LogInView{
 
                             if(message.charAt(0)=='$'){
                                 String multimediaFile = message.substring(1);
+                                System.err.println("LOOK AT HERE");
+                                System.err.println(multimediaFile);
                                 AssetFileDescriptor assetFileDescriptor = getAssets().openFd("data/usernode/"+name+"/"+multimediaFile);
                                 List<byte[]> listOfChunks = Util.splitFileToChunks(loadFile(assetFileDescriptor), 1024*16);
                                 int numOfChunks = listOfChunks.size();
