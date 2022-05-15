@@ -1,6 +1,12 @@
 package com.example.distributedsystemsapp.ui.logIn;
 
-public interface LogInView {
+import android.widget.EditText;
 
-    public int logIn();
+import java.util.ArrayList;
+
+public interface LogInView {
+    public ArrayList<String> initUsers();
+
+    public ArrayList<String> getUsers();
+    public EditText getUsername();
 }

@@ -5,10 +5,11 @@ import org.javatuples.Pair;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.*;
 
-public class UserNode extends Thread{
+public class UserNode extends Thread implements Serializable {
 
     /* Create socket for contacting the server on port 4321*/
     protected static Socket requestSocket = null;
@@ -30,7 +31,7 @@ public class UserNode extends Thread{
         this.conversation = new HashMap<>();
     }
 
-    UserNode(){
+    public UserNode(){
         this.topicWithBrokers = new HashMap<>();
         this.conversation = new HashMap<>();
     }
