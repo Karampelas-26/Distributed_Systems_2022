@@ -183,7 +183,7 @@ public class UserNode extends Thread{
         }
         ProfileName profileName = new ProfileName(name, topics);
 
-        UserNode userNode = new UserNode("10.1.22.70",5001);
+        UserNode userNode = new UserNode("192.168.56.1",5000);
         Socket clientSocket  = userNode.init();
         userNode.communicateWithBroker(name);
         userNode.setConversation(initConversations);

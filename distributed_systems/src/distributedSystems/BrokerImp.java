@@ -81,7 +81,7 @@ public class BrokerImp implements Broker{
 
             InetAddress addr = InetAddress.getByName(ip);
             /* Create Server Socket */
-            providerSocket = new ServerSocket(port, 10, addr);
+            providerSocket = new ServerSocket(port);
 
             while (true) {
                 /* Accept the connection */
