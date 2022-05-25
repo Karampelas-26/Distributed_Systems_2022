@@ -2,9 +2,7 @@ package com.example.distributedsystemsapp.domain;
 
 import android.content.res.AssetManager;
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
 import org.javatuples.Pair;
 
 import java.io.File;
@@ -313,4 +311,5 @@ public final class Util {
         }
         return userAtTopic;
     }
+
 }
