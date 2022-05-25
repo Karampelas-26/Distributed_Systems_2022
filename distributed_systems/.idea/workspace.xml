@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="bind ip address on server">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/broker/conf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/conf.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -161,6 +160,7 @@
       <workItem from="1651507349742" duration="556000" />
       <workItem from="1651678533000" duration="1628000" />
       <workItem from="1652207283657" duration="864000" />
+      <workItem from="1653506218122" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="first communication user with broker">
       <created>1651162277986</created>

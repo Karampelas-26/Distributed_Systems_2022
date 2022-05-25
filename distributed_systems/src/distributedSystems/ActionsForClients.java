@@ -9,10 +9,12 @@ public class ActionsForClients extends BrokerImp implements Runnable {
     ObjectInputStream in;
     ObjectOutputStream out;
     BrokerImp broker;
+    Socket connection;
 
 
     public ActionsForClients(BrokerImp broker,Socket connection) {
         this.broker = broker;
+        this.connection = connection;
         try {
             System.out.println("Got a connection...Opening streams....");
             out = new ObjectOutputStream(connection.getOutputStream());
@@ -163,7 +165,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
 
 
     public void run() {
-        while(true) {
+        while(!this.connection.isClosed()) {
             try {
                 String userType = in.readUTF();
                 if (userType.equals("consumer")) {
@@ -188,9 +190,12 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                     break;
                 }
             } catch (IOException e) {
-//                System.exit(1);
-                e.printStackTrace();
-                continue;
+                System.err.println("User disconnected for unknown reason, closing connection...");
+                try {
+                    this.connection.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
