@@ -21,5 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.homepage.HomepageModel"/>
+        <activity android:name=".ui.conversation.ConversationModel"/>
     </application>
 </manifest>

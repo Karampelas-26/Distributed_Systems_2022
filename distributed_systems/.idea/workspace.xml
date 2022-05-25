@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="bind ip address on server">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/ConsumerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/ConsumerImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/MultimediaFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/MultimediaFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/UserNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/UserNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/logIn/LogInModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/logIn/LogInModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/broker/conf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/conf.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distributed_systems.iml" beforeDir="false" afterPath="$PROJECT_DIR$/distributed_systems.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

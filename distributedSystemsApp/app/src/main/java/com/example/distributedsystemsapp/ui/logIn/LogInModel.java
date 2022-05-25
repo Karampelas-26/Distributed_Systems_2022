@@ -106,16 +106,17 @@ public class LogInModel extends AppCompatActivity implements LogInView{
                 String name= presenter.onLogIn();
                 if(!name.equals(" ")){
 
-                    setConversations(initConversations(name));
-                    usernode = new UserNode("192.168.56.1",5000);
-                    usernode.setConversation(conversations);
+//                    setConversations(initConversations(name));
+//                    usernode = new UserNode("192.168.56.1",5000);
+//                    usernode.setConversation(conversations);
 
-                    LogInAsyncTask logInAsyncTask = new LogInAsyncTask();
-                    logInAsyncTask.execute(name);
-                    Log.d("usernode", usernode.getConversation().get("katanemimena").peek().getMessage());
+//                    LogInAsyncTask logInAsyncTask = new LogInAsyncTask();
+//                    logInAsyncTask.execute(name);
+//                    Log.d("usernode", usernode.getConversation().get("katanemimena").peek().getMessage());
+
                     Intent intent = new Intent(LogInModel.this, HomepageModel.class);
                     intent.putExtra("username",name);
-                    intent.putExtra("usernode", usernode);
+//                    intent.putExtra("usernode", usernode);
                     startActivity(intent);
                 }
                 else{
@@ -154,81 +155,73 @@ public class LogInModel extends AppCompatActivity implements LogInView{
         return users;
     }
 
-    public HashMap<String, Queue<Message>> initConversations(String name){
-        HashMap<String, Queue<Message>> conversations = new HashMap<>();
-        BufferedReader br = null;
-        try {
-            br= new BufferedReader(
-                    new InputStreamReader(getAssets().open("data/usernode/userConf.txt"), "UTF-8"));
-            String line;
-            //gia na broume ton xristi
-            while( (line = br.readLine()) != null){
-                Queue<Message> tempQueue = new LinkedList<>();
-                String[] dataFromLine = line.split(",");
-                if(dataFromLine[1].equals(name)){
-                    //gia kathe topic
-                    for(int j = 2; j < dataFromLine.length; j++){
-                        String topic = dataFromLine[j];
-                        BufferedReader reader = new BufferedReader(
-                                new InputStreamReader(getAssets().open("data/usernode/"+name+"/"+topic+".txt")));
-                        String tempLine;
-                        //diabazoume sunomilia
-                        while( (tempLine = reader.readLine())!= null){
-                            String[] messages = tempLine.split("#");
-//                            System.err.println(tempLine);
-//                            System.err.println(messages[1]);
-//                            System.err.println(messages[2]);
-//                            System.err.println(messages[3]);
-//                            System.err.println(messages.length);
-                            String profileName=messages[1],message=messages[2], date=messages[3];
-//                            System.err.println("ProfileName: "+profileName);
-//                            System.err.println("Message: "+message);
-//                            System.err.println("Date: "+date);
-                            ProfileName userName = new ProfileName(profileName);
-                            Message tempMessage = new Message();
-                            Date dateSend = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-                            tempMessage.setDate(dateSend);
-                            tempMessage.setName(userName);
-
-                            if(message.charAt(0)=='$'){
-                                String multimediaFile = message.substring(1);
-                                System.err.println("LOOK AT HERE");
-                                System.err.println(multimediaFile);
-                                AssetFileDescriptor assetFileDescriptor = getAssets().openFd("data/usernode/"+name+"/"+multimediaFile);
-                                List<byte[]> listOfChunks = Util.splitFileToChunks(loadFile(assetFileDescriptor), 1024*16);
-                                int numOfChunks = listOfChunks.size();
-                                ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
-                                for (int i = 0; i < numOfChunks; i++){
-                                    byte[] tempArr = listOfChunks.get(i);
-                                    MultimediaFile tempFile = new MultimediaFile(multimediaFile, profileName, tempArr.length, tempArr);
-                                    tempFile.setDateCreated(dateSend);
-                                    listOfMultimediaFiles.add(tempFile);
-                                }
-                                tempMessage.setFiles(listOfMultimediaFiles);
-                                tempQueue.add(tempMessage);
-                            }
-                            else{
-                                tempMessage.setMessage(message);
-                                tempQueue.add(tempMessage);
-                            }
-                        }
-                        conversations.put(topic,tempQueue);
-                    }
-                }
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return conversations;
-    }
+//    public HashMap<String, Queue<Message>> initConversations(String name){
+//        HashMap<String, Queue<Message>> conversations = new HashMap<>();
+//        BufferedReader br = null;
+//        try {
+//            br= new BufferedReader(
+//                    new InputStreamReader(getAssets().open("data/usernode/userConf.txt"), "UTF-8"));
+//            String line;
+//            //gia na broume ton xristi
+//            while( (line = br.readLine()) != null){
+//                Queue<Message> tempQueue = new LinkedList<>();
+//                String[] dataFromLine = line.split(",");
+//                if(dataFromLine[1].equals(name)){
+//                    //gia kathe topic
+//                    for(int j = 2; j < dataFromLine.length; j++){
+//                        String topic = dataFromLine[j];
+//                        BufferedReader reader = new BufferedReader(
+//                                new InputStreamReader(getAssets().open("data/usernode/"+name+"/"+topic+".txt")));
+//                        String tempLine;
+//                        //diabazoume sunomilia
+//                        while( (tempLine = reader.readLine())!= null){
+//                            String[] messages = tempLine.split("#");
+//                            String profileName=messages[1],message=messages[2], date=messages[3];
+//                            ProfileName userName = new ProfileName(profileName);
+//                            Message tempMessage = new Message();
+//                            Date dateSend = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+//                            tempMessage.setDate(dateSend);
+//                            tempMessage.setName(userName);
+//
+//                            if(message.charAt(0)=='$'){
+//                                String multimediaFile = message.substring(1);
+//                                System.err.println("LOOK AT HERE");
+//                                System.err.println(multimediaFile);
+//                                AssetFileDescriptor assetFileDescriptor = getAssets().openFd("data/usernode/"+name+"/"+multimediaFile);
+//                                List<byte[]> listOfChunks = Util.splitFileToChunks(loadFile(assetFileDescriptor), 1024*16);
+//                                int numOfChunks = listOfChunks.size();
+//                                ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
+//                                for (int i = 0; i < numOfChunks; i++){
+//                                    byte[] tempArr = listOfChunks.get(i);
+//                                    MultimediaFile tempFile = new MultimediaFile(multimediaFile, profileName, tempArr.length, tempArr);
+//                                    tempFile.setDateCreated(dateSend);
+//                                    listOfMultimediaFiles.add(tempFile);
+//                                }
+//                                tempMessage.setFiles(listOfMultimediaFiles);
+//                                tempQueue.add(tempMessage);
+//                            }
+//                            else{
+//                                tempMessage.setMessage(message);
+//                                tempQueue.add(tempMessage);
+//                            }
+//                        }
+//                        conversations.put(topic,tempQueue);
+//                    }
+//                }
+//            }
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (br != null) {
+//                try {
+//                    br.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return conversations;
+//    }
 
     @Override
     public ArrayList<String> getUsers(){
@@ -244,41 +237,37 @@ public class LogInModel extends AppCompatActivity implements LogInView{
         this.conversations= conv;
     }
 
-    public byte[] loadFile(AssetFileDescriptor assetFileDescriptor){
-        byte[] fileData = new byte[(int) assetFileDescriptor.getLength()];
-        try {
-            FileInputStream fis = assetFileDescriptor.createInputStream();
-            fis.read(fileData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return fileData;
-    }
+//    public byte[] loadFile(AssetFileDescriptor assetFileDescriptor){
+//        byte[] fileData = new byte[(int) assetFileDescriptor.getLength()];
+//        try {
+//            FileInputStream fis = assetFileDescriptor.createInputStream();
+//            fis.read(fileData);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return fileData;
+//    }
 
-    private class LogInAsyncTask extends AsyncTask<String, String, Integer> {
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            String name = params[0];
-
-            usernode.init();
-            usernode.communicateWithBroker(name);
-            Log.d("usernode", usernode.getConversation().get("katanemimena").peek().getMessage());
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-        }
-
-
-    }
+//    private class LogInAsyncTask extends AsyncTask<String, String, Integer> {
+//
+//        @Override
+//        protected Integer doInBackground(String... params) {
+//            String name = params[0];
+//            usernode.init();
+//            usernode.communicateWithBroker(name);
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Integer integer) {
+//            super.onPostExecute(integer);
+//        }
+//
+//
+//    }
 }
