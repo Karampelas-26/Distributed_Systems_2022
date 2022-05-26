@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserNode extends Thread implements Serializable {
@@ -31,7 +34,7 @@ public class UserNode extends Thread implements Serializable {
         this.conversation = new HashMap<>();
     }
 
-    public UserNode(){
+    UserNode(){
         this.topicWithBrokers = new HashMap<>();
         this.conversation = new HashMap<>();
     }
@@ -94,8 +97,7 @@ public class UserNode extends Thread implements Serializable {
     public Socket init() {
 
         try {
-            System.err.println("init the USERNODE");
-            requestSocket = new Socket(this.getIp(),this.getPort());
+            requestSocket = new Socket(InetAddress.getByName(this.getIp()),this.getPort());
             out= new ObjectOutputStream(requestSocket.getOutputStream());
             in= new ObjectInputStream(requestSocket.getInputStream());
         } catch (IOException e) {
@@ -222,7 +224,7 @@ public class UserNode extends Thread implements Serializable {
 //                                "\t1. Send video!\n" +
 //                                "\t2. Send image!\n" +
 //                                "\t3. Send text!\n" +
-//                                "\t4. Read conversation!\n");
+//                                "\t4. Open conversation!\n");
 //                int options = scanner.nextInt();
 //                scanner.nextLine();
 //                switch (options) {
@@ -249,7 +251,8 @@ public class UserNode extends Thread implements Serializable {
 //                        consumer.showConversationData(displayTopic);
 //                        LinkedList<Message> conversation = (LinkedList<Message>) userNode.getConversation().get(displayTopic);
 //                        SimpleDateFormat myFormatObj = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//                        for(int i = 0; i < conversation.size(); i++){
+//                        int conversationSize = conversation.size();
+//                        for(int i = 0; i < conversationSize; i++){
 //                            Message tempMessage = conversation.get(i);
 //                            String strMessage = tempMessage.getMessage();
 //                            if(tempMessage.getMessage() == null){
@@ -262,7 +265,37 @@ public class UserNode extends Thread implements Serializable {
 //                                    "Date: " + date + "\n" +
 //                                    "-------------------------------------------------------------------------------------------------------------------------------------------------------------"                            );
 //                        }
-//                        break;
+//
+//
+//                        //while loop for live messages
+//                        while(true){
+//                            consumer.showConversationData(displayTopic);
+//                            conversation = (LinkedList<Message>) userNode.getConversation().get(displayTopic);
+//                            int differenceSize = conversation.size() - conversationSize;
+//                            if(differenceSize > 0) {
+//
+//                                //typwnoume ta teleutaia mhnumata
+//                                for(int i = 0; i < differenceSize; i++){
+//                                    Message tempMessage = conversation.get(conversationSize + i);
+//                                    String strMessage = tempMessage.getMessage();
+//                                    if(tempMessage.getMessage() == null){
+//                                        strMessage = tempMessage.getFiles().get(0).getMultimediaFileName();
+//                                    }
+//                                    System.out.println(tempMessage.getName().getProfileName());
+//                                    String date = myFormatObj.format(tempMessage.getDate());
+//                                    System.out.println("Name: " + tempMessage.getName().getProfileName() + "\n" +
+//                                            "Message: " + strMessage + "\n" +
+//                                            "Date: " + date + "\n" +
+//                                            "-------------------------------------------------------------------------------------------------------------------------------------------------------------"                            );
+//                                }
+//
+//                                conversationSize = conversation.size();//ananewnoume to prohgoumeno conversationSize
+//
+//                            }
+//
+//
+//
+//                        }
 //                    default:
 //                        System.out.println("Invalid action, please input a valid number!");
 //                        break;

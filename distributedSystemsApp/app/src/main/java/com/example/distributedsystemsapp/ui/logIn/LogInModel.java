@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -65,24 +66,53 @@ public class LogInModel extends AppCompatActivity implements LogInView{
 
         presenter = new LogInPresenter(this);
 
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
 
         buttonLogIn = (Button) findViewById(R.id.logInBttn);
+//        buttonLogIn.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//                String name= presenter.onLogIn();
+//                if(!name.equals(" ")){
+//                    setConversations(initConversations(name));
+//                    usernode = new UserNode("192.168.56.1",5000);
+//                    usernode.setConversation(conversations);
+//                    usernode.init();
+//                    usernode.communicateWithBroker(name);
+//                    Intent intent = new Intent(LogInModel.this, HomepageModel.class);
+//                    intent.putExtra("username",name);
+//                    intent.putExtra("usernode", usernode);
+//                    startActivity(intent);
+//                }
+//                else{
+//                    Toast.makeText(getApplicationContext(),"Invalid username. Please input a valid username!",Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         buttonLogIn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                Log.d("usernode", "i m here!");
                 String name= presenter.onLogIn();
                 if(!name.equals(" ")){
+
                     setConversations(initConversations(name));
-                    usernode = new UserNode("10.1.22.83",5000);
+                    usernode = new UserNode("192.168.56.1",5000);
                     usernode.setConversation(conversations);
-                    usernode.init();
-                    usernode.communicateWithBroker(name);
+
+                    LogInAsyncTask logInAsyncTask = new LogInAsyncTask();
+                    logInAsyncTask.execute(name);
+                    Log.d("usernode", usernode.getConversation().get("katanemimena").peek().getMessage());
                     Intent intent = new Intent(LogInModel.this, HomepageModel.class);
                     intent.putExtra("username",name);
                     intent.putExtra("usernode", usernode);
@@ -223,5 +253,32 @@ public class LogInModel extends AppCompatActivity implements LogInView{
             e.printStackTrace();
         }
         return fileData;
+    }
+
+    private class LogInAsyncTask extends AsyncTask<String, String, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            String name = params[0];
+
+            usernode.init();
+            usernode.communicateWithBroker(name);
+            Log.d("usernode", usernode.getConversation().get("katanemimena").peek().getMessage());
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+        }
+
+
     }
 }

@@ -1,19 +1,12 @@
 package com.example.distributedsystemsapp.domain;
 
-import android.content.res.AssetManager;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
 import org.javatuples.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -292,6 +285,27 @@ public final class Util {
         return result;
     }
 
+    public static String[] initUserNode(int user){
+
+        try {
+            File file = new File(USERNODE_CONF_PATH);
+            Scanner line = new Scanner(file);
+            while (line.hasNextLine()) {
+                String data = line.nextLine();
+                int charZero = Integer.parseInt(String.valueOf(data.charAt(0)));
+                if(charZero == user){
+                    String[] strArr = data.split(",");
+                    return strArr;
+                }
+            }
+            line.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static HashMap<String, ArrayList<String>> getUsersAtTopic(){
         HashMap<String, ArrayList<String>> userAtTopic = new HashMap<>();
         try{
@@ -311,5 +325,4 @@ public final class Util {
         }
         return userAtTopic;
     }
-
 }
