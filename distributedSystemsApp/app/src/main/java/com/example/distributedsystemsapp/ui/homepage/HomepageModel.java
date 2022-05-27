@@ -23,6 +23,7 @@ import com.example.distributedsystemsapp.domain.ProfileName;
 import com.example.distributedsystemsapp.domain.UserNode;
 import com.example.distributedsystemsapp.domain.Util;
 import com.example.distributedsystemsapp.ui.conversation.ConversationModel;
+import com.example.distributedsystemsapp.ui.services.ConnectionService;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -43,37 +44,33 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
     private final String logMessage= "usernode";
     ListView listView;
 
+    private final String HOMEPAGE = "homepageServices";
     UserNode usernode;
     String username;
     HashMap<String, Queue<Message>> conversations;
+
+    ConnectionService service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
-        ArrayList<String> arrayList = new ArrayList<>();
+
 
         Bundle bundle = getIntent().getExtras();
-
-        usernode = (UserNode) getIntent().getSerializableExtra("usernode");
+//
         username = bundle.getString("username");
 
-        conversations = initConversations(username);
+        ((ConnectionService) this.getApplication()).setName(username);
 
-        usernode = new UserNode("192.168.56.1",5000);
-        usernode.setConversation(conversations);
+        ((ConnectionService) this.getApplication()).connect();
+//
+        Log.d(HOMEPAGE, "i got extra from log in");
 
-        Log.d("usernode", "mpika ");
+        ArrayList<String> arrayList = ((ConnectionService) this.getApplication()).getTopicOfUser();
 
-        LogInAsyncTask logInAsyncTask = new LogInAsyncTask();
-        logInAsyncTask.execute(username);
+        Log.d(HOMEPAGE, "onCreate: " + arrayList.toString());
 
-        Log.d("usernode", "async done");
-
-        for(Map.Entry<String, Queue<Message>> topic: usernode.getConversation().entrySet()) {
-            Log.d(logMessage, topic.getKey());
-            arrayList.add(topic.getKey());
-        }
 
         listView = (ListView) findViewById(R.id.listViewAllConversations);
         Log.d(logMessage, "listview");
@@ -87,6 +84,7 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
 
                 Intent intent = new Intent(HomepageModel.this, ConversationModel.class);
                 intent.putExtra("topic",arrayList.get(i));
+                Log.d(logMessage, "prospathw na mpw");
                 startActivity(intent);
             }
         });
@@ -112,85 +110,6 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
             super.onPostExecute(integer);
         }
 
-    }
-
-    public HashMap<String, Queue<Message>> initConversations(String name){
-        HashMap<String, Queue<Message>> conversations = new HashMap<>();
-        BufferedReader br = null;
-        try {
-            br= new BufferedReader(
-                    new InputStreamReader(getAssets().open("data/usernode/userConf.txt"), "UTF-8"));
-            String line;
-            //gia na broume ton xristi
-            while( (line = br.readLine()) != null){
-                Queue<Message> tempQueue = new LinkedList<>();
-                String[] dataFromLine = line.split(",");
-                if(dataFromLine[1].equals(name)){
-                    //gia kathe topic
-                    for(int j = 2; j < dataFromLine.length; j++){
-                        String topic = dataFromLine[j];
-                        BufferedReader reader = new BufferedReader(
-                                new InputStreamReader(getAssets().open("data/usernode/"+name+"/"+topic+".txt")));
-                        String tempLine;
-                        //diabazoume sunomilia
-                        while( (tempLine = reader.readLine())!= null){
-                            String[] messages = tempLine.split("#");
-                            String profileName=messages[1],message=messages[2], date=messages[3];
-                            ProfileName userName = new ProfileName(profileName);
-                            Message tempMessage = new Message();
-                            Date dateSend = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-                            tempMessage.setDate(dateSend);
-                            tempMessage.setName(userName);
-
-                            if(message.charAt(0)=='$'){
-                                String multimediaFile = message.substring(1);
-                                System.err.println("LOOK AT HERE");
-                                System.err.println(multimediaFile);
-                                AssetFileDescriptor assetFileDescriptor = getAssets().openFd("data/usernode/"+name+"/"+multimediaFile);
-                                List<byte[]> listOfChunks = Util.splitFileToChunks(loadFile(assetFileDescriptor), 1024*16);
-                                int numOfChunks = listOfChunks.size();
-                                ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
-                                for (int i = 0; i < numOfChunks; i++){
-                                    byte[] tempArr = listOfChunks.get(i);
-                                    MultimediaFile tempFile = new MultimediaFile(multimediaFile, profileName, tempArr.length, tempArr);
-                                    tempFile.setDateCreated(dateSend);
-                                    listOfMultimediaFiles.add(tempFile);
-                                }
-                                tempMessage.setFiles(listOfMultimediaFiles);
-                                tempQueue.add(tempMessage);
-                            }
-                            else{
-                                tempMessage.setMessage(message);
-                                tempQueue.add(tempMessage);
-                            }
-                        }
-                        conversations.put(topic,tempQueue);
-                    }
-                }
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return conversations;
-    }
-
-    public byte[] loadFile(AssetFileDescriptor assetFileDescriptor){
-        byte[] fileData = new byte[(int) assetFileDescriptor.getLength()];
-        try {
-            FileInputStream fis = assetFileDescriptor.createInputStream();
-            fis.read(fileData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return fileData;
     }
 
 }

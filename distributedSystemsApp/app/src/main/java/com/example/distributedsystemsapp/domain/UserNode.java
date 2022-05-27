@@ -77,6 +77,10 @@ public class UserNode extends Thread implements Serializable {
         return ll.getLast().getDate();
     }
 
+    public boolean isSocketAlive(){
+        return requestSocket.isConnected();
+    }
+
     public void communicateWithBroker(String name){
         try{
             out.writeUTF("userNode");

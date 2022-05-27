@@ -66,11 +66,16 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "message='" + message + '\'' +
-                ", name=" + name +
-                ", files=" + files +
-                ", date=" + date +
-                '}';
+
+        if(files == null){
+            return "Name: " + this.name + "\n" +
+                    "Message: " + this.message + "\n" +
+                    "Date: " + this.date + "\n";
+        }
+        else {
+            return "Name: " + this.name + "\n" +
+                    "Message: " + this.files.get(0).getMultimediaFileName() + "\n" +
+                    "Date: " + this.date + "\n";
+        }
     }
 }

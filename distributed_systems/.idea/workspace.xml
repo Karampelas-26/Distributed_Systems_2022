@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="bind ip address on server">
+      <change afterPath="$PROJECT_DIR$/../distributedSystemsApp/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/conversation/ConversationModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/conversation/ConversationModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/homepage/HomepageModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/homepage/HomepageModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/logIn/LogInModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/logIn/LogInModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/res/layout/conversation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/res/layout/conversation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +51,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/data/usernode/marios" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
