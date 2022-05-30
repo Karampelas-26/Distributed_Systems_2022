@@ -1,15 +1,12 @@
 package com.example.distributedsystemsapp.ui.conversation;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,18 +45,7 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
         ((ConnectionService) this.getApplication()).getUserNode().checkBroker(topic);
 
-//        Queue<Message> selectedConversation = ((ConnectionService) this.getApplication()).getConversation(topic);
-
-        Log.d("usernode", "ksanampika");
-
-//        Log.d("messages", "conv: " + selectedConversation.peek().getMessage());
-
-//        Log.d("usernode", "this is usernode name: " + ((ConnectionService) this.getApplication()).isConnected());
-
-
         messages = ((ConnectionService) this.getApplication()).getTopicMessages(topic);
-
-        Log.d("messages", "onCreate: " + messages.size());
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messages);
 
@@ -88,15 +74,10 @@ public class ConversationModel extends AppCompatActivity implements Conversation
             @Override
             public void onClick(View view) {
 
-                Log.d("newMessages", "onClick: ");
-//                checkForMessages();
-                ReadMessagesFromServerAsync r = new ReadMessagesFromServerAsync();
-                r.execute();
+                checkForMessages();
+
             }
         });
-
-
-
 
     }
 
@@ -106,52 +87,19 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
     private void checkForMessages(){
         int difference = ((ConnectionService) this.getApplication()).showConversation(topic);
-        Log.d("newMessages", "checkForMessages: " +  difference);
 
         if (difference > 0) {
 
             ArrayList<String> newMessages = ((ConnectionService) this.getApplication()).getLastMessages(topic, difference);
-            Log.d("newMessages", "checkForMessages: " + newMessages) ;
             adapter.addAll(newMessages);
         }
 
     }
 
-
-
-
     @Override
     protected void onStart() {
         super.onStart();
 
-
-//        while(((ConnectionService) this.getApplication()).isConnected()){
-//            Log.d("xontreeeeee", "edw pathainw chocho");
-//
-//
-//            int difference = ((ConnectionService) this.getApplication()).showConversation(topic);
-//
-//            if (difference > 0) {
-//
-//                ArrayList<String> newMessages = ((ConnectionService) this.getApplication()).getLastMessages(topic, difference);
-//                adapter.addAll(newMessages);
-//            }
-//
-//
-//        }
-
-    }
-
-    private class ReadMessagesFromServerAsync extends AsyncTask {
-
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-
-            checkForMessages();
-
-            return null;
-        }
     }
 
 }

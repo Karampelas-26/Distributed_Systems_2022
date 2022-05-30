@@ -67,12 +67,10 @@ public class Message implements Serializable {
     }
 
     private void readObject(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException {
-        System.err.println("i m in readObject");
         objectInputStream.defaultReadObject();
     }
 
     private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
-        System.err.println("i m in writeObject");
         objectOutputStream.defaultWriteObject();
     }
 

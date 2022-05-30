@@ -1,15 +1,8 @@
 package com.example.distributedsystemsapp.ui.services;
 
 import android.app.Application;
-import android.app.Service;
-import android.content.Entity;
-import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
-import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import com.example.distributedsystemsapp.domain.Consumer;
 import com.example.distributedsystemsapp.domain.ConsumerImp;
@@ -25,7 +18,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +25,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 public class ConnectionService extends Application {
@@ -49,7 +40,6 @@ public class ConnectionService extends Application {
 
 
     public void connect(){
-        Log.d(SERVICES, "i got in connectionService");
 
         userNode = new UserNode("192.168.56.1",5000);
         userNode.setConversation(initConversations(this.name));
@@ -66,7 +56,6 @@ public class ConnectionService extends Application {
 
         for(String topic: conversations.keySet()){
             arrayList.add(topic);
-            Log.d(SERVICES, "getTopicOfUser: " + topic);
         }
 
         return arrayList;
@@ -79,36 +68,32 @@ public class ConnectionService extends Application {
 
     public int showConversation(String topic){
         int previousSIze = userNode.getConversation().get(topic).size();
-        Log.d("gamathhh", "previoussizeofconv: " +     previousSIze);
         consumer.showConversationData(topic);
-        Log.d("gamathhh", "i create consumer");
-        Log.d("gamathhh", "showConversation: " + userNode.getConversation().get(topic));
         int currentSize = userNode.getConversation().get(topic).size();
-        Log.d("gamathhh", "differnce: " + (currentSize - previousSIze));
         return currentSize - previousSIze;
     }
 
     public ArrayList<String> getLastMessages(String topic, int lastMessages){
-
         ArrayList<String> messages = new ArrayList<>();
 
         LinkedList<Message> currentConversation = (LinkedList<Message>) userNode.getConversation().get(topic);
 
         SimpleDateFormat myFormatObj = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        for(int i = 0; i < lastMessages; i++){
-            Message tempMessage = currentConversation.get(currentConversation.size() + i);
-            String strMessage = tempMessage.getMessage();
-            if(tempMessage.getMessage() == null){
-                strMessage = tempMessage.getFiles().get(0).getMultimediaFileName();
-            }
-            System.out.println(tempMessage.getName().getProfileName());
-            String date = myFormatObj.format(tempMessage.getDate());
-            System.out.println("Name: " + tempMessage.getName().getProfileName() + "\n" +
-                    "Message: " + strMessage + "\n" +
-                    "Date: " + date + "\n" +
-                    "-------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        }
 
+        for(int i = 0; i < lastMessages; i++){
+            Message tempMessage = currentConversation.get(currentConversation.size() - (lastMessages-i));
+            String strMessage = "Name: " + tempMessage.getName().getProfileName() + "\n" +
+                    "Message: " + tempMessage.getMessage() + "\n" +
+                    "Date: " + tempMessage.getDate();
+            if(tempMessage.getMessage() == null){
+                strMessage = "Name: " + tempMessage.getName().getProfileName() + "\n" +
+                        "Message: " + tempMessage.getFiles().get(0).getMultimediaFileName() + "\n" +
+                        "Date: " + tempMessage.getDate();
+            }
+
+        messages.add(strMessage);
+
+        }
         return messages;
 
     }
@@ -123,8 +108,6 @@ public class ConnectionService extends Application {
 
         ArrayList<String> messages = new ArrayList<>();
 
-        Log.d("thisistopic", "topic is: " + topic);
-
         Queue<Message> conversation = new LinkedList<>(userNode.getConversation().get(topic));
 
 
@@ -134,21 +117,17 @@ public class ConnectionService extends Application {
 
             String strMessage = "";
             if(tmpMessage.getFiles() == null){
-                Log.d("conv", "this is str message");
 
                 strMessage = "Name: " + tmpMessage.getName().getProfileName() + "\n" +
                         "Message: " + tmpMessage.getMessage() + "\n" +
                         "Date: " + tmpMessage.getDate();
             }
             else {
-                Log.d("conv", "this is file message");
                 strMessage = "Name: " + tmpMessage.getName().getProfileName() + "\n" +
                         "Message: " + tmpMessage.getFiles().get(0).getMultimediaFileName() + "\n" +
                         "Date: " + tmpMessage.getDate();
             }
 
-            Log.d("readmessages", "getTopicMessages: " + strMessage);
-            Log.d("topicAndMessage", "Topic: " + topic + "\n" + strMessage);
             messages.add(strMessage);
         }
 
