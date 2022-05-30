@@ -1,11 +1,13 @@
-package distributedSystems;
+package com.example.distributedsystemsapp.domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.io.*;
 import java.util.Date;
 import java.util.List;
+import java.lang.ClassNotFoundException;
 
 public class Message implements Serializable {
+
+//    private static final long serialVersionUID = 7526471155622776147L;
 
     private String message;
     private ProfileName name;
@@ -63,6 +65,17 @@ public class Message implements Serializable {
     public void setFiles(List<MultimediaFile> files) {
         this.files = files;
     }
+
+    private void readObject(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException {
+        System.err.println("i m in readObject");
+        objectInputStream.defaultReadObject();
+    }
+
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        System.err.println("i m in writeObject");
+        objectOutputStream.defaultWriteObject();
+    }
+
 
     @Override
     public String toString() {

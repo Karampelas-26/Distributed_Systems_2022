@@ -2,4 +2,6 @@
     <string name="app_name">Distributed Systems App</string>
     <string name="name">Name</string>
     <string name="log_in">Log In Credentials</string>
+    <string name="send_photo_video">Media</string>
+    <string name="send_message">Send</string>
 </resources>

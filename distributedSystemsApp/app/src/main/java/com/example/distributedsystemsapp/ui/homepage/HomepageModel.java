@@ -64,6 +64,9 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
         ((ConnectionService) this.getApplication()).setName(username);
 
         ((ConnectionService) this.getApplication()).connect();
+
+//        LogInAsyncTask login = new LogInAsyncTask();
+//        login.execute();
 //
         Log.d(HOMEPAGE, "i got extra from log in");
 
@@ -90,13 +93,15 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
         });
     }
 
+    protected void connect(){
+        ((ConnectionService) this.getApplication()).connect();
+    }
+
     private class LogInAsyncTask extends AsyncTask<String, String, Integer> {
 
         @Override
         protected Integer doInBackground(String... params) {
-            String name = params[0];
-            usernode.init();
-            usernode.communicateWithBroker(name);
+            connect();
             return null;
         }
 

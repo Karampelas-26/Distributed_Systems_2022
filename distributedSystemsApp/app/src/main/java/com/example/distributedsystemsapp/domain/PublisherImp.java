@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.ClassNotFoundException;
 
 public class PublisherImp extends UserNode implements Publisher, Serializable {
 
@@ -11,7 +12,7 @@ public class PublisherImp extends UserNode implements Publisher, Serializable {
     private UserNode userNode;
 
     PublisherImp(){}
-    PublisherImp(UserNode userNode, ProfileName profileName){
+    public PublisherImp(UserNode userNode, ProfileName profileName){
         this.profileName=profileName;
         this.userNode = userNode;
     }

@@ -2,16 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="bind ip address on server">
-      <change afterPath="$PROJECT_DIR$/../distributedSystemsApp/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/assets/data/usernode/marios/katanemimena.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/assets/data/usernode/marios/katanemimena.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/ConsumerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/ConsumerImp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/PublisherImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/domain/PublisherImp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/conversation/ConversationModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/conversation/ConversationModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/homepage/HomepageModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/homepage/HomepageModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/logIn/LogInModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/logIn/LogInModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/services/ConnectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/services/ConnectionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/res/layout/conversation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/res/layout/conversation.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/res/values/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ActionsForClients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/ActionsForClients.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/Broker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/BrokerImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ConsumerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/ConsumerImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/MultimediaFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/MultimediaFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/ProfileName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/ProfileName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/Publisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/PublisherImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/PublisherImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/UserNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/UserNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/distributedSystems/distributedSystems.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/distributedSystems.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +65,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../anaptuksi_efarmogwn/towards-green/TowardsGreen" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -65,14 +79,15 @@
       <recent name="C:\Users\anton\Desktop\ergasia katanemimena\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anton\Desktop\ergasia katanemimena\Distributed_Systems_2022\distributed_systems\src\com\example\distributedsystemsapp\domain" />
       <recent name="C:\Users\anton\Desktop\ergasia katanemimena\Distributed_Systems_2022\distributed_systems\data\broker\conversations" />
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\usernode\antonis" />
       <recent name="C:\Users\georg\Karampelas\aueb\8th_semester\distributed_systems\Distributed_Systems_2022\distributed_systems\data\broker" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Broker3">
+  <component name="RunManager" selected="Application.UserGeorge">
     <configuration name="Broker2" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
+      <option name="MAIN_CLASS_NAME" value="com.example.distributedsystemsapp.domain.BrokerImp" />
       <module name="distributed_systems" />
       <option name="PROGRAM_PARAMETERS" value="2" />
       <method v="2">
@@ -80,7 +95,7 @@
       </method>
     </configuration>
     <configuration name="Broker3" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
+      <option name="MAIN_CLASS_NAME" value="com.example.distributedsystemsapp.domain.BrokerImp" />
       <module name="distributed_systems" />
       <option name="PROGRAM_PARAMETERS" value="3" />
       <method v="2">
@@ -88,12 +103,12 @@
       </method>
     </configuration>
     <configuration name="BrokerImp1" type="Application" factoryName="Application" singleton="false" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="distributedSystems.BrokerImp" />
+      <option name="MAIN_CLASS_NAME" value="com.example.distributedsystemsapp.domain.BrokerImp" />
       <module name="distributed_systems" />
       <option name="PROGRAM_PARAMETERS" value="1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="distributedSystems.*" />
+          <option name="PATTERN" value="com.example.distributedsystemsapp.domain.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -102,7 +117,7 @@
       </method>
     </configuration>
     <configuration name="UserGeorge" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="distributedSystems.UserNode" />
+      <option name="MAIN_CLASS_NAME" value="com.example.distributedsystemsapp.domain.UserNode" />
       <module name="distributed_systems" />
       <option name="PROGRAM_PARAMETERS" value="2" />
       <method v="2">
@@ -110,7 +125,7 @@
       </method>
     </configuration>
     <configuration name="UserMarios" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="distributedSystems.UserNode" />
+      <option name="MAIN_CLASS_NAME" value="com.example.distributedsystemsapp.domain.UserNode" />
       <module name="distributed_systems" />
       <option name="PROGRAM_PARAMETERS" value="3" />
       <method v="2">
@@ -118,12 +133,12 @@
       </method>
     </configuration>
     <configuration name="UserNodeAntonis" type="Application" factoryName="Application" singleton="false" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="distributedSystems.UserNode" />
+      <option name="MAIN_CLASS_NAME" value="com.example.distributedsystemsapp.domain.UserNode" />
       <module name="distributed_systems" />
       <option name="PROGRAM_PARAMETERS" value="1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="distributedSystems.*" />
+          <option name="PATTERN" value="com.example.distributedsystemsapp.domain.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>

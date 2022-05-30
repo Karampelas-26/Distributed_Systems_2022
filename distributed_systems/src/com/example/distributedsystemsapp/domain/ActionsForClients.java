@@ -1,9 +1,11 @@
-package distributedSystems;
+package com.example.distributedsystemsapp.domain;
+
 
 import org.javatuples.Pair;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.lang.ClassNotFoundException;
 
 public class ActionsForClients extends BrokerImp implements Runnable {
     ObjectInputStream in;
@@ -34,6 +36,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                     Queue<Message> conversation;
                     if (stateOfConversation.equals("all")) {
                         conversation = new LinkedList<>(broker.getConversations().get(topic));
+                        System.out.println("all");
                     } else {
                         Date lastMessageDate = (Date) in.readObject();
                         LinkedList<Message> tempList = new LinkedList<>(broker.getConversations().get(topic));
@@ -47,6 +50,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                         System.out.println("User asked to read conversation: " + topic + " and he has unread messages: " + conversation.size());
                     }
                     int sizeOfQueue = conversation.size();
+                    System.err.println("Queue size: " + sizeOfQueue);
                     out.writeInt(sizeOfQueue);
                     out.flush();
                     for (int i = 0; i < sizeOfQueue; i++) {
@@ -67,8 +71,11 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                         } else {
                             out.writeUTF("s");
                             out.flush();
+                            System.err.println("Send message: " + message);
                             out.writeObject(message);
                             out.flush();
+                            System.err.println("Send message: " + message);
+
                         }
                     }
                 }

@@ -11,9 +11,13 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.distributedsystemsapp.domain.Consumer;
+import com.example.distributedsystemsapp.domain.ConsumerImp;
 import com.example.distributedsystemsapp.domain.Message;
 import com.example.distributedsystemsapp.domain.MultimediaFile;
 import com.example.distributedsystemsapp.domain.ProfileName;
+import com.example.distributedsystemsapp.domain.Publisher;
+import com.example.distributedsystemsapp.domain.PublisherImp;
 import com.example.distributedsystemsapp.domain.UserNode;
 import com.example.distributedsystemsapp.domain.Util;
 
@@ -34,10 +38,15 @@ import java.util.Queue;
 
 public class ConnectionService extends Application {
 
-    UserNode userNode;
-    String name;
     private final String SERVICES = "connectionService";
     private final String READCONV = "readconversationsfromfiles";
+
+    UserNode userNode;
+    String name;
+    Consumer consumer;
+    Publisher publisher;
+
+
 
     public void connect(){
         Log.d(SERVICES, "i got in connectionService");
@@ -46,6 +55,8 @@ public class ConnectionService extends Application {
         userNode.setConversation(initConversations(this.name));
         userNode.init();
         userNode.communicateWithBroker(this.name);
+        consumer = new ConsumerImp(userNode, new ProfileName(name));
+        publisher = new PublisherImp(userNode, new ProfileName(name));
     }
 
     public ArrayList<String> getTopicOfUser(){
@@ -66,7 +77,44 @@ public class ConnectionService extends Application {
     }
 
 
-    public boolean isCon(){
+    public int showConversation(String topic){
+        int previousSIze = userNode.getConversation().get(topic).size();
+        Log.d("gamathhh", "previoussizeofconv: " +     previousSIze);
+        consumer.showConversationData(topic);
+        Log.d("gamathhh", "i create consumer");
+        Log.d("gamathhh", "showConversation: " + userNode.getConversation().get(topic));
+        int currentSize = userNode.getConversation().get(topic).size();
+        Log.d("gamathhh", "differnce: " + (currentSize - previousSIze));
+        return currentSize - previousSIze;
+    }
+
+    public ArrayList<String> getLastMessages(String topic, int lastMessages){
+
+        ArrayList<String> messages = new ArrayList<>();
+
+        LinkedList<Message> currentConversation = (LinkedList<Message>) userNode.getConversation().get(topic);
+
+        SimpleDateFormat myFormatObj = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        for(int i = 0; i < lastMessages; i++){
+            Message tempMessage = currentConversation.get(currentConversation.size() + i);
+            String strMessage = tempMessage.getMessage();
+            if(tempMessage.getMessage() == null){
+                strMessage = tempMessage.getFiles().get(0).getMultimediaFileName();
+            }
+            System.out.println(tempMessage.getName().getProfileName());
+            String date = myFormatObj.format(tempMessage.getDate());
+            System.out.println("Name: " + tempMessage.getName().getProfileName() + "\n" +
+                    "Message: " + strMessage + "\n" +
+                    "Date: " + date + "\n" +
+                    "-------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
+
+        return messages;
+
+    }
+
+
+    public boolean isConnected(){
         return userNode.isSocketAlive();
     }
 
@@ -77,7 +125,7 @@ public class ConnectionService extends Application {
 
         Log.d("thisistopic", "topic is: " + topic);
 
-        Queue<Message> conversation = userNode.getConversation().get(topic);
+        Queue<Message> conversation = new LinkedList<>(userNode.getConversation().get(topic));
 
 
         while (!conversation.isEmpty()){
@@ -113,6 +161,30 @@ public class ConnectionService extends Application {
 
     public String getName(){
         return this.name;
+    }
+
+    public UserNode getUserNode() {
+        return userNode;
+    }
+
+    public void setUserNode(UserNode userNode) {
+        this.userNode = userNode;
+    }
+
+    public Consumer getConsumer() {
+        return consumer;
+    }
+
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public HashMap<String, Queue<Message>> initConversations(String name){

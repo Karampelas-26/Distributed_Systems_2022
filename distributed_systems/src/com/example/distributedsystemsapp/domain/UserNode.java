@@ -1,4 +1,4 @@
-package distributedSystems;
+package com.example.distributedsystemsapp.domain;
 
 import org.javatuples.Pair;
 
@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserNode extends Thread{

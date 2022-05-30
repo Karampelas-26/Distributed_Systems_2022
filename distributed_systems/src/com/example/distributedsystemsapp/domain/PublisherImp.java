@@ -1,4 +1,4 @@
-package distributedSystems;
+package com.example.distributedsystemsapp.domain;
 
 import java.io.IOException;
 import java.io.Serializable;

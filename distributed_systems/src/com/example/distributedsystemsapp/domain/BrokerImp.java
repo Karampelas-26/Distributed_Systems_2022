@@ -1,16 +1,15 @@
-package distributedSystems;
+package com.example.distributedsystemsapp.domain;
 
 import org.javatuples.Pair;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 
-public class BrokerImp implements Broker{
+public class BrokerImp implements Broker {
 
     private HashMap<String, Integer> brokerIps= new HashMap<>(); //list with all brokers
     /* Define the socket that receives requests */

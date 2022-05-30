@@ -1,4 +1,4 @@
-package distributedSystems;
+package com.example.distributedsystemsapp.domain;
 
 import org.javatuples.Pair;
 
