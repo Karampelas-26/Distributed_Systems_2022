@@ -41,7 +41,7 @@ public class ConnectionService extends Application {
 
     public void connect(){
 
-        userNode = new UserNode("192.168.56.1",5000);
+        userNode = new UserNode("192.168.56.1",5001);
         userNode.setConversation(initConversations(this.name));
         userNode.init();
         userNode.communicateWithBroker(this.name);
@@ -107,7 +107,9 @@ public class ConnectionService extends Application {
 
 
         ArrayList<String> messages = new ArrayList<>();
-
+//        if(userNode.getConversation().get(topic).isEmpty()){
+//            consumer.showConversationData(topic);
+//        }
         Queue<Message> conversation = new LinkedList<>(userNode.getConversation().get(topic));
 
 

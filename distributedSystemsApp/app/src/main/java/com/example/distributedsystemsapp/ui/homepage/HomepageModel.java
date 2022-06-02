@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,11 +46,14 @@ import java.util.Queue;
 public class HomepageModel extends AppCompatActivity implements HomepageView {
     private final String logMessage= "usernode";
     ListView listView;
+    Button btnRegister;
+    EditText topicToRegister;
 
     private final String HOMEPAGE = "homepageServices";
     UserNode usernode;
     String username;
     HashMap<String, Queue<Message>> conversations;
+    ArrayList<String> arrayList;
 
     ConnectionService service;
 
@@ -56,27 +62,22 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
 
+        topicToRegister = findViewById(R.id.topicRegistration);
 
         Bundle bundle = getIntent().getExtras();
-//
+
         username = bundle.getString("username");
 
         ((ConnectionService) this.getApplication()).setName(username);
 
         ((ConnectionService) this.getApplication()).connect();
 
-//        LogInAsyncTask login = new LogInAsyncTask();
-//        login.execute();
-//
-        Log.d(HOMEPAGE, "i got extra from log in");
 
-        ArrayList<String> arrayList = ((ConnectionService) this.getApplication()).getTopicOfUser();
-
-        Log.d(HOMEPAGE, "onCreate: " + arrayList.toString());
+        arrayList = ((ConnectionService) this.getApplication()).getTopicOfUser();
 
 
         listView = (ListView) findViewById(R.id.listViewAllConversations);
-        Log.d(logMessage, "listview");
+
         ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayList);
 
         listView.setAdapter(adapter);
@@ -91,30 +92,36 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
                 startActivity(intent);
             }
         });
+
+        btnRegister = findViewById(R.id.btnRegisterAtTopic);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String topic = topicToRegister.getText().toString();
+                if(topic == null|| arrayList.contains(topic)){
+                    Toast.makeText(getApplicationContext(),"Please input a valid topic",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if(!topicExists(topic)){
+                        Toast.makeText(getApplicationContext(),"Topic doesnt exist!",Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        adapter.add(topic);
+                        communicate();
+
+                    }
+                }
+                topicToRegister.getText().clear();
+            }
+        });
     }
 
-    protected void connect(){
-        ((ConnectionService) this.getApplication()).connect();
+    public boolean topicExists(String topic){
+        return ((ConnectionService) this.getApplication()).getUserNode().registerUserAtTopic(topic,username);
     }
 
-    private class LogInAsyncTask extends AsyncTask<String, String, Integer> {
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            connect();
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-        }
-
+    public void communicate(){
+        ((ConnectionService) this.getApplication()).getUserNode().communicateWithBroker(username);
     }
 
 }

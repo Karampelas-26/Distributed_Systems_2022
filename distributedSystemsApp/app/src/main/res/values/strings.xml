@@ -4,4 +4,6 @@
     <string name="log_in">Log In Credentials</string>
     <string name="send_photo_video">Media</string>
     <string name="send_message">Send</string>
+    <string name="register_to_a_topic">Register to a topic!</string>
+    <string name="register">Register</string>
 </resources>

@@ -50,7 +50,7 @@ public class BrokerImp implements Broker {
                 int port = broker.getValue();
 
                 if(!(ip.equals(this.getIp()) && port==this.getPort())) {
-
+                    System.err.println(ip+" "+port);
                     socket = new Socket(ip, port);
                     out = new ObjectOutputStream(socket.getOutputStream());
                     in = new ObjectInputStream(socket.getInputStream());

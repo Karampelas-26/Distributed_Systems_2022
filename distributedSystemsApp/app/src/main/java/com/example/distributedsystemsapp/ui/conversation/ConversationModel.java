@@ -1,7 +1,9 @@
 package com.example.distributedsystemsapp.ui.conversation;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,6 +31,7 @@ public class ConversationModel extends AppCompatActivity implements Conversation
     EditText textField;
     ArrayList<String> messages;
     ArrayAdapter<String> adapter;
+    boolean mustStop= false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,8 +41,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
         StrictMode.setThreadPolicy(policy);
 
         setContentView(R.layout.conversation);
-
-
         Bundle bundle = getIntent().getExtras();
         topic = bundle.getString("topic");
 
@@ -58,7 +59,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
         listView.setAdapter(adapter);
 
-
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,29 +69,29 @@ public class ConversationModel extends AppCompatActivity implements Conversation
         });
 
 
-
         sendMediaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                checkForMessages();
-
             }
         });
 
+        loopInAnotherThread();
     }
 
-    private void sendMessage(String message){
+    private void sendMessage(String message) {
         ((ConnectionService) this.getApplication()).getPublisher().sendMessage(topic, message);
     }
 
-    private void checkForMessages(){
+    private void checkForMessages() {
         int difference = ((ConnectionService) this.getApplication()).showConversation(topic);
 
         if (difference > 0) {
 
             ArrayList<String> newMessages = ((ConnectionService) this.getApplication()).getLastMessages(topic, difference);
-            adapter.addAll(newMessages);
+            for (String message : newMessages) {
+                adapter.add(message);
+            }
         }
 
     }
@@ -102,4 +102,23 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
     }
 
+    private void loopInAnotherThread() {
+        new Thread() {
+            public void run() {
+                while (true) {
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                checkForMessages();
+                            }
+                        });
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+    }
 }

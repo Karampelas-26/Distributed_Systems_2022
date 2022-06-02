@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf6dc97-1744-4587-b253-f9439da2bce1" name="Default Changelist" comment="bind ip address on server">
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/conversation/ConversationModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/conversation/ConversationModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/services/ConnectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../distributedSystemsApp/app/src/main/java/com/example/distributedsystemsapp/ui/services/ConnectionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/broker/conf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/broker/conf.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/BrokerImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/distributedsystemsapp/domain/BrokerImp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
