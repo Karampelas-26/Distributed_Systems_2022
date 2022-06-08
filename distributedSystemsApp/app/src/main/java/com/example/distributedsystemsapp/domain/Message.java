@@ -15,6 +15,7 @@ public class Message implements Serializable {
     private Date date;
 
     public Message() {
+        this.date= new Date();
     }
 
     public Message(List<MultimediaFile> files){

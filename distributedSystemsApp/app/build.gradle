@@ -32,7 +32,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation files('C:\\Users\\anton\\Desktop\\ergasia katanemimena\\Distributed_Systems_2022\\distributed_systems\\lib\\javatuples-1.2.jar')
+    implementation group: 'org.javatuples', name: 'javatuples', version: '1.2'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

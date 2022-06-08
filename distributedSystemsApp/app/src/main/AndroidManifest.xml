@@ -2,8 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.distributedsystemsapp">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera"
+                    android:required="true"/>
+
+    <queries>
+        <package android:name="com.example.store" />
+        <package android:name="com.example.services" />
+    </queries>
+
     <application
         android:name=".ui.services.ConnectionService"
         android:allowBackup="true"
@@ -24,4 +34,5 @@
         <activity android:name=".ui.homepage.HomepageModel"/>
         <activity android:name=".ui.conversation.ConversationModel"/>
     </application>
+
 </manifest>

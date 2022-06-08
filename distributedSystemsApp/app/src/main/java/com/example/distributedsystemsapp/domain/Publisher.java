@@ -4,10 +4,9 @@ import java.util.ArrayList;
 
 public interface Publisher {
 
-    public ArrayList<MultimediaFile> generateChunks(String file);
+    public ArrayList<MultimediaFile> generateChunks(byte[] media, String typeOfMedia);
 
     void sendMessage(String topic, String message);
 
-    public void push(String str, String nameOfFile);
-
+    void push(String topic, byte[] media, String typeOfMedia);
 }

@@ -2,6 +2,7 @@ package com.example.distributedsystemsapp.domain;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class ConsumerImp extends UserNode implements Consumer {
@@ -76,7 +77,7 @@ public class ConsumerImp extends UserNode implements Consumer {
 
     private void createFile(MultimediaFile fileToCreate){
 
-        try (FileOutputStream fos = new FileOutputStream("data/usernode/"+this.profileName.getProfileName()+"/"+fileToCreate.getMultimediaFileName())) {
+        try (FileOutputStream fos = new FileOutputStream(Paths.get("data/usernode") + "/" + this.profileName.getProfileName()+"/"+fileToCreate.getMultimediaFileName())) {
             fos.write(fileToCreate.getMultimediaFileChunk());
         } catch (IOException e) {
             e.printStackTrace();
