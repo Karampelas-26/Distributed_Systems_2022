@@ -58,12 +58,10 @@ public class ConsumerImp extends UserNode implements Consumer {
             for(int i = 0; i < queueSize; i++){
                 String typeOfMessage = in.readUTF();
                 Log.d("inreading", typeOfMessage);
+
                 if(typeOfMessage.equals("s")){
-//                    Log.d("inreading", "showConversationData: im here bitchsh: " + in.available() );
                     Message message = (Message) in.readObject();
-//                    Log.d("inreading", "showConversationData: me too");
                     conversation.add(message);
-//                    Log.d("inreading", "showConversationData: prinnt " + message.getMessage());
                 }
                 else{
                     int numOfChunks = in.readInt();

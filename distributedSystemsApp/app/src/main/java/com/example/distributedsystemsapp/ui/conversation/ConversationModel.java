@@ -10,14 +10,18 @@ import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,18 +31,20 @@ import com.example.distributedsystemsapp.domain.Message;
 import com.example.distributedsystemsapp.domain.MultimediaFile;
 import com.example.distributedsystemsapp.domain.Publisher;
 import com.example.distributedsystemsapp.domain.UserNode;
+import com.example.distributedsystemsapp.ui.homepage.HomepageModel;
 import com.example.distributedsystemsapp.ui.services.ConnectionService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Queue;
+import java.util.zip.Inflater;
 
 public class ConversationModel extends AppCompatActivity implements ConversationView {
 
@@ -92,8 +98,9 @@ public class ConversationModel extends AppCompatActivity implements Conversation
             @Override
             public void onClick(View view) {
                 String message = textField.getText().toString();
-                sendMessage(message);
-                adapter.add(message);
+                if(message.trim().length()>0){
+                    sendMessage(message);
+                }
             }
         });
 
@@ -105,7 +112,44 @@ public class ConversationModel extends AppCompatActivity implements Conversation
             }
         });
 
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String res = typeOfMessage(i);
+
+                if(res.equals("v")){
+                    showAlertDialog("v");
+                }
+                else if (res.equals("p")){
+                   showAlertDialog("p");
+                }
+
+            }
+        });
+
+
         loopInAnotherThread();
+    }
+
+    private String typeOfMessage(int i){
+
+        LinkedList<Message> conversation = (LinkedList<Message>) ((ConnectionService) this.getApplication()).getConversation(topic);
+
+        Message temp = conversation.get(i);
+
+        if (temp.getFiles() == null){
+            return "m";
+        }
+        else {
+            String file = temp.getFiles().get(0).getMultimediaFileName();
+            String[] fileNameParts = file.split("\\.");
+            String fileType = fileNameParts[fileNameParts.length - 1];
+            return fileType.equals("mp4") ? "v" : "p";
+        }
+
+
     }
 
     private void showImageOptionsDialog() {
@@ -158,16 +202,14 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
     private void chooseVideo() {
         Intent choosePictureIntent = new Intent();
-        choosePictureIntent.setType("image/*");
+        choosePictureIntent.setType("video/*");
         choosePictureIntent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(choosePictureIntent, PICK_VIDEO);
     }
 
     private void takeVideo() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        if(takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takeVideoIntent, TAKE_VIDEO);
-        }
+        startActivityForResult(takeVideoIntent,TAKE_VIDEO);
     }
 
     @Override
@@ -179,25 +221,16 @@ public class ConversationModel extends AppCompatActivity implements Conversation
             Bundle extras = data.getExtras();
 
             media = (Bitmap) extras.get("data");
-
-//            Uri imageUri = data.getData();
-            //                InputStream inputStream = getApplication().getContentResolver().openInputStream(imageUri);
-//                media = BitmapFactory.decodeStream(inputStream);
-//                image.setImageBitmap(media);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             media.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] bytearray = stream.toByteArray();
             media.recycle();
-            sendMediaToBroker(bytearray);
+            sendMediaToBroker(bytearray,".jpg");
             MultimediaFile multimediaFile = new MultimediaFile();
             multimediaFile.setMultimediaFileChunk(bytearray);
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             multimediaFile.setMultimediaFileName(timeStamp + ".jpg");
             ArrayList<MultimediaFile> files = new ArrayList<>();
-//            Message message = new Message();
-//            message.setFiles(files);
-//            String name = ((ConnectionService) this.getApplication()).getName();
-//            message.setName(new ProfileName(name));
 
         }
         else if (requestCode == PICK_GALLERY) {
@@ -212,7 +245,7 @@ public class ConversationModel extends AppCompatActivity implements Conversation
                 media.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] bytearray = stream.toByteArray();
                 media.recycle();
-                sendMediaToBroker(bytearray);
+                sendMediaToBroker(bytearray,".jpg");
                 MultimediaFile multimediaFile = new MultimediaFile();
                 multimediaFile.setMultimediaFileChunk(bytearray);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -234,7 +267,7 @@ public class ConversationModel extends AppCompatActivity implements Conversation
                 media.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] bytearray = stream.toByteArray();
                 media.recycle();
-                sendMediaToBroker(bytearray);
+                sendMediaToBroker(bytearray,".mp4");
                 MultimediaFile multimediaFile = new MultimediaFile();
                 multimediaFile.setMultimediaFileChunk(bytearray);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -246,24 +279,27 @@ public class ConversationModel extends AppCompatActivity implements Conversation
             }
         }
         else if (requestCode == TAKE_VIDEO){
-            video = null;
-            Uri videoUri = data.getData();
 
-            String path = getRealPathFromURI(this, videoUri);
+            Uri videoUri= null;
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            if (resultCode == RESULT_OK) {
+                videoUri = data.getData();
+            }
 
+            InputStream fis;
             try {
-                FileInputStream fis = new FileInputStream(new File(path));
-                byte[] buf = new byte[1024];
-                int n;
-                while (-1 != (n = fis.read(buf)))
-                    baos.write(buf, 0, n);
+                fis = getContentResolver().openInputStream(videoUri);
+                ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+                int bufferSize = 1024;
+                byte[] buffer = new byte[bufferSize];
 
-                byte[] bytearray = baos.toByteArray();
-
-
-                sendMediaToBroker(bytearray);
+                int len = 0;
+                while ((len = fis.read(buffer)) != -1) {
+                    byteBuffer.write(buffer, 0, len);
+                }
+                byte[] bytearray = byteBuffer.toByteArray();
+                Log.d("vidd", String.valueOf(getApplicationContext().getFilesDir().getAbsolutePath()));
+                sendMediaToBroker(bytearray,".mp4");
                 MultimediaFile multimediaFile = new MultimediaFile();
                 multimediaFile.setMultimediaFileChunk(bytearray);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -272,36 +308,15 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.d("vidd", "mpoulo");
             }
-
-
-
-
 
         }
     }
 
-
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-
-
-    private void sendMediaToBroker(byte[] media){
+    private void sendMediaToBroker(byte[] media, String typeOfMedia){
         Publisher publisher = ((ConnectionService) this.getApplication()).getPublisher();
-        publisher.push(topic, media, ".jpg");
+        publisher.push(topic, media, typeOfMedia);
     }
 
     private void sendMessage(String message) {
@@ -345,5 +360,36 @@ public class ConversationModel extends AppCompatActivity implements Conversation
                 }
             }
         }.start();
+    }
+
+    private void showAlertDialog(String type) {
+        AlertDialog.Builder builderDialog;
+        AlertDialog alertDialog;
+        builderDialog = new AlertDialog.Builder(getApplicationContext());
+        View layout;
+
+        if(type.equals("v")){
+            layout = getLayoutInflater().inflate(R.layout.video_dialog,null);
+            VideoView video = findViewById(R.id.video);
+        }
+        else{
+            layout = getLayoutInflater().inflate(R.layout.image_dialog, null);
+            ImageView image = findViewById(R.id.picture);
+        }
+
+        Button dialogBtn = findViewById(R.id.backBtn);
+
+        builderDialog.setView(layout);
+        alertDialog = builderDialog.create();
+        alertDialog.show();
+
+        //Click on "back" button
+        dialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Dismiss Dialog
+                alertDialog.dismiss();
+            }
+        });
     }
 }

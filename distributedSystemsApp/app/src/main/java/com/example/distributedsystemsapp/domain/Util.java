@@ -14,10 +14,10 @@ import java.util.*;
 
 public final class Util {
 
-    private static final String PATH = "data/broker/conf.txt";
-    private static final String FOLDER_PATH = "data/broker/";
-    private static final String USERNODE_CONF_PATH = "data/usernode/userConf.txt";
-    private static final String DATA_USERNODE_PATH = "data/usernode/";
+    private static final String PATH = "com/example/distributedsystemsapp/data/broker/conf.txt";
+    private static final String FOLDER_PATH = "com/example/distributedsystemsapp/data/broker/";
+    private static final String USERNODE_CONF_PATH = "com/example/distributedsystemsapp/data/usernode/userConf.txt";
+    private static final String DATA_USERNODE_PATH = "com/example/distributedsystemsapp/data/usernode/";
 
 
     /**

@@ -2,7 +2,6 @@ package com.example.distributedsystemsapp.ui.services;
 
 import android.app.Application;
 import android.content.res.AssetFileDescriptor;
-import android.util.Log;
 
 import com.example.distributedsystemsapp.domain.Consumer;
 import com.example.distributedsystemsapp.domain.ConsumerImp;
@@ -107,9 +106,6 @@ public class ConnectionService extends Application {
 
 
         ArrayList<String> messages = new ArrayList<>();
-//        if(userNode.getConversation().get(topic).isEmpty()){
-//            consumer.showConversationData(topic);
-//        }
         Queue<Message> conversation = new LinkedList<>(userNode.getConversation().get(topic));
 
 
@@ -175,17 +171,19 @@ public class ConnectionService extends Application {
             br= new BufferedReader(
                     new InputStreamReader(getAssets().open("data/usernode/userConf.txt"), "UTF-8"));
             String line;
+
             //gia na broume ton xristi
             nameLoop:
             while( (line = br.readLine()) != null){
                 String[] dataFromLine = line.split(",");
                 if(dataFromLine[1].equals(name)){
+
                     //gia kathe topic
                     for(int j = 2; j < dataFromLine.length; j++){
                         Queue<Message> tempQueue = new LinkedList<>();
                         String topic = dataFromLine[j];
                         BufferedReader reader = new BufferedReader(
-                                new InputStreamReader(getAssets().open("data/usernode/"+name+"/"+topic+".txt")));
+                                new InputStreamReader(getAssets().open("data/usernode/" +name+"/"+topic+".txt")));
                         String tempLine;
 
 
@@ -201,9 +199,7 @@ public class ConnectionService extends Application {
 
                             if(message.charAt(0)=='$'){
                                 String multimediaFile = message.substring(1);
-                                System.err.println("LOOK AT HERE");
-                                System.err.println(multimediaFile);
-                                AssetFileDescriptor assetFileDescriptor = getAssets().openFd("data/usernode/"+name+"/"+multimediaFile);
+                                AssetFileDescriptor assetFileDescriptor = getAssets().openFd("data/usernode/" +name+"/"+multimediaFile);
                                 List<byte[]> listOfChunks = Util.splitFileToChunks(loadFile(assetFileDescriptor), 1024*16);
                                 int numOfChunks = listOfChunks.size();
                                 ArrayList<MultimediaFile> listOfMultimediaFiles = new ArrayList<>();
