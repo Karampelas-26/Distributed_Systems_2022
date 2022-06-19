@@ -1,5 +1,6 @@
 package com.example.distributedsystemsapp.domain;
 
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
@@ -73,7 +74,7 @@ public class ConsumerImp extends UserNode implements Consumer {
                     }
                     List<MultimediaFile> list = new ArrayList<>();
                     MultimediaFile finalFile = mergeMultimediaFiles(chunks);
-                    createFile(finalFile);
+//                    createFile(finalFile);
                     list.add(finalFile);
                     conversation.add(new Message(name, list));
                 }
@@ -85,7 +86,7 @@ public class ConsumerImp extends UserNode implements Consumer {
 
     private void createFile(MultimediaFile fileToCreate){
 
-        try (FileOutputStream fos = new FileOutputStream("data/usernode/"+this.profileName.getProfileName()+"/"+fileToCreate.getMultimediaFileName())) {
+        try (FileOutputStream fos = new FileOutputStream(Environment.getExternalStorageDirectory().toString()+"/"+this.profileName.getProfileName()+"/"+fileToCreate.getMultimediaFileName())) {
             fos.write(fileToCreate.getMultimediaFileChunk());
         } catch (IOException e) {
             e.printStackTrace();

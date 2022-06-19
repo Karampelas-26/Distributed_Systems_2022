@@ -37,6 +37,7 @@
         <activity android:name=".ui.homepage.HomepageModel"/>
         <activity android:name=".ui.conversation.ConversationModel"
             android:exported="true"/>
+        <activity android:name=".VideoActivity"/>
     </application>
 
 </manifest>

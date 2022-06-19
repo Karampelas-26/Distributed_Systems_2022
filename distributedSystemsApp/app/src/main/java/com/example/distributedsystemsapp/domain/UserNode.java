@@ -1,5 +1,7 @@
 package com.example.distributedsystemsapp.domain;
 
+import android.util.Log;
+
 import org.javatuples.Pair;
 
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -34,7 +37,7 @@ public class UserNode extends Thread implements Serializable {
         this.conversation = new HashMap<>();
     }
 
-    UserNode(){
+    public UserNode(){
         this.topicWithBrokers = new HashMap<>();
         this.conversation = new HashMap<>();
     }
@@ -101,9 +104,14 @@ public class UserNode extends Thread implements Serializable {
     public Socket init() {
 
         try {
-            requestSocket = new Socket(InetAddress.getByName(this.getIp()),this.getPort());
+            Log.d("ffff", ip+" "+port);
+            requestSocket = new Socket();
+            requestSocket.connect(new InetSocketAddress(this.getIp(),this.getPort()));
+//            requestSocket = new Socket(InetAddress.getByName(this.getIp()),this.getPort());
             out= new ObjectOutputStream(requestSocket.getOutputStream());
+            Log.d("ffff","gg2");
             in= new ObjectInputStream(requestSocket.getInputStream());
+            Log.d("ffff","gg3");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package com.example.distributedsystemsapp.ui.services;
 
 import android.app.Application;
 import android.content.res.AssetFileDescriptor;
+import android.util.Log;
 
 import com.example.distributedsystemsapp.domain.Consumer;
 import com.example.distributedsystemsapp.domain.ConsumerImp;
@@ -39,13 +40,18 @@ public class ConnectionService extends Application {
 
 
     public void connect(){
-
-        userNode = new UserNode("192.168.56.1",5001);
+        userNode = new UserNode("10.0.2`.2",5001);
+        Log.d("ffff","ok1");
         userNode.setConversation(initConversations(this.name));
         userNode.init();
+        Log.d("ffff","ok2");
+
         userNode.communicateWithBroker(this.name);
         consumer = new ConsumerImp(userNode, new ProfileName(name));
         publisher = new PublisherImp(userNode, new ProfileName(name));
+    }
+
+    public void init(){
     }
 
     public ArrayList<String> getTopicOfUser(){

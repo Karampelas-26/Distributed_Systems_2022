@@ -2,6 +2,7 @@ package com.example.distributedsystemsapp.ui.conversation;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,11 +10,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,9 +28,11 @@ import android.widget.ListView;
 import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.distributedsystemsapp.R;
+import com.example.distributedsystemsapp.VideoActivity;
 import com.example.distributedsystemsapp.domain.Message;
 import com.example.distributedsystemsapp.domain.MultimediaFile;
 import com.example.distributedsystemsapp.domain.Publisher;
@@ -37,8 +43,12 @@ import com.example.distributedsystemsapp.ui.services.ConnectionService;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +63,7 @@ public class ConversationModel extends AppCompatActivity implements Conversation
     private final int TAKE_PICTURE = 2;
     private final int PICK_VIDEO = 3;
     private final int TAKE_VIDEO = 4;
-
+    private String dir = Environment.getExternalStorageDirectory().toString();
 
     private String topic;
     private UserNode usernode;
@@ -114,16 +124,17 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String res = typeOfMessage(i);
+                Object[] values = typeOfMessage(i);
 
-                if(res.equals("v")){
-                    showAlertDialog("v");
+                if(values[0].equals("v")){
+                    showAlertDialog("v", (Message) values[1], (String) values[2]);
                 }
-                else if (res.equals("p")){
-                   showAlertDialog("p");
+                else if (values[0].equals("p")){
+                   showAlertDialog("p", (Message) values[1], (String) values[2]);
                 }
 
             }
@@ -133,23 +144,31 @@ public class ConversationModel extends AppCompatActivity implements Conversation
         loopInAnotherThread();
     }
 
-    private String typeOfMessage(int i){
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private Object[] typeOfMessage(int i){
+        Object[] obj = new Object[3];
         LinkedList<Message> conversation = (LinkedList<Message>) ((ConnectionService) this.getApplication()).getConversation(topic);
-
+        Path path;
         Message temp = conversation.get(i);
 
         if (temp.getFiles() == null){
-            return "m";
+            obj[0] = "m";
         }
         else {
             String file = temp.getFiles().get(0).getMultimediaFileName();
             String[] fileNameParts = file.split("\\.");
             String fileType = fileNameParts[fileNameParts.length - 1];
-            return fileType.equals("mp4") ? "v" : "p";
+            path=Paths.get(file).toAbsolutePath();
+            Log.d("ffff", path.toString());
+            if(fileType.equals("mp4")){
+                obj[0] = "v";
+            }
+            else{
+                obj[0] = "p";
+            }
+            obj[1] = temp;
         }
-
-
+        return obj;
     }
 
     private void showImageOptionsDialog() {
@@ -232,6 +251,7 @@ public class ConversationModel extends AppCompatActivity implements Conversation
             multimediaFile.setMultimediaFileName(timeStamp + ".jpg");
             ArrayList<MultimediaFile> files = new ArrayList<>();
 
+
         }
         else if (requestCode == PICK_GALLERY) {
 
@@ -252,21 +272,32 @@ public class ConversationModel extends AppCompatActivity implements Conversation
                 multimediaFile.setMultimediaFileName(timeStamp + ".jpg");
                 ArrayList<MultimediaFile> files = new ArrayList<>();
 
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
         else if(requestCode == PICK_VIDEO) {
-            media = null;
-            Uri imageUri = data.getData();
-            try {
-                InputStream inputStream = getApplication().getContentResolver().openInputStream(imageUri);
-                media = BitmapFactory.decodeStream(inputStream);
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                media.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] bytearray = stream.toByteArray();
-                media.recycle();
+            Uri videoUri= null;
+
+            if (resultCode == RESULT_OK) {
+                videoUri = data.getData();
+            }
+
+            InputStream fis;
+            try {
+                fis = getContentResolver().openInputStream(videoUri);
+                ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+                int bufferSize = 1024;
+                byte[] buffer = new byte[bufferSize];
+
+                int len = 0;
+                while ((len = fis.read(buffer)) != -1) {
+                    byteBuffer.write(buffer, 0, len);
+                }
+                byte[] bytearray = byteBuffer.toByteArray();
+                Log.d("vidd", String.valueOf(getApplicationContext().getFilesDir().getAbsolutePath()));
                 sendMediaToBroker(bytearray,".mp4");
                 MultimediaFile multimediaFile = new MultimediaFile();
                 multimediaFile.setMultimediaFileChunk(bytearray);
@@ -274,9 +305,12 @@ public class ConversationModel extends AppCompatActivity implements Conversation
                 multimediaFile.setMultimediaFileName(timeStamp + ".mp4");
                 ArrayList<MultimediaFile> files = new ArrayList<>();
 
-            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
                 e.printStackTrace();
+                Log.d("vidd", "mpoulo");
             }
+
         }
         else if (requestCode == TAKE_VIDEO){
 
@@ -362,34 +396,41 @@ public class ConversationModel extends AppCompatActivity implements Conversation
         }.start();
     }
 
-    private void showAlertDialog(String type) {
-        AlertDialog.Builder builderDialog;
-        AlertDialog alertDialog;
-        builderDialog = new AlertDialog.Builder(getApplicationContext());
-        View layout;
+    private void showAlertDialog(String type,Message message,String filepath) {
 
         if(type.equals("v")){
-            layout = getLayoutInflater().inflate(R.layout.video_dialog,null);
-            VideoView video = findViewById(R.id.video);
+            Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            File dir =  cw.getDir(message.getName().getProfileName(), Context.MODE_PRIVATE);
+            Log.d("ffff",dir.getAbsolutePath().toString());
+            String filename = message.getFiles().get(0).getMultimediaFileName();
+            createFile(message.getFiles().get(0));
+            File file = new File(dir,filename);
+            intent.putExtra("filename", filename);
+            startActivity(intent);
         }
         else{
-            layout = getLayoutInflater().inflate(R.layout.image_dialog, null);
             ImageView image = findViewById(R.id.picture);
         }
-
-        Button dialogBtn = findViewById(R.id.backBtn);
-
-        builderDialog.setView(layout);
-        alertDialog = builderDialog.create();
-        alertDialog.show();
-
-        //Click on "back" button
-        dialogBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Dismiss Dialog
-                alertDialog.dismiss();
-            }
-        });
     }
+
+    private void createFile(MultimediaFile multimediaFile){
+
+        File path = getApplicationContext().getFilesDir();
+
+        Log.d("fileeee", "creeteFile: " + path);
+
+        String fileName = multimediaFile.getMultimediaFileName();
+        Log.d("fileeee", "creeteFile: " + fileName);
+
+        try{
+            FileOutputStream writer = new FileOutputStream(new File(path, fileName));
+            writer.write(multimediaFile.getMultimediaFileChunk());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

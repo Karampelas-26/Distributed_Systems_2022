@@ -50,12 +50,9 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
     EditText topicToRegister;
 
     private final String HOMEPAGE = "homepageServices";
-    UserNode usernode;
     String username;
     HashMap<String, Queue<Message>> conversations;
     ArrayList<String> arrayList;
-
-    ConnectionService service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

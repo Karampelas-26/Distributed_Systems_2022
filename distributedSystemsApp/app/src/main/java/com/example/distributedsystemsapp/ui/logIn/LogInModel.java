@@ -1,9 +1,13 @@
 package com.example.distributedsystemsapp.ui.logIn;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.distributedsystemsapp.R;
 import com.example.distributedsystemsapp.domain.Message;
 import com.example.distributedsystemsapp.ui.homepage.HomepageModel;
+import com.example.distributedsystemsapp.ui.services.ConnectionService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,6 +35,7 @@ public class LogInModel extends AppCompatActivity implements LogInView{
     ArrayList<String> users;
     EditText username;
     HashMap<String, Queue<Message>> conversations;
+    String ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,7 @@ public class LogInModel extends AppCompatActivity implements LogInView{
 
         users= initUsers();
         username=findViewById(R.id.textLogInName);
-
+//        showInputAddressDialog();
 
         presenter = new LogInPresenter(this);
 
@@ -114,4 +120,55 @@ public class LogInModel extends AppCompatActivity implements LogInView{
         this.conversations= conv;
     }
 
+//    private void showInputAddressDialog() {
+//        EditText editText = new EditText(this);
+//        editText.setText("192.168.56.1");
+//
+//        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int choice) {
+//                switch (choice) {
+//                    case DialogInterface.BUTTON_POSITIVE:
+//
+//                        break;
+//                    case DialogInterface.BUTTON_NEGATIVE:
+//                        ConnectionAsyncTask connectionAsyncTask = new ConnectionAsyncTask();
+//                        connectionAsyncTask.execute();
+//                        break;
+//                }
+//            }
+//        };
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        builder.setTitle("Πληκτρολογήστε την local address:")
+//                .setView(editText)
+//                .setPositiveButton("Εντάξει", dialogClickListener)
+//                .setNegativeButton("Ακύρωση", dialogClickListener);
+//
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//
+//        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String address = editText.getText().toString();
+////                ((ConnectionService) getApplicationContext()).getUserNode().setIp(address);
+//                ip=address;
+//                alertDialog.dismiss();
+//                ConnectionAsyncTask connectionAsyncTask = new ConnectionAsyncTask();
+//                connectionAsyncTask.execute();
+//            }
+//        });
+//    }
+
+//    private class ConnectionAsyncTask extends AsyncTask<String, String, Integer> {
+//
+//        @Override
+//        protected Integer doInBackground(String... strings) {
+//            ((ConnectionService) getApplicationContext()).connect(ip);
+//            return null;
+//        }
+//
+//    }
 }
