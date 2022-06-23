@@ -2,6 +2,7 @@ package com.example.distributedsystemsapp.ui.services;
 
 import android.app.Application;
 import android.content.res.AssetFileDescriptor;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.example.distributedsystemsapp.domain.Consumer;
@@ -40,11 +41,11 @@ public class ConnectionService extends Application {
 
 
     public void connect(){
-        userNode = new UserNode("10.0.2`.2",5001);
-        Log.d("ffff","ok1");
+        StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(threadPolicy);
+        userNode = new UserNode("192.168.56.1",5001);
         userNode.setConversation(initConversations(this.name));
         userNode.init();
-        Log.d("ffff","ok2");
 
         userNode.communicateWithBroker(this.name);
         consumer = new ConsumerImp(userNode, new ProfileName(name));

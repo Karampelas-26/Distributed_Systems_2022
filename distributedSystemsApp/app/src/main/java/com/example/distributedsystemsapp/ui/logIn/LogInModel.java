@@ -40,17 +40,15 @@ public class LogInModel extends AppCompatActivity implements LogInView{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.loginpage);
+
 
         users= initUsers();
         username=findViewById(R.id.textLogInName);
-//        showInputAddressDialog();
 
         presenter = new LogInPresenter(this);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
 
         buttonLogIn = (Button) findViewById(R.id.logInBttn);
     }
@@ -63,7 +61,6 @@ public class LogInModel extends AppCompatActivity implements LogInView{
 
             @Override
             public void onClick(View view) {
-                Log.d("usernode", "i m here!");
                 String name= presenter.onLogIn();
                 if(!name.equals(" ")){
                     Intent intent = new Intent(LogInModel.this, HomepageModel.class);
@@ -120,55 +117,4 @@ public class LogInModel extends AppCompatActivity implements LogInView{
         this.conversations= conv;
     }
 
-//    private void showInputAddressDialog() {
-//        EditText editText = new EditText(this);
-//        editText.setText("192.168.56.1");
-//
-//        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int choice) {
-//                switch (choice) {
-//                    case DialogInterface.BUTTON_POSITIVE:
-//
-//                        break;
-//                    case DialogInterface.BUTTON_NEGATIVE:
-//                        ConnectionAsyncTask connectionAsyncTask = new ConnectionAsyncTask();
-//                        connectionAsyncTask.execute();
-//                        break;
-//                }
-//            }
-//        };
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//        builder.setTitle("Πληκτρολογήστε την local address:")
-//                .setView(editText)
-//                .setPositiveButton("Εντάξει", dialogClickListener)
-//                .setNegativeButton("Ακύρωση", dialogClickListener);
-//
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
-//
-//        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String address = editText.getText().toString();
-////                ((ConnectionService) getApplicationContext()).getUserNode().setIp(address);
-//                ip=address;
-//                alertDialog.dismiss();
-//                ConnectionAsyncTask connectionAsyncTask = new ConnectionAsyncTask();
-//                connectionAsyncTask.execute();
-//            }
-//        });
-//    }
-
-//    private class ConnectionAsyncTask extends AsyncTask<String, String, Integer> {
-//
-//        @Override
-//        protected Integer doInBackground(String... strings) {
-//            ((ConnectionService) getApplicationContext()).connect(ip);
-//            return null;
-//        }
-//
-//    }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.distributedsystemsapp.ImageActivity;
 import com.example.distributedsystemsapp.R;
 import com.example.distributedsystemsapp.VideoActivity;
 import com.example.distributedsystemsapp.domain.Message;
@@ -75,7 +77,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
     ArrayAdapter<String> adapter;
 
     private Bitmap media;
-    private MediaMetadataRetriever video;
 
 
     @Override
@@ -148,7 +149,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
     private Object[] typeOfMessage(int i){
         Object[] obj = new Object[3];
         LinkedList<Message> conversation = (LinkedList<Message>) ((ConnectionService) this.getApplication()).getConversation(topic);
-        Path path;
         Message temp = conversation.get(i);
 
         if (temp.getFiles() == null){
@@ -158,8 +158,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
             String file = temp.getFiles().get(0).getMultimediaFileName();
             String[] fileNameParts = file.split("\\.");
             String fileType = fileNameParts[fileNameParts.length - 1];
-            path=Paths.get(file).toAbsolutePath();
-            Log.d("ffff", path.toString());
             if(fileType.equals("mp4")){
                 obj[0] = "v";
             }
@@ -234,7 +232,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("pushinnggg", "onActivityResult: i m in");
         if (requestCode == TAKE_PICTURE) {
             media = null;
             Bundle extras = data.getExtras();
@@ -297,7 +294,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
                     byteBuffer.write(buffer, 0, len);
                 }
                 byte[] bytearray = byteBuffer.toByteArray();
-                Log.d("vidd", String.valueOf(getApplicationContext().getFilesDir().getAbsolutePath()));
                 sendMediaToBroker(bytearray,".mp4");
                 MultimediaFile multimediaFile = new MultimediaFile();
                 multimediaFile.setMultimediaFileChunk(bytearray);
@@ -308,7 +304,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.d("vidd", "mpoulo");
             }
 
         }
@@ -332,7 +327,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
                     byteBuffer.write(buffer, 0, len);
                 }
                 byte[] bytearray = byteBuffer.toByteArray();
-                Log.d("vidd", String.valueOf(getApplicationContext().getFilesDir().getAbsolutePath()));
                 sendMediaToBroker(bytearray,".mp4");
                 MultimediaFile multimediaFile = new MultimediaFile();
                 multimediaFile.setMultimediaFileChunk(bytearray);
@@ -342,7 +336,6 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.d("vidd", "mpoulo");
             }
 
         }
@@ -400,17 +393,20 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
         if(type.equals("v")){
             Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
-            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-            File dir =  cw.getDir(message.getName().getProfileName(), Context.MODE_PRIVATE);
-            Log.d("ffff",dir.getAbsolutePath().toString());
             String filename = message.getFiles().get(0).getMultimediaFileName();
             createFile(message.getFiles().get(0));
-            File file = new File(dir,filename);
+
+//            File file = new File(dir,filename);
             intent.putExtra("filename", filename);
             startActivity(intent);
         }
         else{
-            ImageView image = findViewById(R.id.picture);
+            Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+            String filename = message.getFiles().get(0).getMultimediaFileName();
+            createFile(message.getFiles().get(0));
+
+            intent.putExtra("filename", filename);
+            startActivity(intent);
         }
     }
 
@@ -418,10 +414,7 @@ public class ConversationModel extends AppCompatActivity implements Conversation
 
         File path = getApplicationContext().getFilesDir();
 
-        Log.d("fileeee", "creeteFile: " + path);
-
         String fileName = multimediaFile.getMultimediaFileName();
-        Log.d("fileeee", "creeteFile: " + fileName);
 
         try{
             FileOutputStream writer = new FileOutputStream(new File(path, fileName));

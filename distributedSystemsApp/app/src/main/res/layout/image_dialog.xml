@@ -13,7 +13,7 @@
         android:layout_height="400dp"/>
 
     <Button
-        android:id="@+id/backBtn"
+        android:id="@+id/imageBackBtn"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

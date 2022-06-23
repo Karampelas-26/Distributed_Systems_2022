@@ -85,7 +85,6 @@ public class HomepageModel extends AppCompatActivity implements HomepageView {
 
                 Intent intent = new Intent(HomepageModel.this, ConversationModel.class);
                 intent.putExtra("topic",arrayList.get(i));
-                Log.d(logMessage, "prospathw na mpw");
                 startActivity(intent);
             }
         });
