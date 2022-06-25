@@ -4,22 +4,35 @@ This project is for the course of Distributed Systems, in the first assignment w
 
 ## Run the project
 
-To run the project, you can simple clone the repository and run it in IntelliJ.
+To run the project, you can simple clone the repository. You have to run directory from distributed_systems with your IDE of your choice to run the brokers, [IntelliJ IDEA](https://www.jetbrains.com/idea/download/#section=windows) is proposed. 
 
-You have to run 3 BrokerImp in different terminals so you have to check in configurations `Allow Multiple Instances` and insert as Argument 1,2,3 for each BrokerImp, then you have to run like BrokerImp three UserNodes in different terminals and same arguments.
+You have to run 3 BrokerImp in different terminals so you have to check in configurations `Allow Multiple Instances` and insert as Argument 1,2,3 for each BrokerImp.
+In the directory distributedSystemsApp you can run the [Android Studio](https://developer.android.com/studio?gclid=CjwKCAjw5NqVBhAjEiwAeCa97QJYOcAXgbIRdjDRrvQ9i7tumjts5UzXxjKlDIYqH4b2zz_TphcZLBoC9EEQAvD_BwE&gclsrc=aw.ds) and run the application in emulator `Pixel 5 with api 30` was used in the project.
+After initialization of BrokerImp and the user's app. 
 
-After initialization of BrokerImp and UserNodes then just select the topic and the action that you want for the selected topic.
+To use the application you have to enter on of the following names: 
 
-    1. If you want to send a video in a topic copy past the absolute path.
-    2. If you want to send a video in a topic copy past the absolute path. 
-    3. If you want to send message in a topic just type your message and hit enter.
-    4. Reading the conversation will recieve from broker only that messages that wasn't stored localy on your machine.
-    5. To register in a topic you have to select it when you choose the topic it is the last choice always, then type the topic that you want. Be carefull to be correct!
+    1. geogrge
+    2. antonis
+    3. marios
 
-On the terminal of BrokerImp and UserNode it will display you some messages to understand the flow of Framework.
+What you can do with app:
+
+    1. You can send messasges on the topic of your choice.
+    2. From Media Button you can take a video from you camera or pick it from the gallery and send it on a topic. 
+    3. From Media Button you can take a photo from you camera or pick it from the gallery and send it on a topic.
+    4. When you are in a conversatio you will see instantly new messages and you can open media files.
+    5. You can register on a topic.
+        5.1 antonisGeorge
+        5.2 katanemimena
+        5.3 asfaleia
+        5.4 foititikiEstiaAthinwn
+        5.5 stoixeiaDikaiou
+        5.6 webDevelopment
+
+On the terminal of BrokerImp will display you some messages to understand the flow of server.
 
 ## Authors
 
 - [@georgekarampelas](https://github.com/Karampelas-26)
 - [@antonisxristoulakhs](https://github.com/xristoulakhs)
-
