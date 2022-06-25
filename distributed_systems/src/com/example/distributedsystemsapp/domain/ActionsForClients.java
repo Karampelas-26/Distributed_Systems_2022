@@ -47,10 +47,9 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                                 conversation.add(tempMessage);
                             }
                         }
-//                        System.out.println("User asked to read conversation: " + topic + " and he has unread messages: " + conversation.size());
                     }
                     int sizeOfQueue = conversation.size();
-//                    System.err.println("Queue size: " + sizeOfQueue);
+
                     out.writeInt(sizeOfQueue);
                     out.flush();
                     for (int i = 0; i < sizeOfQueue; i++) {
@@ -71,10 +70,9 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                         } else {
                             out.writeUTF("s");
                             out.flush();
-                            System.err.println("Send message: " + message);
+
                             out.writeObject(message);
                             out.flush();
-                            System.err.println("Send message: " + message);
 
                         }
                     }
@@ -101,9 +99,7 @@ public class ActionsForClients extends BrokerImp implements Runnable {
                 } else if (publisherAction.equals("multimediaFile")) {
                     try {
                         String topic = in.readUTF();
-                        System.err.println("in topic: " + topic);
                         ProfileName profileName = (ProfileName) in.readObject();
-                        System.err.println("user: " + profileName);
                         int chunks = in.readInt();
                         List<MultimediaFile> fileInChunks = new ArrayList<>();
                         for (int i = 0; i < chunks; i++) {

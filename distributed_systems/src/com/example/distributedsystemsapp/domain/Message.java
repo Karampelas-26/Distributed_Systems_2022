@@ -7,8 +7,6 @@ import java.lang.ClassNotFoundException;
 
 public class Message implements Serializable {
 
-//    private static final long serialVersionUID = 7526471155622776147L;
-
     private String message;
     private ProfileName name;
     private List<MultimediaFile> files;
